@@ -1,0 +1,74 @@
+@model IReadOnlyList<PageContent>
+@{
+    ViewData["Title"] = "Quản lý nội dung trang";
+    Layout = "_AdminLayout";
+}
+
+<h1>Quản lý nội dung trang</h1>
+
+<div class="admin-card">
+    @if (!Model.Any())
+    {
+        <p class="text-muted">Chưa có nội dung nào. Sau khi thêm nội dung, bạn có thể quản lý tại đây.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Khóa</th>
+                    <th>Ngôn ngữ</th>
+                    <th>Nội dung</th>
+                    <th style="width:80px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-muted">@item.PageKey</td>
+                        <td><span style="font-weight:bold;">@item.Lang.ToUpper()</span></td>
+                        <td>@(item.Value.Length > 80 ? item.Value.Substring(0, 80) + "…" : item.Value)</td>
+                        <td>
+                            <button class="btn btn-secondary btn-sm" onclick="openEdit('@item.PageKey','@item.Lang',this.closest('tr').querySelector('td:nth-child(3)').textContent)">Sửa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div id="editModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:8px;padding:24px;min-width:500px;max-width:700px;width:90%;">
+        <h2>Chỉnh sửa nội dung</h2>
+        <form asp-controller="PagesAdmin" asp-action="Update" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="editKey" name="key">
+            <input type="hidden" id="editLang" name="lang">
+            <div class="form-group">
+                <label id="editLabel">Nội dung</label>
+                <textarea name="value" id="editValue" class="form-control" rows="6"></textarea>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-secondary" onclick="closeEdit()">Hủy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openEdit(key, lang, currentValue) {
+            document.getElementById('editKey').value = key;
+            document.getElementById('editLang').value = lang;
+            document.getElementById('editLabel').textContent = key + ' (' + lang.toUpperCase() + ')';
+            document.getElementById('editValue').value = currentValue.trim();
+            document.getElementById('editModal').style.display = 'flex';
+        }
+        function closeEdit() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+}

@@ -1,0 +1,53 @@
+@model NewsSidebarViewModel
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var latestLabel = lang switch { "en" => "Recent posts", "vi" => "Bài viết mới", _ => "最新の記事" };
+    var categoryLabel = lang switch { "en" => "Categories", "vi" => "Danh mục", _ => "カテゴリー" };
+    var archiveLabel = lang switch { "en" => "Archive", "vi" => "Lưu trữ", _ => "月別" };
+    var viewAllLabel = lang switch { "en" => "View all", "vi" => "Xem tất cả", _ => "一覧を見る" };
+}
+<aside class="sidebar" role="complementary" aria-label="サイドバー">
+    <section class="sidebar__section">
+        <h2 class="sidebar__title">@latestLabel</h2>
+        <div class="sidebar__content">
+            <ul class="sidebar__list">
+                @foreach (var a in Model.LatestArticles)
+                {
+                    <li class="sidebar__item">
+                        <a href="/tin-tuc/@a.Id" class="sidebar__link">@a.GetTitle(lang)</a>
+                    </li>
+                }
+            </ul>
+            <a href="/tin-tuc" class="sidebar__more">@viewAllLabel</a>
+        </div>
+    </section>
+    <section class="sidebar__section">
+        <h2 class="sidebar__title">@categoryLabel</h2>
+        <nav class="sidebar__content" aria-label="カテゴリーナビゲーション">
+            <ul class="sidebar__list -category">
+                @foreach (var cat in Model.Categories)
+                {
+                    <li class="sidebar__item">
+                        <a href="/tin-tuc/danh-muc/@cat.Slug" class="sidebar__link">@cat.GetName(lang)</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </section>
+    <section class="sidebar__section">
+        <h2 class="sidebar__title">@archiveLabel</h2>
+        <nav class="sidebar__content" aria-label="月別アーカイブナビゲーション">
+            <ul class="sidebar__list -archive">
+                @foreach (var (year, month, cnt) in Model.ArchiveMonths)
+                {
+                    <li class="sidebar__item">
+                        <a href="/tin-tuc?year=@year&month=@month" class="sidebar__link">
+                            <time datetime="@(year)-@(month.ToString("D2"))">@(year)-@(month.ToString("D2"))</time>
+                            <span class="sidebar__count">(@cnt)</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </section>
+</aside>

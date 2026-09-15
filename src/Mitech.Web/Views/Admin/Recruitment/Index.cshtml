@@ -1,0 +1,132 @@
+@{
+    ViewData["Title"] = "Nội dung trang Tuyển dụng";
+    Layout = "_AdminLayout";
+
+    var textContent = ViewData["TextContent"] as Dictionary<string, Dictionary<string, string>>
+                      ?? new Dictionary<string, Dictionary<string, string>>();
+
+    string T(string lang, string key, string fallback = "") =>
+        textContent.TryGetValue(lang, out var d) && d.TryGetValue(key, out var v) ? v : fallback;
+}
+
+<h1>Nội dung trang Tuyển dụng</h1>
+<p style="color:#666;font-size:.9rem;margin-top:-8px;">
+    Áp dụng cho banner đầu trang, 3 ô thống kê lương và khối "Thời gian làm việc" tại
+    <a href="/tuyen-dung" target="_blank">/tuyen-dung</a>. Vị trí tuyển dụng và Quyền lợi nổi bật quản lý ở nơi khác.
+</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="admin-card">
+    <style>
+        .lang-tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid #eee; padding-bottom:0; }
+        .lang-tab  { padding:8px 20px; cursor:pointer; border-radius:4px 4px 0 0; font-size:.9rem; background:#f0f0f0; border:none; font-weight:600; }
+        .lang-tab.active { background:#1a1a2e; color:#fff; }
+        .lang-pane { display:none; }
+        .lang-pane.active { display:block; }
+        .rc-section-title { font-weight:600; font-size:.95rem; margin:20px 0 10px; padding-top:16px; border-top:1px solid #eee; }
+        .rc-section-title:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+    </style>
+
+    <div class="lang-tabs">
+        <button class="lang-tab active" onclick="switchTab('vi',this)">Tiếng Việt</button>
+        <button class="lang-tab"        onclick="switchTab('ja',this)">日本語</button>
+        <button class="lang-tab"        onclick="switchTab('en',this)">English</button>
+    </div>
+
+    @foreach (var (lang, label) in new[] { ("vi","VI"), ("ja","JA"), ("en","EN") })
+    {
+        <div class="lang-pane @(lang == "vi" ? "active" : "")" id="pane-@lang">
+            <form asp-controller="RecruitmentAdmin" asp-action="SaveLang" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="lang" value="@lang">
+
+                <div class="rc-section-title">Banner tuyển dụng (@label)</div>
+                <div class="form-group">
+                    <label>Dòng nhỏ trên cùng</label>
+                    <input type="text" name="recruit.hero.tag" class="form-control" value="@T(lang, "recruit.hero.tag")">
+                </div>
+                <div class="form-group">
+                    <label>Tiêu đề chính</label>
+                    <input type="text" name="recruit.hero.title" class="form-control" value="@T(lang, "recruit.hero.title")">
+                </div>
+                <div class="form-group">
+                    <label>Dòng mô tả</label>
+                    <input type="text" name="recruit.hero.desc" class="form-control" value="@T(lang, "recruit.hero.desc")">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label>Nhãn thu nhập</label>
+                        <input type="text" name="recruit.hero.income.label" class="form-control" value="@T(lang, "recruit.hero.income.label")">
+                    </div>
+                    <div class="form-group">
+                        <label>Mức thu nhập</label>
+                        <input type="text" name="recruit.hero.income.value" class="form-control" value="@T(lang, "recruit.hero.income.value")">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Dòng liên hệ / lịch phỏng vấn (cho phép thẻ &lt;strong&gt;, &lt;br&gt;)</label>
+                    <textarea name="recruit.hero.contact" class="form-control" rows="2">@T(lang, "recruit.hero.contact")</textarea>
+                </div>
+
+                <div class="rc-section-title">3 ô thống kê lương (@label)</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group"><label>Ô 1 — Nhãn</label><input type="text" name="recruit.stat1.label" class="form-control" value="@T(lang, "recruit.stat1.label")"></div>
+                    <div class="form-group"><label>Ô 1 — Giá trị</label><input type="text" name="recruit.stat1.value" class="form-control" value="@T(lang, "recruit.stat1.value")"></div>
+                    <div class="form-group"><label>Ô 2 — Nhãn</label><input type="text" name="recruit.stat2.label" class="form-control" value="@T(lang, "recruit.stat2.label")"></div>
+                    <div class="form-group"><label>Ô 2 — Giá trị</label><input type="text" name="recruit.stat2.value" class="form-control" value="@T(lang, "recruit.stat2.value")"></div>
+                    <div class="form-group"><label>Ô 3 — Nhãn</label><input type="text" name="recruit.stat3.label" class="form-control" value="@T(lang, "recruit.stat3.label")"></div>
+                    <div class="form-group"><label>Ô 3 — Giá trị</label><input type="text" name="recruit.stat3.value" class="form-control" value="@T(lang, "recruit.stat3.value")"></div>
+                </div>
+
+                <div class="rc-section-title">Thời gian làm việc (@label)</div>
+                <div class="form-group">
+                    <label>Tiêu đề khối</label>
+                    <input type="text" name="recruit.schedule.heading" class="form-control" value="@T(lang, "recruit.schedule.heading")">
+                </div>
+                <div class="form-group">
+                    <label>Dòng ghi chú (số công/tháng...)</label>
+                    <input type="text" name="recruit.schedule.note" class="form-control" value="@T(lang, "recruit.schedule.note")">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group"><label>Hành chính — Nhãn</label><input type="text" name="recruit.schedule.admin.label" class="form-control" value="@T(lang, "recruit.schedule.admin.label")"></div>
+                    <div class="form-group"><label>Hành chính — Giờ</label><input type="text" name="recruit.schedule.admin.value" class="form-control" value="@T(lang, "recruit.schedule.admin.value")"></div>
+                    <div class="form-group"><label>Ca ngày — Nhãn</label><input type="text" name="recruit.schedule.day.label" class="form-control" value="@T(lang, "recruit.schedule.day.label")"></div>
+                    <div class="form-group"><label>Ca ngày — Giờ</label><input type="text" name="recruit.schedule.day.value" class="form-control" value="@T(lang, "recruit.schedule.day.value")"></div>
+                    <div class="form-group"><label>Ca đêm — Nhãn</label><input type="text" name="recruit.schedule.night.label" class="form-control" value="@T(lang, "recruit.schedule.night.label")"></div>
+                    <div class="form-group"><label>Ca đêm — Giờ</label><input type="text" name="recruit.schedule.night.value" class="form-control" value="@T(lang, "recruit.schedule.night.value")"></div>
+                </div>
+                <div class="form-group">
+                    <label>Ca sản xuất — Nhãn</label>
+                    <input type="text" name="recruit.schedule.prod.label" class="form-control" value="@T(lang, "recruit.schedule.prod.label")">
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                    <div class="form-group"><label>Ca 1</label><input type="text" name="recruit.schedule.shift1" class="form-control" value="@T(lang, "recruit.schedule.shift1")"></div>
+                    <div class="form-group"><label>Ca 2</label><input type="text" name="recruit.schedule.shift2" class="form-control" value="@T(lang, "recruit.schedule.shift2")"></div>
+                    <div class="form-group"><label>Ca 3</label><input type="text" name="recruit.schedule.shift3" class="form-control" value="@T(lang, "recruit.schedule.shift3")"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+                    <div class="form-group"><label>Ca cố định — Nhãn</label><input type="text" name="recruit.schedule.fixed.label" class="form-control" value="@T(lang, "recruit.schedule.fixed.label")"></div>
+                    <div class="form-group"><label>Ca cố định — Giờ</label><input type="text" name="recruit.schedule.fixed.value" class="form-control" value="@T(lang, "recruit.schedule.fixed.value")"></div>
+                    <div class="form-group"><label>Ca cố định — Ghi chú</label><input type="text" name="recruit.schedule.fixed.note" class="form-control" value="@T(lang, "recruit.schedule.fixed.note")"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top:16px;">Lưu nội dung @label</button>
+            </form>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+function switchTab(lang, btn) {
+    document.querySelectorAll('.lang-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('pane-' + lang).classList.add('active');
+    btn.classList.add('active');
+}
+</script>
+}

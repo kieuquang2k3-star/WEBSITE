@@ -1,0 +1,238 @@
+@model ContactViewModel
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+    string pageTitle, formTitle, formDesc, reqTag, optTag, submitBtn;
+    string companyLabel, nameLabel, furiganaLabel, emailLabel, emailConfirmLabel, phoneLabel, zipLabel, addrLabel, msgLabel;
+    string noteTitle, noteDesc, privacyTitle, privacyBody, phoneHint, zipHint;
+
+    if (lang == "vi")
+    {
+        pageTitle = "Liên hệ"; formTitle = "Biểu mẫu liên hệ";
+        formDesc = "Vui lòng điền đầy đủ thông tin vào biểu mẫu dưới đây và gửi.";
+        reqTag = "Bắt buộc"; optTag = "Tùy chọn"; submitBtn = "Gửi";
+        companyLabel = "Tên công ty"; nameLabel = "Họ và tên"; furiganaLabel = "Phiên âm (Furigana)";
+        emailLabel = "Địa chỉ email"; emailConfirmLabel = "Xác nhận email";
+        phoneLabel = "Số điện thoại"; zipLabel = "Mã bưu điện"; addrLabel = "Địa chỉ"; msgLabel = "Nội dung yêu cầu";
+        phoneHint = "Vui lòng nhập không có dấu gạch ngang (-).";
+        zipHint = "Vui lòng nhập không có dấu gạch ngang (-).";
+        noteTitle = "Lưu ý"; noteDesc = "Nếu biểu mẫu không hoạt động đúng trong môi trường của bạn, vui lòng liên hệ trực tiếp qua số điện thoại hoặc email dưới đây.";
+        privacyTitle = "Về xử lý thông tin cá nhân";
+        privacyBody = "Thông tin cá nhân của quý khách cung cấp qua biểu mẫu và email sẽ được quản lý một cách thích hợp và nghiêm ngặt. Chúng tôi không sử dụng thông tin cho mục đích ngoài kinh doanh, và không tiết lộ cho bên thứ ba trừ trường hợp pháp luật yêu cầu.";
+    }
+    else if (lang == "en")
+    {
+        pageTitle = "Contact"; formTitle = "Contact Form";
+        formDesc = "Please fill in the required fields below and submit.";
+        reqTag = "Required"; optTag = "Optional"; submitBtn = "Send";
+        companyLabel = "Company name"; nameLabel = "Full name"; furiganaLabel = "Furigana (reading)";
+        emailLabel = "Email address"; emailConfirmLabel = "Confirm email";
+        phoneLabel = "Phone number"; zipLabel = "Zip code"; addrLabel = "Address"; msgLabel = "Inquiry details";
+        phoneHint = "Please enter without hyphens (-).";
+        zipHint = "Please enter without hyphens (-).";
+        noteTitle = "Please note"; noteDesc = "If the form does not work properly in your environment, please contact us directly by phone or email below.";
+        privacyTitle = "Privacy policy";
+        privacyBody = "Personal information provided via this form and email will be managed appropriately and strictly. We will not use it for purposes other than our business, and will not disclose it to third parties except as required by law.";
+    }
+    else
+    {
+        pageTitle = "お問い合わせ"; formTitle = "お問い合わせフォーム";
+        formDesc = "下記フォームに必要事項をご入力のうえ、送信してください。";
+        reqTag = "必須"; optTag = "任意"; submitBtn = "送信";
+        companyLabel = "企業名"; nameLabel = "お名前"; furiganaLabel = "フリガナ";
+        emailLabel = "メールアドレス"; emailConfirmLabel = "確認のためもう一度";
+        phoneLabel = "電話番号"; zipLabel = "郵便番号"; addrLabel = "ご住所"; msgLabel = "ご相談内容やご質問";
+        phoneHint = "ハイフン（-）なしでご入力ください。";
+        zipHint = "ハイフン（-）なしでご入力ください。";
+        noteTitle = "注意事項"; noteDesc = "ご利用の環境によってフォームが正しく動作しない場合は、下記電話番号またはメールより直接ご連絡ください。";
+        privacyTitle = "個人情報の取り扱いについて";
+        privacyBody = "本入力フォームおよびメールにてご連絡いただいたお客様の個人情報につきましては、適切かつ厳重に管理いたします。キャンペーン等のご案内をお送りする場合がございますが、弊社の事業目的以外で使用することはございません。また、法令に基づき正規の手続きにより司法・行政機関から開示を求められた場合を除き、第三者に開示または提供することはございません。";
+    }
+    ViewData["Title"] = pageTitle;
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <style>
+        .caution .form-button {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1em;
+        }
+        .caution .form-button__item {
+            width: auto;
+            min-width: 18em;
+            max-width: 100%;
+        }
+        .caution .form-button__link {
+            padding: 0 1.5em;
+            white-space: nowrap;
+        }
+        @@media (max-width: 580px) {
+            .caution .form-button {
+                flex-direction: column;
+                gap: .75em;
+            }
+            .caution .form-button__item {
+                width: 100%;
+                min-width: 0;
+            }
+            .caution .form-button__link {
+                font-size: .88em;
+                padding: 0 1em;
+            }
+        }
+    </style>
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">contact</div>
+    <h1 class="page-header__main">@pageTitle</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <span class="post post-page current-item">@pageTitle</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <h2>@formTitle</h2>
+        <p class="form-paragraph center sp_left pt40">@formDesc</p>
+
+        <form asp-controller="Contact" asp-action="Index" method="post" class="contact-form-wrapper">
+            @Html.AntiForgeryToken()
+            <div class="contact-form">
+                <div class="contact-form__list">
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="CompanyName">@companyLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="CompanyName" type="text" class="wpcf7-form-control wpcf7-text" />
+                            <span asp-validation-for="CompanyName" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="ContactName">@nameLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="ContactName" type="text" class="wpcf7-form-control wpcf7-text" />
+                            <span asp-validation-for="ContactName" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -optional">@optTag</span>
+                            <label class="contact-form__label" for="Furigana">@furiganaLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="Furigana" type="text" class="wpcf7-form-control wpcf7-text" />
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="Email">@emailLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="Email" type="email" class="wpcf7-form-control wpcf7-email" />
+                            <span asp-validation-for="Email" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="EmailConfirm">@emailConfirmLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="EmailConfirm" type="email" class="wpcf7-form-control wpcf7-email" />
+                            <span asp-validation-for="EmailConfirm" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item -half">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="Phone">@phoneLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="Phone" type="tel" class="wpcf7-form-control wpcf7-tel" />
+                            <p class="contact-form__note asterisk">@phoneHint</p>
+                            <span asp-validation-for="Phone" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -optional">@optTag</span>
+                            <label class="contact-form__label" for="ZipCode">@zipLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="ZipCode" type="text" class="wpcf7-form-control wpcf7-text -half" />
+                            <p class="contact-form__note asterisk">@zipHint</p>
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -optional">@optTag</span>
+                            <label class="contact-form__label" for="Address">@addrLabel</label>
+                        </dt>
+                        <dd>
+                            <input asp-for="Address" type="text" class="wpcf7-form-control wpcf7-text" />
+                        </dd>
+                    </dl>
+                    <dl class="contact-form__item">
+                        <dt>
+                            <span class="contact-form__tag -required">@reqTag</span>
+                            <label class="contact-form__label" for="Message">@msgLabel</label>
+                        </dt>
+                        <dd>
+                            <textarea asp-for="Message" cols="40" rows="10" class="wpcf7-form-control wpcf7-textarea"></textarea>
+                            <span asp-validation-for="Message" class="field-validation-error"></span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="contact-form__actions">
+                    <input type="submit" value="@submitBtn" class="wpcf7-form-control wpcf7-submit">
+                </div>
+            </div>
+        </form>
+
+        <div class="caution">
+            <p class="caution__title">@noteTitle</p>
+            <div class="caution__body">
+                <p class="form-paragraph">@noteDesc</p>
+                <div class="form-button">
+                    <div class="form-button__item">
+                        @{ var tel = "02213974544"; var telDisplay = "022-1397-4544"; }
+                        <a href="tel:@tel" class="form-button__link">
+                            <span class="form-button__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                                </svg>
+                            </span>@telDisplay</a>
+                    </div>
+                    <div class="form-button__item">
+                        @{ var contactMail = "thanhtung-d@microtechno.com.vn"; }
+                        <a href="mailto:@contactMail" class="form-button__link">
+                            <span class="form-button__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.756Zm3.436-.586L16 11.801V4.697l-5.803 3.547Z"/>
+                                </svg>
+                            </span>@contactMail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>@privacyTitle</h2>
+        <p>@privacyBody</p>
+    </div>
+</div>
+
+<div class="mt-lg"></div>

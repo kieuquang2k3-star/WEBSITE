@@ -1,0 +1,2 @@
+@keyframes bg-metal{0%{opacity:0;transform:translateX(30em)}40%{transform:translateX(-2em)}100%{opacity:1;transform:translateX(0)}}.access-map{display:flex;justify-content:center;align-items:center;gap:2.5em}@media screen and (max-width: 480px){.access-map{flex-direction:column;align-items:center;gap:1.5em}}.access-map__img{width:31.25em;max-width:100%}@media screen and (max-width: 840px){.access-map__img{width:23em}}.note{padding:1.3em 1.5em;background:#e5e6e7;display:flex;align-items:center;justify-content:center}
+/*# sourceMappingURL=page-company.css.map */

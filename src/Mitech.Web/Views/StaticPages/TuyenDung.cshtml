@@ -1,0 +1,477 @@
+﻿@inject Mitech.Web.Services.IPageContentService _rSvc
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+
+    var rc = await _rSvc.GetPageAsync("recruit", lang);
+    string R(string key, string fallback) => rc.TryGetValue(key, out var v) && v.Length > 0 ? v : fallback;
+
+    string pageTitle, headerSub, headerMain, breadcrumb;
+    string heroTag, heroTitle, heroDesc, heroIncome, heroIncomeVal, heroContact;
+    string stat1Label, stat1Val, stat2Label, stat2Val, stat3Label, stat3Val;
+    string secJobs, secJobsCta;
+    string secSchedule, schedNote;
+    string sAdminLabel, sAdminVal;
+    string sDayLabel, sDayVal, sNightLabel, sNightVal, sProdLabel;
+    string sShift1, sShift2, sShift3, sFixedLabel, sFixedVal, sFixedNote;
+    string secBenefits;
+    string b1, b2, b3, b4, b5, b6;
+    string ctaInterviewLabel, ctaInterviewVal, ctaLocationLabel, ctaLocationVal;
+    string formTitle, fName, fPhone, fPosition, fSubmit, fRequired, fSuccess, fError, fPositionPh;
+
+    if (lang == "ja")
+    {
+        ViewData["Title"] = "採用情報 – マイクロテクノベトナム";
+        pageTitle   = "採用情報";
+        headerSub   = "recruitment";
+        headerMain  = "採用情報";
+        breadcrumb  = "採用情報";
+
+        heroTag     = R("recruit.hero.tag", "日系100%出資企業　·　タンロンII工業団地 J3,4区画（フンイェン省）");
+        heroTitle   = R("recruit.hero.title", "男女作業員　100名　急募");
+        heroDesc    = R("recruit.hero.desc", "自動車部品製造　·　Mazda – Toyota – Honda");
+        heroIncome  = R("recruit.hero.income.label", "月収");
+        heroIncomeVal = R("recruit.hero.income.value", "800万〜1,500万 VND/月");
+        stat1Label  = R("recruit.stat1.label", "基本給"); stat1Val = R("recruit.stat1.value", "6,070,000 VND");
+        stat2Label  = R("recruit.stat2.label", "固定手当"); stat2Val = R("recruit.stat2.value", "1,200,000 VND");
+        stat3Label  = R("recruit.stat3.label", "旧正月ボーナス 2025〜2026"); stat3Val = R("recruit.stat3.value", "給与2.2か月分");
+        heroContact = R("recruit.hero.contact", "お問い合わせ：<strong>0221 397 4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00");
+
+        secJobs    = "募集職種";
+        secJobsCta = "詳細を見る →";
+
+        secSchedule  = R("recruit.schedule.heading", "勤務時間");
+        schedNote    = R("recruit.schedule.note", "平均 22.3日/月　·　8時間/日　·　休日：日曜4日＋土曜2日/月");
+        sAdminLabel  = R("recruit.schedule.admin.label", "行政（一般）："); sAdminVal = R("recruit.schedule.admin.value", "08:15〜17:00");
+        sDayLabel    = R("recruit.schedule.day.label", "日勤（行政）："); sDayVal   = R("recruit.schedule.day.value", "08:15〜17:00");
+        sNightLabel  = R("recruit.schedule.night.label", "夜勤（行政）："); sNightVal = R("recruit.schedule.night.value", "20:15〜05:00");
+        sProdLabel   = R("recruit.schedule.prod.label", "生産シフト：");
+        sShift1 = R("recruit.schedule.shift1", "シフト1：06:00〜14:00"); sShift2 = R("recruit.schedule.shift2", "シフト2：14:00〜22:00"); sShift3 = R("recruit.schedule.shift3", "シフト3：22:00〜06:00");
+        sFixedLabel  = R("recruit.schedule.fixed.label", "固定シフト："); sFixedVal = R("recruit.schedule.fixed.value", "06:00〜14:40"); sFixedNote = R("recruit.schedule.fixed.note", "（希望によりシフト変更なし）");
+
+        secBenefits = "待遇・福利厚生";
+        b1 = "試用期間中も初月から100%給与支給";
+        b2 = "社員紹介ボーナス：紹介者・被紹介者ともに1,500,000 VND";
+        b3 = "夜勤手当：基本給＋30%";
+        b4 = "祝祭日特別食事補助：100,000〜150,000 VND/回";
+        b5 = "24時間労働災害保険";
+        b6 = "社員旅行（家族同伴可）";
+
+        ctaInterviewLabel = "面接日程"; ctaInterviewVal = "月〜金・隔週土曜、8:30〜16:00";
+        ctaLocationLabel  = "場所";    ctaLocationVal  = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province";
+
+        formTitle   = "応募フォーム";
+        fName       = "氏名";          fPhone    = "電話番号";
+        fPosition   = "応募職種";      fSubmit   = "応募する";
+        fRequired   = "（*）必須";     fPositionPh = "例：製造スタッフ";
+        fSuccess    = "ご応募を受け付けました。担当者よりご連絡いたします。";
+        fError      = "必須項目を入力してください。";
+    }
+    else if (lang == "en")
+    {
+        ViewData["Title"] = "Recruitment – MICROTECHNO Vietnam";
+        pageTitle   = "Recruitment";
+        headerSub   = "recruitment";
+        headerMain  = "Recruitment";
+        breadcrumb  = "Recruitment";
+
+        heroTag     = R("recruit.hero.tag", "100% Japanese-owned company · Thang Long Industrial Park II, Hung Yen Province");
+        heroTitle   = R("recruit.hero.title", "URGENTLY HIRING 100 WORKERS");
+        heroDesc    = R("recruit.hero.desc", "Automotive parts manufacturing · Mazda – Toyota – Honda");
+        heroIncome  = R("recruit.hero.income.label", "Monthly income");
+        heroIncomeVal = R("recruit.hero.income.value", "8 – 15 million VND/month");
+        stat1Label  = R("recruit.stat1.label", "Base salary"); stat1Val = R("recruit.stat1.value", "6,070,000 VND");
+        stat2Label  = R("recruit.stat2.label", "Fixed allowances"); stat2Val = R("recruit.stat2.value", "1,200,000 VND");
+        stat3Label  = R("recruit.stat3.label", "Lunar New Year bonus 2025–2026"); stat3Val = R("recruit.stat3.value", "2.2 months' salary");
+        heroContact = R("recruit.hero.contact", "Contact us: <strong>0221 397 4544</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Interviews: Mon–Fri &amp; every other Sat · 8:30–16:00");
+
+        secJobs    = "Open Positions";
+        secJobsCta = "View details →";
+
+        secSchedule  = R("recruit.schedule.heading", "Working Hours");
+        schedNote    = R("recruit.schedule.note", "Average 22.3 days/month · 8 hours/day · Days off: 4 Sundays + 2 Saturdays/month");
+        sAdminLabel  = R("recruit.schedule.admin.label", "Office:"); sAdminVal = R("recruit.schedule.admin.value", "08:15 – 17:00");
+        sDayLabel    = R("recruit.schedule.day.label", "Day shift (office):"); sDayVal   = R("recruit.schedule.day.value", "08:15 – 17:00");
+        sNightLabel  = R("recruit.schedule.night.label", "Night shift (office):"); sNightVal = R("recruit.schedule.night.value", "20:15 – 05:00");
+        sProdLabel   = R("recruit.schedule.prod.label", "Production shifts:");
+        sShift1 = R("recruit.schedule.shift1", "Shift 1: 06:00 – 14:00"); sShift2 = R("recruit.schedule.shift2", "Shift 2: 14:00 – 22:00"); sShift3 = R("recruit.schedule.shift3", "Shift 3: 22:00 – 06:00");
+        sFixedLabel  = R("recruit.schedule.fixed.label", "Fixed shift:"); sFixedVal = R("recruit.schedule.fixed.value", "06:00 – 14:40"); sFixedNote = R("recruit.schedule.fixed.note", "(No rotation upon request)");
+
+        secBenefits = "Key Benefits";
+        b1 = "100% salary from day one of probation";
+        b2 = "Referral bonus: 1,500,000 VND for both referrer and referee";
+        b3 = "Night shift premium: +30% of base salary";
+        b4 = "Holiday meal allowance: 100,000 – 150,000 VND/meal";
+        b5 = "24-hour occupational accident insurance";
+        b6 = "Annual company trip (family members welcome)";
+
+        ctaInterviewLabel = "Interviews"; ctaInterviewVal = "Mon–Fri & every other Saturday, 8:30–16:00";
+        ctaLocationLabel  = "Location";   ctaLocationVal  = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province";
+
+        formTitle   = "Apply Now";
+        fName       = "Full Name";         fPhone    = "Phone Number";
+        fPosition   = "Position Applied For"; fSubmit = "Submit Application";
+        fRequired   = "(*) Required";      fPositionPh = "e.g. Production Worker";
+        fSuccess    = "Your application has been submitted. We will contact you soon.";
+        fError      = "Please fill in all required fields.";
+    }
+    else
+    {
+        ViewData["Title"] = "Tuyển dụng – MICROTECHNO Việt Nam";
+        pageTitle   = "Tuyển dụng";
+        headerSub   = "recruitment";
+        headerMain  = "Tuyển dụng";
+        breadcrumb  = "Tuyển dụng";
+
+        heroTag     = R("recruit.hero.tag", "Công ty 100% vốn Nhật Bản &nbsp;·&nbsp; KCN Thăng Long II, Phường Dương Hào, Hưng Yên");
+        heroTitle   = R("recruit.hero.title", "TUYỂN GẤP 100 NAM NỮ CÔNG NHÂN");
+        heroDesc    = R("recruit.hero.desc", "Sản xuất linh kiện ô tô &nbsp;·&nbsp; Mazda – Toyota – Honda");
+        heroIncome  = R("recruit.hero.income.label", "Thu nhập");
+        heroIncomeVal = R("recruit.hero.income.value", "8 – 15 triệu VNĐ/tháng");
+        stat1Label  = R("recruit.stat1.label", "Lương cơ bản"); stat1Val = R("recruit.stat1.value", "6.070.000 đ");
+        stat2Label  = R("recruit.stat2.label", "Phụ cấp cố định"); stat2Val = R("recruit.stat2.value", "1.200.000 đ");
+        stat3Label  = R("recruit.stat3.label", "Thưởng Tết 2025–2026"); stat3Val = R("recruit.stat3.value", "2,2 tháng lương");
+        heroContact = R("recruit.hero.contact", "Liên hệ ngay: <strong>0221 397 4544</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Phỏng vấn: Thứ 2–Thứ 6 &amp; Thứ 7 cách tuần · 8:30–16:00");
+
+        secJobs    = "Vị trí tuyển dụng";
+        secJobsCta = "Xem chi tiết →";
+
+        secSchedule  = R("recruit.schedule.heading", "Thời gian làm việc");
+        schedNote    = R("recruit.schedule.note", "Trung bình 22,3 công/tháng &nbsp;·&nbsp; 8 tiếng/ngày &nbsp;·&nbsp; Nghỉ 4 Chủ nhật + 2 Thứ 7/tháng");
+        sAdminLabel  = R("recruit.schedule.admin.label", "Hành chính:"); sAdminVal = R("recruit.schedule.admin.value", "08:15 – 17:00");
+        sDayLabel    = R("recruit.schedule.day.label", "Hành chính ngày:"); sDayVal   = R("recruit.schedule.day.value", "08:15 – 17:00");
+        sNightLabel  = R("recruit.schedule.night.label", "Hành chính đêm:"); sNightVal = R("recruit.schedule.night.value", "20:15 – 05:00");
+        sProdLabel   = R("recruit.schedule.prod.label", "Ca sản xuất:");
+        sShift1 = R("recruit.schedule.shift1", "Ca 1: 06:00 – 14:00"); sShift2 = R("recruit.schedule.shift2", "Ca 2: 14:00 – 22:00"); sShift3 = R("recruit.schedule.shift3", "Ca 3: 22:00 – 06:00");
+        sFixedLabel  = R("recruit.schedule.fixed.label", "Ca cố định:"); sFixedVal = R("recruit.schedule.fixed.value", "06:00 – 14:40"); sFixedNote = R("recruit.schedule.fixed.note", "(Không đổi ca theo nguyện vọng)");
+
+        secBenefits = "Quyền lợi nổi bật";
+        b1 = "Thử việc nhận 100% lương ngay tháng đầu";
+        b2 = "Thưởng giới thiệu: 1.500.000 đ cho cả người giới thiệu lẫn người được giới thiệu";
+        b3 = "Làm ca đêm: cộng thêm 30% lương";
+        b4 = "Suất ăn đặc biệt dịp lễ: 100.000 – 150.000 VNĐ/suất";
+        b5 = "Bảo hiểm tai nạn lao động 24h";
+        b6 = "Du lịch công ty cùng gia đình";
+
+        ctaInterviewLabel = "Phỏng vấn"; ctaInterviewVal = "Thứ 2 – Thứ 6 &amp; Thứ 7 cách tuần, 8:30 – 16:00";
+        ctaLocationLabel  = "Địa điểm"; ctaLocationVal  = "Lô J3,4 (RF-12), KCN Thăng Long II, Phường Dương Hào, Tỉnh Hưng Yên";
+
+        formTitle   = "Đăng ký ứng tuyển";
+        fName       = "Họ và tên";         fPhone    = "Số điện thoại";
+        fPosition   = "Vị trí ứng tuyển";  fSubmit   = "Gửi đăng ký";
+        fRequired   = "(*) Bắt buộc";      fPositionPh = "Ví dụ: Công nhân sản xuất";
+        fSuccess    = "Đăng ký đã được gửi thành công. Chúng tôi sẽ liên hệ sớm với bạn.";
+        fError      = "Vui lòng điền đầy đủ họ tên và số điện thoại.";
+    }
+
+    ViewData["BodyClass"] = "page-tuyen-dung";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <style>
+        .recruit-hero {
+            background: #1a2a5e;
+            color: #fff;
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin: 24px 0 28px;
+            text-align: center;
+        }
+        .recruit-hero__sub { font-size:.85rem; opacity:.75; margin-bottom:10px; }
+        .recruit-hero__title { font-size:1.7rem; font-weight:900; letter-spacing:.03em; margin:0 0 10px; color:#ffd040; }
+        @@media(max-width:600px){ .recruit-hero__title { font-size:1.25rem; } }
+        .recruit-hero__desc { font-size:1rem; opacity:.9; margin-bottom:12px; }
+        .recruit-hero__income { font-size:1.15rem; margin-bottom:14px; }
+        .recruit-hero__income strong { color:#ffd040; font-size:1.3rem; }
+        .recruit-hero__contact { font-size:.88rem; opacity:.85; border-top:1px solid rgba(255,255,255,.2); padding-top:12px; margin-top:4px; }
+        .recruit-hero__contact strong { color:#fff; }
+        .recruit-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:32px 0; }
+        @@media(max-width:640px){ .recruit-stats { grid-template-columns:1fr; } }
+        .recruit-stat { background:#f5f7fb; border:1px solid #e4e9f2; border-radius:6px; padding:20px 22px; }
+        .recruit-stat__label { font-size:.75rem; color:#888; margin-bottom:6px; }
+        .recruit-stat__value { font-size:1.45rem; font-weight:800; color:#1a2a5e; }
+        .recruit-section { border-top:1px solid #e8e8e8; padding:28px 0 4px; }
+        .recruit-section h2 { font-size:1.05rem; font-weight:800; color:#1a2a5e; margin:0 0 16px; }
+        /* ===== JOB GRID ===== */
+        .job-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+        @@media(max-width:700px){ .job-grid { grid-template-columns:repeat(2,1fr); } }
+        @@media(max-width:480px){ .job-grid { grid-template-columns:1fr; } }
+        .job-card { display:block; border:1.5px solid #c8d3ef; border-radius:8px; padding:18px 20px;
+                    text-decoration:none; color:inherit; height:100%; transition:border-color .2s; }
+        .job-card:hover { border-color:#1a2a5e; text-decoration:none; }
+        .job-card__title { font-weight:800; color:#1a2a5e; margin-bottom:8px; font-size:.95rem; }
+        .job-card__desc { font-size:.85rem; color:#555; line-height:1.65; margin-bottom:12px; }
+        .job-card__cta { font-size:.82rem; color:#00418f; font-weight:600; }
+        .schedule-note { font-size:.82rem; color:#777; margin-bottom:18px; }
+        .schedule-blocks { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        @@media(max-width:520px){ .schedule-blocks { grid-template-columns:1fr; } }
+        .schedule-block {
+            border-radius:8px; padding:16px 18px;
+            border-left:4px solid transparent;
+        }
+        .schedule-block--admin { background:#e8f5e9; border-color:#43a047; grid-column:1/-1; }
+        .schedule-block--day   { background:#eef4ff; border-color:#3b82f6; }
+        .schedule-block--night { background:#f0eeff; border-color:#8b5cf6; }
+        .schedule-block--prod  { background:#ecfdf5; border-color:#10b981; grid-column:1/-1; }
+        .schedule-block--fixed { background:#fff7ed; border-color:#f59e0b; grid-column:1/-1; }
+        .schedule-block__label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:6px; }
+        .schedule-block__time  { font-size:1.2rem; font-weight:800; color:#1a2a5e; }
+        .schedule-block__note  { font-size:.78rem; color:#888; font-style:italic; margin-top:4px; }
+        .schedule-block__shifts { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+        .schedule-shift-badge {
+            background:#fff; border:1px solid #a7f3d0; border-radius:20px;
+            padding:4px 14px; font-size:.82rem; font-weight:600; color:#065f46;
+        }
+        .benefit-list { list-style:none; padding:0; margin:0 0 16px; }
+        .benefit-list li { font-size:.9rem; color:#333; padding:10px 0; border-bottom:1px solid #f0f0f0; display:flex; align-items:flex-start; gap:10px; }
+        .benefit-list li::before { content:"✓"; color:#2d4090; font-weight:800; flex-shrink:0; }
+        .recruit-cta { background:#f5f7fb; border-radius:8px; padding:24px 28px; margin:28px 0 0; }
+        .recruit-cta__info { font-size:.85rem; color:#555; line-height:1.9; margin-bottom:16px; }
+        .recruit-cta__btns { display:flex; gap:12px; flex-wrap:wrap; }
+        .recruit-cta__btn { display:inline-flex; align-items:center; gap:8px; background:#1a2a5e; color:#fff; font-weight:700; font-size:.95rem; padding:12px 28px; border-radius:4px; text-decoration:none; letter-spacing:.02em; transition:background .2s; }
+        .recruit-cta__btn:hover { background:#2d4090; color:#fff; }
+        /* Apply form */
+        .apply-form-wrap { border-top:1px solid #e8e8e8; padding:32px 0 0; margin-top:8px; }
+        .apply-form-wrap h2 { font-size:1.05rem; font-weight:800; color:#1a2a5e; margin:0 0 6px; }
+        .apply-form-wrap .form-note { font-size:.78rem; color:#888; margin:0 0 20px; }
+        .apply-form { display:flex; flex-direction:column; gap:16px; max-width:520px; }
+        .apply-form__group { display:flex; flex-direction:column; gap:5px; }
+        .apply-form__label { font-size:.85rem; font-weight:600; color:#333; }
+        .apply-form__label span { color:#e03030; margin-left:3px; font-size:.78rem; }
+        .apply-form__input { border:1.5px solid #d0d7e6; border-radius:5px; padding:10px 13px; font-size:.95rem; transition:border-color .2s; outline:none; }
+        .apply-form__input:focus { border-color:#1a2a5e; }
+        .apply-form__btn { align-self:flex-start; background:#1a2a5e; color:#fff; font-weight:700; font-size:.95rem; padding:12px 32px; border:none; border-radius:4px; cursor:pointer; transition:background .2s; letter-spacing:.02em; }
+        .apply-form__btn:hover { background:#2d4090; }
+        .apply-alert { padding:12px 16px; border-radius:5px; font-size:.9rem; margin-bottom:18px; }
+        .apply-alert.-success { background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; }
+        .apply-alert.-error   { background:#fff3e0; color:#e65100; border:1px solid #ffcc80; }
+        /* Benefits video */
+        .benefits-video-btn { display:inline-flex; align-items:center; gap:12px; background:#1a2a5e; color:#fff; border:none; border-radius:6px; padding:14px 24px; cursor:pointer; font-size:.95rem; font-weight:700; margin-bottom:18px; transition:background .2s; }
+        .benefits-video-btn:hover { background:#2d4090; }
+        .benefits-video-btn__play { font-size:1.4rem; line-height:1; }
+        #benefitsVideoOverlay { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:9999; display:flex; align-items:center; justify-content:center; }
+        .benefits-video-modal { position:relative; width:90%; max-width:860px; background:#000; border-radius:8px; overflow:hidden; }
+        .benefits-video-close { position:absolute; top:8px; right:12px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; line-height:1; z-index:1; opacity:.8; }
+        .benefits-video-close:hover { opacity:1; }
+    </style>
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">@headerSub</div>
+    <h1 class="page-header__main">@headerMain</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">HOME（@(lang == "ja" ? "マイクロテクノベトナム有限会社" : "MICROTECHNO VIETNAM CO., LTD")）</a> &gt;
+        <span class="post post-page current-item">@breadcrumb</span>
+    </div>
+
+    <div class="recruit-hero">
+        <p class="recruit-hero__sub">@Html.Raw(heroTag)</p>
+        <h2 class="recruit-hero__title">@heroTitle</h2>
+        <p class="recruit-hero__desc">@Html.Raw(heroDesc)</p>
+        <p class="recruit-hero__income">
+            @heroIncome <strong>@heroIncomeVal</strong>
+        </p>
+        <p class="recruit-hero__contact">@Html.Raw(heroContact)</p>
+    </div>
+
+    <div class="recruit-stats">
+        <div class="recruit-stat">
+            <p class="recruit-stat__label">@stat1Label</p>
+            <p class="recruit-stat__value">@stat1Val</p>
+        </div>
+        <div class="recruit-stat">
+            <p class="recruit-stat__label">@stat2Label</p>
+            <p class="recruit-stat__value">@stat2Val</p>
+        </div>
+        <div class="recruit-stat">
+            <p class="recruit-stat__label">@stat3Label</p>
+            <p class="recruit-stat__value">@stat3Val</p>
+        </div>
+    </div>
+
+    <div class="recruit-section">
+        <h2>@secJobs</h2>
+        @{
+            var jobs = ViewData["Jobs"] as List<Mitech.Web.Models.JobPosition> ?? new();
+        }
+        @if (jobs.Count == 0)
+        {
+            <p style="color:#888;font-style:italic;">Hiện chưa có vị trí tuyển dụng.</p>
+        }
+        else
+        {
+            <div class="job-grid">
+                @foreach (var job in jobs)
+                {
+                    var jTitle = lang == "ja" ? job.TitleJa : (lang == "en" ? job.TitleEn : job.TitleVi);
+                    var jDesc  = lang == "ja" ? job.ShortDescJa : (lang == "en" ? job.ShortDescEn : job.ShortDescVi);
+                    <a href="/tuyen-dung/@job.Slug" class="job-card">
+                        <p class="job-card__title">@jTitle</p>
+                        <p class="job-card__desc">@jDesc</p>
+                        <span class="job-card__cta">@secJobsCta</span>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="recruit-section">
+        <h2>@secSchedule</h2>
+        <p class="schedule-note">@Html.Raw(schedNote)</p>
+        <div class="schedule-blocks">
+            <div class="schedule-block schedule-block--admin">
+                <div class="schedule-block__label">@sAdminLabel</div>
+                <div class="schedule-block__time">@sAdminVal</div>
+            </div>
+            <div class="schedule-block schedule-block--day">
+                <div class="schedule-block__label">@sDayLabel</div>
+                <div class="schedule-block__time">@sDayVal</div>
+            </div>
+            <div class="schedule-block schedule-block--night">
+                <div class="schedule-block__label">@sNightLabel</div>
+                <div class="schedule-block__time">@sNightVal</div>
+            </div>
+            <div class="schedule-block schedule-block--prod">
+                <div class="schedule-block__label">@sProdLabel</div>
+                <div class="schedule-block__shifts">
+                    <span class="schedule-shift-badge">@sShift1</span>
+                    <span class="schedule-shift-badge">@sShift2</span>
+                    <span class="schedule-shift-badge">@sShift3</span>
+                </div>
+            </div>
+            <div class="schedule-block schedule-block--fixed">
+                <div class="schedule-block__label">@sFixedLabel</div>
+                <div class="schedule-block__time">@sFixedVal</div>
+                <div class="schedule-block__note">@sFixedNote</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="recruit-section">
+        <h2>@secBenefits</h2>
+        @{
+            var recruitVideoUrl   = ViewData["RecruitVideoUrl"]   as string ?? "";
+            var tripVideoUrl      = ViewData["TripVideoUrl"]      as string ?? "";
+            var insuranceVideoUrl = ViewData["InsuranceVideoUrl"] as string ?? "";
+            string videoLabel   = lang == "ja" ? "待遇・福利厚生の動画を見る" : (lang == "en" ? "Watch benefits video" : "Xem video quyền lợi nổi bật");
+        }
+        @if (!string.IsNullOrEmpty(recruitVideoUrl))
+        {
+            <button class="benefits-video-btn" type="button" onclick="openVideoModal('@recruitVideoUrl')">
+                <span class="benefits-video-btn__play">&#9654;</span>
+                <span class="benefits-video-btn__label">@videoLabel</span>
+            </button>
+        }
+        <div id="benefitsVideoOverlay" style="display:none;" onclick="closeVideoModal(event)">
+            <div class="benefits-video-modal">
+                <button class="benefits-video-close" onclick="closeVideoModal(event)" type="button">&times;</button>
+                <video id="benefitsVideo" src="" controls style="width:100%;max-height:70vh;background:#000;display:block;border-radius:6px;"></video>
+            </div>
+        </div>
+        <ul class="benefit-list">
+            <li>@b1</li>
+            <li>@b2</li>
+            <li>@b3</li>
+            <li>@b4</li>
+            @if (!string.IsNullOrEmpty(insuranceVideoUrl))
+            {
+                <li style="cursor:pointer;" onclick="openVideoModal('@insuranceVideoUrl')">
+                    <span style="color:#2d4090;font-weight:700;margin-right:6px;">&#9654;</span>@b5
+                </li>
+            }
+            else
+            {
+                <li>@b5</li>
+            }
+            @if (!string.IsNullOrEmpty(tripVideoUrl))
+            {
+                <li style="cursor:pointer;" onclick="openVideoModal('@tripVideoUrl')">
+                    <span style="color:#2d4090;font-weight:700;margin-right:6px;">&#9654;</span>@b6
+                </li>
+            }
+            else
+            {
+                <li>@b6</li>
+            }
+        </ul>
+    </div>
+
+    <div class="recruit-cta">
+        <p class="recruit-cta__info">
+            <strong>@ctaInterviewLabel:</strong> @Html.Raw(ctaInterviewVal)<br>
+            <strong>@ctaLocationLabel:</strong> @ctaLocationVal
+        </p>
+        <div class="recruit-cta__btns">
+            <a href="tel:02213974544" class="recruit-cta__btn">📞 022-1397-4544</a>
+            <a href="tel:0901589826" class="recruit-cta__btn">📞 090-158-9826</a>
+        </div>
+    </div>
+
+    <div class="apply-form-wrap">
+        <h2>@formTitle</h2>
+        <p class="form-note">@fRequired</p>
+
+        @if (TempData["RecruitSuccess"] != null)
+        {
+            <div class="apply-alert -success">@fSuccess</div>
+        }
+        @if (TempData["RecruitError"] != null)
+        {
+            <div class="apply-alert -error">@fError</div>
+        }
+
+        <form method="post" action="/tuyen-dung" class="apply-form">
+            @Html.AntiForgeryToken()
+            <div class="apply-form__group">
+                <label class="apply-form__label">@fName <span>*</span></label>
+                <input class="apply-form__input" type="text" name="fullName" required maxlength="100" autocomplete="name">
+            </div>
+            <div class="apply-form__group">
+                <label class="apply-form__label">@fPhone <span>*</span></label>
+                <input class="apply-form__input" type="tel" name="phone" required maxlength="20" autocomplete="tel">
+            </div>
+            <div class="apply-form__group">
+                <label class="apply-form__label">@fPosition</label>
+                @{
+                    var applyJobs = ViewData["Jobs"] as List<Mitech.Web.Models.JobPosition> ?? new();
+                }
+                @if (applyJobs.Count > 0)
+                {
+                    <select class="apply-form__input" name="position">
+                        <option value="">— @fPositionPh —</option>
+                        @foreach (var j in applyJobs)
+                        {
+                            var jt = lang == "ja" ? j.TitleJa : (lang == "en" ? j.TitleEn : j.TitleVi);
+                            <option value="@jt">@jt</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <input class="apply-form__input" type="text" name="position" maxlength="100" placeholder="@fPositionPh">
+                }
+            </div>
+            <button type="submit" class="apply-form__btn">@fSubmit</button>
+        </form>
+    </div>
+
+    <script>
+    function openVideoModal(url){
+        var v = document.getElementById('benefitsVideo');
+        var overlay = document.getElementById('benefitsVideoOverlay');
+        if(v && overlay){ v.src=url; overlay.style.display='flex'; v.play(); }
+    }
+    function closeVideoModal(e){
+        if(e && e.target && e.target.classList.contains('benefits-video-modal')) return;
+        var overlay = document.getElementById('benefitsVideoOverlay');
+        if(overlay){ overlay.style.display='none'; var v=document.getElementById('benefitsVideo'); if(v){v.pause();v.currentTime=0;v.src='';} }
+    }
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeVideoModal(); });
+    </script>
+    <div class="mt-lg"></div>
+</div>
+
+@await Html.PartialAsync("_ConversionSection")

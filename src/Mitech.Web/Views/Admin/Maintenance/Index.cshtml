@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Chế độ bảo trì";
+    Layout = "_AdminLayout";
+
+    var enabled = (bool)(ViewData["Enabled"] ?? false);
+    var messages = ViewData["Messages"] as Dictionary<string, string> ?? new();
+    string M(string lang) => messages.TryGetValue(lang, out var v) ? v : string.Empty;
+}
+
+<h1>Chế độ bảo trì</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="admin-card">
+    <div class="d-flex align-items-center gap-2 mb-3">
+        <span style="font-weight:600;">Trạng thái hiện tại:</span>
+        @if (enabled)
+        {
+            <span class="badge bg-danger"><i class="bi bi-cone-striped me-1"></i>ĐANG BẢO TRÌ</span>
+        }
+        else
+        {
+            <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>HOẠT ĐỘNG BÌNH THƯỜNG</span>
+        }
+    </div>
+
+    <p class="text-muted">
+        Khi bật, khách truy cập sẽ thấy trang thông báo bảo trì và <strong>không xem được nội dung</strong>.
+        Chỉ tài khoản quản trị đã đăng nhập mới xem được website bình thường.
+    </p>
+
+    <form asp-controller="MaintenanceAdmin" asp-action="Save" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="form-check form-switch" style="font-size:1.2rem;">
+                <input class="form-check-input" type="checkbox" role="switch" id="enabled" name="enabled" value="on" @(enabled ? "checked" : "")>
+                <label class="form-check-label" for="enabled" style="font-size:.95rem;font-weight:600;">Bật chế độ bảo trì</label>
+            </div>
+        </div>
+
+        <h2 style="margin-top:24px;">Nội dung thông báo (để trống sẽ dùng mặc định)</h2>
+
+        <div class="form-group">
+            <label>Tiếng Việt (VI)</label>
+            <textarea name="message.vi" class="form-control" rows="2" placeholder="Website đang được bảo trì. Vui lòng quay lại sau.">@M("vi")</textarea>
+        </div>
+        <div class="form-group">
+            <label>日本語 (JA)</label>
+            <textarea name="message.ja" class="form-control" rows="2" placeholder="現在、ウェブサイトはメンテナンス中です。しばらくしてから再度アクセスしてください。">@M("ja")</textarea>
+        </div>
+        <div class="form-group">
+            <label>English (EN)</label>
+            <textarea name="message.en" class="form-control" rows="2" placeholder="The website is currently under maintenance. Please check back later.">@M("en")</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i>Lưu cài đặt</button>
+        <a href="/" target="_blank" class="btn btn-outline-secondary"><i class="bi bi-eye me-1"></i>Xem thử website</a>
+    </form>
+</div>

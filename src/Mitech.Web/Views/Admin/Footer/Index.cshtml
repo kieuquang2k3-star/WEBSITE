@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "Cài đặt Footer";
+    Layout = "_AdminLayout";
+
+    string G(string key) => ViewData[key] as string ?? string.Empty;
+
+    var textContent = ViewData["TextContent"] as Dictionary<string, Dictionary<string, string>>
+                      ?? new Dictionary<string, Dictionary<string, string>>();
+
+    string T(string lang, string key, string fallback = "") =>
+        textContent.TryGetValue(lang, out var d) && d.TryGetValue(key, out var v) ? v : fallback;
+}
+
+<h1>Cài đặt Footer</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@* ── THÔNG TIN CHUNG ── *@
+<div class="admin-card">
+    <h2>Thông tin chung (dùng cho mọi ngôn ngữ)</h2>
+    <form asp-controller="FooterAdmin" asp-action="SaveGlobal" method="post">
+        @Html.AntiForgeryToken()
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group">
+                <label>Số điện thoại công ty VN</label>
+                <input type="text" name="footer.company.tel" class="form-control" value="@G("footer.company.tel")" placeholder="022-1397-4544">
+            </div>
+            <div class="form-group">
+                <label>URL Instagram</label>
+                <input type="text" name="footer.instagram.url" class="form-control" value="@G("footer.instagram.url")" placeholder="https://www.instagram.com/...">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Địa chỉ trụ sở chính (HQ – tiếng Nhật)</label>
+            <input type="text" name="footer.hq.address" class="form-control" value="@G("footer.hq.address")" placeholder="〒739-2124 広島県東広島市...">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group">
+                <label>TEL trụ sở chính</label>
+                <input type="text" name="footer.hq.tel" class="form-control" value="@G("footer.hq.tel")" placeholder="082-434-1155">
+            </div>
+            <div class="form-group">
+                <label>FAX trụ sở chính</label>
+                <input type="text" name="footer.hq.fax" class="form-control" value="@G("footer.hq.fax")" placeholder="082-434-1164">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu thông tin chung</button>
+    </form>
+</div>
+
+@* ── NỘI DUNG THEO NGÔN NGỮ ── *@
+<div class="admin-card">
+    <h2>Nội dung theo ngôn ngữ</h2>
+
+    <style>
+        .lang-tabs { display:flex; gap:4px; margin-bottom:20px; border-bottom:2px solid #eee; padding-bottom:0; }
+        .lang-tab  { padding:8px 20px; cursor:pointer; border-radius:4px 4px 0 0; font-size:.9rem; background:#f0f0f0; border:none; font-weight:600; }
+        .lang-tab.active { background:#1a1a2e; color:#fff; }
+        .lang-pane { display:none; }
+        .lang-pane.active { display:block; }
+    </style>
+
+    <div class="lang-tabs">
+        <button class="lang-tab active" onclick="switchTab('vi',this)">Tiếng Việt</button>
+        <button class="lang-tab"        onclick="switchTab('ja',this)">日本語</button>
+        <button class="lang-tab"        onclick="switchTab('en',this)">English</button>
+    </div>
+
+    @foreach (var (lang, label) in new[] { ("vi","VI"), ("ja","JA"), ("en","EN") })
+    {
+        <div class="lang-pane @(lang == "vi" ? "active" : "")" id="pane-@lang">
+            <form asp-controller="FooterAdmin" asp-action="SaveLang" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="lang" value="@lang">
+
+                <div class="form-group">
+                    <label>Tên công ty (@label)</label>
+                    <input type="text" name="footer.company.name" class="form-control" value="@T(lang, "footer.company.name")">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ công ty (@label)</label>
+                    <textarea name="footer.company.address" class="form-control" rows="3">@T(lang, "footer.company.address")</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Tên công ty chính / trụ sở (@label)</label>
+                    <input type="text" name="footer.hq.name" class="form-control" value="@T(lang, "footer.hq.name")">
+                </div>
+
+                <label style="font-weight:600;font-size:.9rem;display:block;margin-bottom:8px;">Lĩnh vực kinh doanh (@label)</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                    @for (var i = 1; i <= 4; i++)
+                    {
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:.8rem;color:#666;">Mục @i</label>
+                            <input type="text" name="footer.business.@i" class="form-control" value="@T(lang, $"footer.business.{i}")">
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label>Copyright (@label)</label>
+                    <input type="text" name="footer.copyright" class="form-control" value="@T(lang, "footer.copyright")">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lưu nội dung @label</button>
+            </form>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+function switchTab(lang, btn) {
+    document.querySelectorAll('.lang-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('pane-' + lang).classList.add('active');
+    btn.classList.add('active');
+}
+</script>
+}

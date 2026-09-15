@@ -1,0 +1,117 @@
+﻿@model Mitech.Web.Models.JobPosition
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+
+    var title  = lang == "ja" ? Model.TitleJa  : (lang == "en" ? Model.TitleEn  : Model.TitleVi);
+    var salary = lang == "ja" ? Model.SalaryJa : (lang == "en" ? Model.SalaryEn : Model.SalaryVi);
+    var detail = lang == "ja" ? Model.DetailJa : (lang == "en" ? Model.DetailEn : Model.DetailVi);
+
+    string breadHome, breadJobs, salaryLabel;
+    if (lang == "ja")
+    {
+        breadHome   = "HOME（マイクロテクノベトナム有限会社）";
+        breadJobs   = "募集職種";
+        salaryLabel = "給与・待遇";
+    }
+    else if (lang == "en")
+    {
+        breadHome   = "HOME（MICROTECHNO VIETNAM CO., LTD）";
+        breadJobs   = "Recruitment";
+        salaryLabel = "Salary & Benefits";
+    }
+    else
+    {
+        breadHome   = "HOME（MICROTECHNO VIETNAM CO., LTD）";
+        breadJobs   = "Tuyển dụng";
+        salaryLabel = "Mức lương & Đãi ngộ";
+    }
+
+    ViewData["Title"] = title;
+    ViewData["BodyClass"] = "page-tuyen-dung";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <style>
+        .job-detail { max-width: 800px; margin: 0 auto; }
+        .job-detail__salary {
+            background: #f5f7fb;
+            border: 1px solid #e4e9f2;
+            border-radius: 6px;
+            padding: 16px 20px;
+            margin: 24px 0;
+        }
+        .job-detail__salary-label { font-size: .8rem; color: #888; margin-bottom: 4px; }
+        .job-detail__salary-value { font-size: 1.25rem; font-weight: 800; color: #1a2a5e; }
+        .job-detail__body { line-height: 1.8; margin: 24px 0; }
+        .job-detail__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+        .job-detail__cta a {
+            display: inline-block; padding: 12px 28px;
+            background: #1a2a5e; color: #fff; border-radius: 4px;
+            text-decoration: none; font-weight: 700; font-size: .95rem;
+        }
+        .job-detail__cta a:hover { background: #2d4090; color: #fff; }
+        .job-detail__video { margin: 28px 0; }
+        .job-detail__video-inner { position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:6px; background:#000; }
+        .job-detail__video-inner iframe { position:absolute; top:0; left:0; width:100%; height:100%; }
+        .job-detail__video video { width:100%; border-radius:6px; display:block; }
+    </style>
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="vi">tuyển dụng</div>
+    <h1 class="page-header__main">@title</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadHome</a> &gt;
+        <a href="/tuyen-dung">@breadJobs</a> &gt;
+        <span class="post post-page current-item">@title</span>
+    </div>
+
+    <div class="job-detail">
+        <div class="job-detail__salary">
+            <p class="job-detail__salary-label">@salaryLabel</p>
+            <p class="job-detail__salary-value">@salary</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.VideoUrl))
+        {
+            <div class="job-detail__video">
+                @{
+                    var ytMatch = System.Text.RegularExpressions.Regex.Match(
+                        Model.VideoUrl,
+                        @"(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/))([A-Za-z0-9_-]{11})");
+                }
+                @if (ytMatch.Success)
+                {
+                    <div class="job-detail__video-inner">
+                        <iframe src="https://www.youtube.com/embed/@ytMatch.Groups[1].Value"
+                                frameborder="0" allowfullscreen
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        </iframe>
+                    </div>
+                }
+                else
+                {
+                    <video class="job-detail__video" controls preload="metadata">
+                        <source src="@Model.VideoUrl">
+                    </video>
+                }
+            </div>
+        }
+
+        <div class="job-detail__body">
+            @Html.Raw(detail)
+        </div>
+
+        <div class="job-detail__cta">
+            <a href="tel:02213974544">📞 022-1397-4544</a>
+            <a href="tel:0901589826">📞 090-158-9826</a>
+        </div>
+    </div>
+
+    <div class="mt-lg"></div>
+</div>
+@await Html.PartialAsync("_ConversionSection")

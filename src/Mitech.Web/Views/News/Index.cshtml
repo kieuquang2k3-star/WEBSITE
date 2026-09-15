@@ -1,0 +1,70 @@
+﻿@model NewsListViewModel
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+    var newsLabel = lang switch { "en" => "News", "vi" => "Tin tức", _ => "新着情報" };
+    var pageTitle = Model.CurrentCategory?.GetName(lang) ?? newsLabel;
+    ViewData["Title"] = pageTitle;
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">news</div>
+    <h1 class="page-header__main">@pageTitle</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <a href="/tin-tuc">@newsLabel</a>
+        @if (Model.CurrentCategory is not null)
+        {
+            @: &gt; <span class="post post-page current-item">@Model.CurrentCategory.GetName(lang)</span>
+        }
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="blog-content">
+        <div class="blog-content__main">
+            @foreach (var article in Model.Articles)
+            {
+                <article class="title-list">
+                    <time class="title-list__date" datetime="@article.PublishedAt.ToString("yyyy-MM-dd")">
+                        @article.PublishedAt.ToString("dd/MM/yyyy")
+                    </time>
+                    <h2 class="title-list__title" itemprop="headline">
+                        <a href="/tin-tuc/@article.Id">@article.GetTitle(lang)</a>
+                    </h2>
+                </article>
+            }
+
+            @if (Model.TotalPages > 1)
+            {
+                <div class="wp-pagenavi">
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                            <span class="current">@i</span>
+                        }
+                        else
+                        {
+                            <a href="/tin-tuc?page=@i" class="page">@i</a>
+                        }
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="blog-content__sub">
+            @await Html.PartialAsync("_NewsSidebar", Model.Sidebar)
+        </div>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

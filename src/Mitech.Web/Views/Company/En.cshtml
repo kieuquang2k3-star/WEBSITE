@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+    ViewData["BodyClass"] = "page-company-en";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-company-en.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">about us</div>
+    <h1 class="page-header__main" lang="en">About MICROTECHNO</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">HOME（MICROTECHNO VIETNAM CO., LTD）</a> &gt;
+        <span class="post post-page current-item">About Us</span>
+    </div>
+</div>
+
+<div class="image-slider">
+    <div class="image-slider__track">
+        <ul class="image-slider__group">
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_01.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_02.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_03-1.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/05/company.jpg" alt="" loading="lazy"></li>
+        </ul>
+        <ul class="image-slider__group" aria-hidden="true">
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_01.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_02.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/04/img_line_03-1.jpg" alt="" loading="lazy"></li>
+            <li class="image-slider__item"><img src="/uploads/2026/05/company.jpg" alt="" loading="lazy"></li>
+        </ul>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <section id="philosophy">
+            <h2>Corporate Philosophy</h2>
+            <p class="catch-phrase">Respect for People as the Foundation,<br>Contributing to Society through High Quality<br>with Full Participation and Creative Ingenuity</p>
+        </section>
+
+        <section id="message">
+            <h2>Message from the President</h2>
+            <div class="message-txt">
+                <div class="half">
+                    <div class="half__item">
+                        <p>Since our founding in 1971, MICROTECHNO has been providing high-precision machining technology to the world, centered on automotive parts manufacturing. In the midst of remarkable changes in the times, we have been engaged in technology development and improvement activities every day to provide products to our customers more quickly, with stable quality, and at optimal cost.</p>
+                        <p>We started with iron cutting, heat treatment, and grinding, but as automobile manufacturers focused on fuel efficiency, we tackled aluminum cutting, surface treatment, and grinding. By creating unique production lines, we have been able to deliver products to customers that are cheaper, faster, and more stable in quality than other countries.</p>
+                    </div>
+                    <div class="half__item">
+                        <img class="building-img" src="/uploads/2026/05/company.jpg" alt="Microtechno Vietnam Co., Ltd." loading="lazy">
+                        <p class="signature">MICROTECHNO Co., Ltd.<br>President &amp; CEO　Kenji Ikemoto</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <ul class="policy-logo">
+                <li class="policy-logo__item">
+                    <div class="policy-logo__img"><img src="/uploads/2026/04/img_iso.jpg" alt="ISO 9001:2015" loading="lazy"></div>
+                    <p class="policy-logo__txt">ISO 9001:2015</p>
+                </li>
+                <li class="policy-logo__item">
+                    <div class="policy-logo__img"><img src="/uploads/2026/04/img_iso.jpg" alt="ISO 14001:2015" loading="lazy"></div>
+                    <p class="policy-logo__txt">ISO 14001:2015</p>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Company Profile</h2>
+            <table class="sp_set">
+                <tr><th>Company Name</th><td>MICROTECHNO Co., Ltd.</td></tr>
+                <tr><th>Founded</th><td>June 22, 1971</td></tr>
+                <tr><th>Capital</th><td>200 million yen</td></tr>
+                <tr><th>President</th><td>Kenji Ikemoto</td></tr>
+                <tr><th>Employees</th><td>184</td></tr>
+                <tr><th>Business</th><td>Manufacturing of apex seals, AT/CVT hydraulic control parts, fuel rail parts, etc.</td></tr>
+                <tr><th>Address</th><td>676 Go, Takaya-cho, Higashihiroshima City, Hiroshima 739-2124, Japan</td></tr>
+            </table>
+        </section>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

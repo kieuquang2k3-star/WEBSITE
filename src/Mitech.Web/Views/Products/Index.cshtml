@@ -1,0 +1,69 @@
+﻿@model ProductsViewModel
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+    var pageTitle = lang switch { "en" => "Products", "vi" => "Thông tin sản phẩm", _ => "製品情報" };
+    var headlineTxt = lang switch
+    {
+        "en" => "MICROTECHNO continuously meets market needs with trusted high quality built through the fusion of people and technology.",
+        "vi" => "MICROTECHNO không ngừng đáp ứng nhu cầu thị trường với chất lượng cao đáng tin cậy, được xây dựng qua sự hòa hợp giữa con người và công nghệ.",
+        _ => "マイクロテクノは人と技術の融和で構築した信頼の高品質で市場のニーズに応えつづけています"
+    };
+    var introTitle = lang switch { "en" => "Product Lineup", "vi" => "Giới thiệu sản phẩm", _ => "製品紹介" };
+    var specNameLabel = lang switch { "en" => "Name", "vi" => "Tên", _ => "名称" };
+    var specMatLabel = lang switch { "en" => "Material", "vi" => "Vật liệu", _ => "材料" };
+    var specDimLabel = lang switch { "en" => "Dimension", "vi" => "Kích thước", _ => "寸法" };
+    ViewData["Title"] = pageTitle;
+    ViewData["BodyClass"] = "page-products";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-products.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">products</div>
+    <h1 class="page-header__main">@pageTitle</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <span class="post post-page current-item">@pageTitle</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <p class="headline mt-md">@headlineTxt</p>
+        <h2>@introTitle</h2>
+        <div class="photo-card">
+            @foreach (var product in Model.Products)
+            {
+                <div class="photo-card__item">
+                    <figure class="photo-card__img">
+                        <img src="@product.ImagePath" width="340" height="200" alt="@product.GetTitle(lang)" loading="lazy">
+                    </figure>
+                    <div class="photo-card__txt">
+                        <p class="photo-card__title">@product.GetTitle(lang)</p>
+                        <div class="photo-card__comment">
+                            <dl class="dl-colon">
+                                <dt>@specNameLabel</dt><dd>@product.GetSpecName(lang)</dd>
+                            </dl>
+                            <dl class="dl-colon">
+                                <dt>@specMatLabel</dt><dd>@product.GetSpecMaterial(lang)</dd>
+                            </dl>
+                            <dl class="dl-colon">
+                                <dt>@specDimLabel</dt><dd>@product.GetSpecDimension(lang)</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

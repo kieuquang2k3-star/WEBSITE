@@ -1,0 +1,85 @@
+@{
+    var lang = Context.Request.Cookies["lang"] ?? "vi";
+
+    string pageTitle, headerMain, breadcrumbLabel;
+    string intro, h1title, h1body, h2title, h2body, h3title, h3body;
+    string companyName;
+
+    companyName = lang switch {
+        "en" => "MICROTECHNO VIETNAM CO., LTD",
+        "ja" => "マイクロテクノベトナム有限会社",
+        _    => "CÔNG TY TNHH MICROTECHNO VIỆT NAM"
+    };
+
+    if (lang == "en")
+    {
+        pageTitle       = "Security Policy";
+        headerMain      = "Security Policy";
+        breadcrumbLabel = "Security Policy";
+        intro    = $"{companyName} recognizes the importance of information security and strives to maintain and improve information security based on the following policy.";
+        h1title  = "Protection of Information Assets";
+        h1body   = "We implement technical, physical, and personnel security measures to appropriately protect the information assets held by the Company.";
+        h2title  = "Legal Compliance";
+        h2body   = "We comply with laws and regulations related to information security.";
+        h3title  = "Continuous Improvement";
+        h3body   = "We are committed to the continuous improvement of our information security management system.";
+    }
+    else if (lang == "ja")
+    {
+        pageTitle       = "セキュリティポリシー";
+        headerMain      = "セキュリティポリシー";
+        breadcrumbLabel = "セキュリティポリシー";
+        intro    = $"{companyName}は、情報セキュリティの重要性を認識し、以下の方針に基づいて情報セキュリティの維持・向上に努めます。";
+        h1title  = "情報資産の保護";
+        h1body   = "当社の保有する情報資産を適切に保護するため、技術的・物理的・人的セキュリティ対策を講じます。";
+        h2title  = "法令の遵守";
+        h2body   = "情報セキュリティに関する法令、規制等を遵守します。";
+        h3title  = "継続的改善";
+        h3body   = "情報セキュリティマネジメントシステムの継続的な改善に取り組みます。";
+    }
+    else
+    {
+        pageTitle       = "Chính sách an ninh";
+        headerMain      = "Chính sách an ninh";
+        breadcrumbLabel = "Chính sách an ninh";
+        intro    = $"{companyName} nhận thức rõ tầm quan trọng của an ninh thông tin và nỗ lực duy trì, nâng cao an ninh thông tin dựa trên các chính sách dưới đây.";
+        h1title  = "Bảo vệ tài sản thông tin";
+        h1body   = "Chúng tôi triển khai các biện pháp bảo mật về kỹ thuật, vật lý và con người nhằm bảo vệ đầy đủ các tài sản thông tin mà công ty đang nắm giữ.";
+        h2title  = "Tuân thủ pháp luật";
+        h2body   = "Chúng tôi tuân thủ các luật, quy định liên quan đến an ninh thông tin.";
+        h3title  = "Cải tiến liên tục";
+        h3body   = "Chúng tôi cam kết cải tiến liên tục hệ thống quản lý an ninh thông tin.";
+    }
+
+    ViewData["Title"] = pageTitle;
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">security policy</div>
+    <h1 class="page-header__main">@headerMain</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">HOME（@companyName）</a> &gt;
+        <span class="post post-page current-item">@breadcrumbLabel</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <p>@intro</p>
+        <h2>@h1title</h2>
+        <p>@h1body</p>
+        <h2>@h2title</h2>
+        <p>@h2body</p>
+        <h2>@h3title</h2>
+        <p>@h3body</p>
+    </div>
+</div>
+
+<div class="mt-lg"></div>

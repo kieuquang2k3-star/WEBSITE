@@ -1,0 +1,51 @@
+@model List<NewsArticle>
+@{
+    ViewData["Title"] = "Quản lý tin tức";
+    Layout = "_AdminLayout";
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>Quản lý tin tức</h1>
+    <a href="/admin/news/create" class="btn btn-primary">+ Thêm bài viết</a>
+</div>
+
+<div class="admin-card">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:120px">Ngày đăng</th>
+                <th>Tiêu đề</th>
+                <th style="width:120px">Danh mục</th>
+                <th style="width:80px">Trạng thái</th>
+                <th style="width:120px">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.PublishedAt.ToString("yyyy.MM.dd")</td>
+                    <td>@a.TitleJa</td>
+                    <td>@a.Category?.NameJa</td>
+                    <td>
+                        @if (a.IsPublished)
+                        {
+                            <span style="color:green;">● Đã đăng</span>
+                        }
+                        else
+                        {
+                            <span style="color:#999;">○ Nháp</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/admin/news/edit/@a.Id" class="btn btn-secondary btn-sm">Sửa</a>
+                        <form asp-controller="NewsAdmin" asp-action="Delete" asp-route-id="@a.Id" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

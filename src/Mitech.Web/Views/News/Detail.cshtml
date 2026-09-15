@@ -1,0 +1,88 @@
+﻿@model NewsDetailViewModel
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+    var newsLabel   = lang switch { "en" => "News",         "vi" => "Tin tức",                _ => "新着情報" };
+    var postedLabel = lang switch { "en" => "Posted:",      "vi" => "Ngày đăng:",             _ => "投稿日：" };
+    var backLabel   = lang switch { "en" => "Back to list", "vi" => "Quay lại danh sách",     _ => "一覧へ戻る" };
+    var prevLabel   = lang switch { "en" => "Previous",     "vi" => "Bài trước",              _ => "前の記事" };
+    var nextLabel   = lang switch { "en" => "Next",         "vi" => "Bài tiếp theo",          _ => "次の記事" };
+    ViewData["Title"] = Model.Article.GetTitle(lang);
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">news</div>
+    <h1 class="page-header__main">@newsLabel</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <a href="/tin-tuc">@newsLabel</a> &gt;
+        <span class="post post-page current-item">@Model.Article.GetTitle(lang)</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="blog-content">
+        <main class="blog-content__main">
+            <article class="post section" itemscope itemtype="https://schema.org/BlogPosting">
+                <header class="post__header">
+                    <time class="post__date" datetime="@Model.Article.PublishedAt.ToString("yyyy-MM-dd")" itemprop="datePublished">
+                        @postedLabel @Model.Article.PublishedAt.ToString("dd/MM/yyyy")
+                    </time>
+                </header>
+                <h1 class="post__title" itemprop="headline">@Model.Article.GetTitle(lang)</h1>
+                <div class="post__content" itemprop="text">
+                    @Html.Raw(Model.Article.GetBody(lang))
+                </div>
+                <footer class="post__footer">
+                    <nav class="post-nav" aria-label="@newsLabel navigation">
+                        <div class="post-nav__back">
+                            <a href="/tin-tuc/danh-muc/@Model.Article.Category.Slug" class="post-nav__back-link">
+                                @Model.Article.Category.GetName(lang) — @backLabel
+                            </a>
+                        </div>
+                    </nav>
+
+                    <style>
+                        .article-nav { display:flex; justify-content:space-between; gap:16px; margin-top:32px; padding-top:24px; border-top:1px solid #e5e5e5; }
+                        .article-nav__item { flex:1; min-width:0; }
+                        .article-nav__item--next { text-align:right; }
+                        .article-nav__label { display:block; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#888; margin-bottom:6px; }
+                        .article-nav__link { display:block; font-size:0.9rem; font-weight:500; color:#1a3a5c; text-decoration:none; line-height:1.45; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+                        .article-nav__link:hover { text-decoration:underline; }
+                        .article-nav__arrow { font-size:0.8rem; color:#888; }
+                    </style>
+                    <nav class="article-nav" aria-label="Article navigation">
+                        <div class="article-nav__item article-nav__item--prev">
+                            @if (Model.PrevArticle != null)
+                            {
+                                <span class="article-nav__label"><span class="article-nav__arrow">←</span> @prevLabel</span>
+                                <a href="/tin-tuc/@Model.PrevArticle.Id" class="article-nav__link">@Model.PrevArticle.GetTitle(lang)</a>
+                            }
+                        </div>
+                        <div class="article-nav__item article-nav__item--next">
+                            @if (Model.NextArticle != null)
+                            {
+                                <span class="article-nav__label">@nextLabel <span class="article-nav__arrow">→</span></span>
+                                <a href="/tin-tuc/@Model.NextArticle.Id" class="article-nav__link">@Model.NextArticle.GetTitle(lang)</a>
+                            }
+                        </div>
+                    </nav>
+                </footer>
+            </article>
+        </main>
+
+        <aside class="blog-content__sub">
+            @await Html.PartialAsync("_NewsSidebar", Model.Sidebar)
+        </aside>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

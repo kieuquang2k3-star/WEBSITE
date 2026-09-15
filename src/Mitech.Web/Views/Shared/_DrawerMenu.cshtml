@@ -1,0 +1,71 @@
+@inject Mitech.Web.Services.IPageContentService _drawerNavSvc
+@{
+    var drawerLang = Context.Request.Cookies["lang"] ?? "vi";
+    var drawerUrl  = Context.Request.Path + Context.Request.QueryString;
+
+    var _dnav = await _drawerNavSvc.GetPageAsync("nav", drawerLang);
+    string DN(string key, string fallback) =>
+        _dnav.TryGetValue(key, out var v) && v.Length > 0 ? v : fallback;
+
+    var dTop       = DN("nav.top",       drawerLang switch { "en" => "Top",       "vi" => "Trang chủ",    _ => "トップページ" });
+    var dProducts  = DN("nav.products",  drawerLang switch { "en" => "Products",  "vi" => "Sản phẩm",     _ => "製品情報" });
+    var dAbout     = DN("nav.about",     drawerLang switch { "en" => "About us",  "vi" => "Về chúng tôi", _ => "マイクロテクノベトナムについて" });
+    var dCompany   = DN("nav.company",   drawerLang switch { "en" => "Company",   "vi" => "Giới thiệu",   _ => "会社概要" });
+    var dLocations = DN("nav.locations", drawerLang switch { "en" => "Locations", "vi" => "Địa điểm",     _ => "拠点情報" });
+    var dNews      = DN("nav.news",      drawerLang switch { "en" => "News",      "vi" => "Tin tức",      _ => "新着情報" });
+    var dContact   = DN("nav.contact",   drawerLang switch { "en" => "Contact",   "vi" => "Liên hệ",      _ => "お問い合わせ" });
+    var dRecruit   = DN("nav.recruit", drawerLang switch { "en" => "Recruitment", "vi" => "Tuyển dụng", _ => "採用情報" });
+}
+<div class="drawer-menu js--drawer-menu">
+    <div class="hdr-logo u-flex u-flex-jcsb u-flex-aic">
+        <div class="hdr-logo__img">
+            <a href="/"><img src="@(ViewData["Logo.Header.Path"])" width="@(ViewData["Logo.Header.Width"])" style="height:auto" alt="MICROTECHNO"></a>
+        </div>
+        <button class="hdr-logo__menu hamburger-menu -close js--hamburger-menu">
+            <span class="hamburger-menu__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                </svg>
+            </span>
+        </button>
+    </div>
+    <div class="header-cta" role="navigation" aria-label="お問い合わせエリア">
+        <ul class="header-cta__list">
+            <li class="header-cta__item -tel">
+                <a class="header-cta__link" href="tel:0824341155">
+                    <span class="header-cta__icon -tel">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                        </svg>
+                    </span>
+                    <span class="header-cta__label">@(drawerLang == "en" ? "Call" : drawerLang == "vi" ? "Gọi điện" : "電話する")<br><span class="fz-sm">082-434-1155</span></span>
+                </a>
+            </li>
+            <li class="header-cta__item -contact">
+                <a class="header-cta__link" href="/lien-he">
+                    <span class="header-cta__icon -mail">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                            <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z" />
+                        </svg>
+                    </span>
+                    <span class="header-cta__label">@dContact</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <nav class="lang-switcher mt-sm" aria-label="言語選択" style="display:flex;gap:6px;padding:0.75em 1em;">
+        <a href="/lang/vi?returnUrl=@Uri.EscapeDataString(drawerUrl)" style="font-size:0.75rem;font-weight:700;color:#fff;text-decoration:none;padding:3px 8px;border:1px solid rgba(255,255,255,.4);border-radius:3px;opacity:@(drawerLang == "vi" ? "1" : "0.6");">VI</a>
+        <a href="/lang/ja?returnUrl=@Uri.EscapeDataString(drawerUrl)" style="font-size:0.75rem;font-weight:700;color:#fff;text-decoration:none;padding:3px 8px;border:1px solid rgba(255,255,255,.4);border-radius:3px;opacity:@(drawerLang == "ja" ? "1" : "0.6");">JA</a>
+        <a href="/lang/en?returnUrl=@Uri.EscapeDataString(drawerUrl)" style="font-size:0.75rem;font-weight:700;color:#fff;text-decoration:none;padding:3px 8px;border:1px solid rgba(255,255,255,.4);border-radius:3px;opacity:@(drawerLang == "en" ? "1" : "0.6");">EN</a>
+    </nav>
+    <ul class="slide-nav mt-sm">
+        <li class="slide-nav__item"><a href="/" class="slide-nav__link">@dTop</a></li>
+        <li class="slide-nav__item"><a href="/san-pham" class="slide-nav__link">@dProducts</a></li>
+        <li class="slide-nav__item"><a href="/ve-chung-toi" class="slide-nav__link">@dAbout</a></li>
+        <li class="slide-nav__item"><a href="/cong-ty" class="slide-nav__link">@dCompany</a></li>
+        <li class="slide-nav__item"><a href="/dia-diem" class="slide-nav__link">@dLocations</a></li>
+        <li class="slide-nav__item"><a href="/tuyen-dung" class="slide-nav__link">@dRecruit</a></li>
+        <li class="slide-nav__item"><a href="/tin-tuc" class="slide-nav__link">@dNews</a></li>
+        <li class="slide-nav__item"><a href="/lien-he" class="slide-nav__link">@dContact</a></li>
+    </ul>
+</div>

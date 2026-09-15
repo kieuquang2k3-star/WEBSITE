@@ -1,0 +1,191 @@
+@inject Mitech.Web.Services.IPageContentService _navSvc
+@{
+    var currentLang = Context.Request.Cookies["lang"] ?? "vi";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+
+    var siteTitle = currentLang switch
+    {
+        "en" => "MICROTECHNO Co., Ltd.",
+        "vi" => "MICROTECHNO Co., Ltd. | Gia công cơ khí chính xác linh kiện ô tô",
+        _ => "マイクロテクノ株式会社｜自動車部品の精密切削・研削技術"
+    };
+
+    var htmlLang = currentLang == "vi" ? "vi" : (currentLang == "en" ? "en" : "ja");
+
+    var _nav = await _navSvc.GetPageAsync("nav", currentLang);
+    string Nav(string key, string fallback) =>
+        _nav.TryGetValue(key, out var v) && v.Length > 0 ? v : fallback;
+
+    var NavTop       = Nav("nav.top",       currentLang switch { "en" => "Top",       "vi" => "Trang chủ",     _ => "トップページ" });
+    var NavProducts  = Nav("nav.products",  currentLang switch { "en" => "Products",  "vi" => "Sản phẩm",      _ => "製品情報" });
+    var NavAbout     = Nav("nav.about",     currentLang switch { "en" => "About us",  "vi" => "Về chúng tôi",  _ => "マイクロテクノベトナムについて" });
+    var NavCompany   = Nav("nav.company",   currentLang switch { "en" => "Company",   "vi" => "Giới thiệu",    _ => "会社概要" });
+    var NavLocations = Nav("nav.locations", currentLang switch { "en" => "Locations", "vi" => "Địa điểm",      _ => "拠点情報" });
+    var NavNews      = Nav("nav.news",      currentLang switch { "en" => "News",      "vi" => "Tin tức",       _ => "新着情報" });
+    var NavContact   = Nav("nav.contact",   currentLang switch { "en" => "Contact",   "vi" => "Liên hệ",       _ => "お問い合わせ" });
+    var NavRecruit   = Nav("nav.recruit", currentLang switch { "en" => "Recruitment", "vi" => "Tuyển dụng", _ => "採用情報" });
+
+    var siteDescription = currentLang switch {
+        "en" => "MICROTECHNO VIETNAM Co., Ltd. specializes in precision machining of automotive components including AT/CVT hydraulic control parts, apex seals and fuel rail parts.",
+        "vi" => "CÔNG TY TNHH MICROTECHNO VIỆT NAM chuyên gia công cơ khí chính xác linh kiện ô tô, bao gồm linh kiện điều khiển thủy lực AT/CVT, apex seal và linh kiện đường ống nhiên liệu.",
+        _    => "マイクロテクノ株式会社は広島県東広島市を拠点とし、オートマチックトランスミッションの油圧制御用部品等の製造を行っております。"
+    };
+    var ogDesc   = ViewData["Description"] as string ?? siteDescription;
+    var ogTitle  = ViewData["Title"] is string _pt && _pt.Length > 0 ? $"{_pt} | MICROTECHNO" : siteTitle;
+    var ogImgRel = ViewData["OGImage"] as string ?? "/images/img_bnr_01-2.jpg";
+    var baseUrl  = $"{Context.Request.Scheme}://{Context.Request.Host}";
+    var ogImage  = $"{baseUrl}{ogImgRel}";
+    var canonUrl = $"{baseUrl}{Context.Request.Path}";
+
+    bool IsActive(string path, bool exact = false) {
+        var p = Context.Request.Path.Value ?? "/";
+        return exact ? p == path : p == path || p.StartsWith(path + "/");
+    }
+}
+<!DOCTYPE html>
+<html lang="@htmlLang">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(ViewData["Title"] != null ? $"{ViewData["Title"]} | MICROTECHNO" : siteTitle)</title>
+    <meta name="description" content="@ogDesc">
+    <meta name="format-detection" content="telephone=no">
+    @inject Mitech.Web.Services.IPageContentService _faviconSvc
+    @{ var _faviconHref = await _faviconSvc.GetAsync("site.favicon.path", "global"); }
+    <link rel="icon" href="@(_faviconHref is { Length: > 0 } ? _faviconHref : "/favicon.png")" sizes="32x32">
+    <link rel="canonical" href="@canonUrl">
+
+    <meta property="og:type"         content="website">
+    <meta property="og:site_name"    content="MICROTECHNO Co., Ltd.">
+    <meta property="og:title"        content="@ogTitle">
+    <meta property="og:description"  content="@ogDesc">
+    <meta property="og:url"          content="@canonUrl">
+    <meta property="og:image"        content="@ogImage">
+    <meta property="og:locale"       content="@(currentLang == "ja" ? "ja_JP" : currentLang == "en" ? "en_US" : "vi_VN")">
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="@ogTitle">
+    <meta name="twitter:description" content="@ogDesc">
+    <meta name="twitter:image"       content="@ogImage">
+
+    <link rel="stylesheet" href="/css/style-sanitize.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/common.css">
+    @await RenderSectionAsync("PageCss", required: false)
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/hover.css">
+    <link rel="stylesheet" href="/css/plugins/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/plugins/pagenavi.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap">
+    <style>
+        body { margin: 0 !important; }
+        body, input, textarea, td, th { font-family: "Be Vietnam Pro", "Noto Sans JP", sans-serif !important; }
+        .lang-switcher { display:flex; gap:4px; align-items:center; }
+        .lang-switcher a { display:inline-flex; align-items:center; gap:5px; font-size:0.7rem; font-weight:700; color:#fff; text-decoration:none; padding:3px 7px; border:2px solid rgba(255,255,255,.35); border-radius:4px; opacity:.6; white-space:nowrap; }
+        .lang-switcher a img { width:28px; height:19px; object-fit:cover; border-radius:2px; display:block; }
+        .lang-switcher a.active { opacity:1; border-color:#fff; background:rgba(255,255,255,.15); }
+        .lang-switcher a:hover:not(.active) { opacity:.9; }
+        .hdr-nav.pc { display:flex; align-items:center; }
+        /* Keep header z-index above page content */
+        .hdr { z-index:999; }
+        /* Active nav link */
+        .hdr-nav-list__link.-active { text-decoration:underline; text-underline-offset:4px; font-weight:700; opacity:1 !important; }
+        /* Nav links should never wrap mid-word */
+        .hdr-nav-list__link { white-space: nowrap; }
+        /* Japanese typography: prevent breaks at prohibited positions */
+        :lang(ja) { line-break: strict; overflow-wrap: anywhere; word-break: normal; }
+        :lang(ja) .hdr-nav-list__link,
+        :lang(ja) .slide-nav__link { white-space: nowrap; }
+    </style>
+
+    <script src="/js/jquery/jquery.min.js"></script>
+    <script src="/js/jquery/jquery-migrate.min.js"></script>
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
+      "name": "MICROTECHNO Co., Ltd.",
+      "alternateName": ["マイクロテクノ株式会社", "CÔNG TY TNHH MICROTECHNO VIỆT NAM"],
+      "url": "@baseUrl",
+      "logo": {
+        "@@type": "ImageObject",
+        "url": "@baseUrl@(ViewData["Logo.Header.Path"] as string ?? "/images/logo.png")"
+      },
+      "address": [
+        {
+          "@@type": "PostalAddress",
+          "addressCountry": "VN",
+          "addressRegion": "Hung Yen Province",
+          "streetAddress": "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward"
+        },
+        {
+          "@@type": "PostalAddress",
+          "addressCountry": "JP",
+          "postalCode": "739-2124",
+          "streetAddress": "郷676番地 高屋町 東広島市 広島県"
+        }
+      ],
+      "contactPoint": {
+        "@@type": "ContactPoint",
+        "telephone": "+84-221-397-4544",
+        "contactType": "customer service",
+        "availableLanguage": ["Japanese", "Vietnamese", "English"]
+      },
+      "sameAs": ["https://www.instagram.com/mitec_recruit"]
+    }
+    </script>
+</head>
+
+<body class="@(ViewData["BodyClass"] ?? "") wp-theme-rcnt" data-scrollstop="">
+
+    @await Html.PartialAsync("_DrawerMenu")
+
+    <div class="js--body-inner">
+        <header class="hdr" role="banner">
+            <div class="hdr-logo u-flex u-flex-jcsb u-flex-aic">
+                <div class="hdr-logo__img">
+                    <a href="/" style="text-decoration:none;display:inline-block;line-height:1.15;">
+                        <span style="font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;letter-spacing:0;display:block;white-space:nowrap;">@(currentLang switch { "en" => "MICROTECHNO VIETNAM CO., LTD", "ja" => "マイクロテクノベトナム有限会社", _ => "CÔNG TY TNHH MICROTECHNO VIỆT NAM" })</span>
+                    </a>
+                </div>
+                <button class="hdr-logo__menu hamburger-menu -open js--hamburger-menu">
+                    <span class="hamburger-menu__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </span>
+                    <span class="hamburger-menu__label">MENU</span>
+                </button>
+            </div>
+            <nav class="hdr-nav pc">
+                <ul class="hdr-nav-list">
+                    <li class="hdr-nav-list__item"><a href="/" class="hdr-nav-list__link@(IsActive("/", true) ? " -active" : "")" title="@NavTop">@NavTop</a></li>
+                    <li class="hdr-nav-list__item"><a href="/san-pham" class="hdr-nav-list__link@(IsActive("/san-pham") ? " -active" : "")" title="@NavProducts">@NavProducts</a></li>
+                    <li class="hdr-nav-list__item"><a href="/ve-chung-toi" class="hdr-nav-list__link@(IsActive("/ve-chung-toi") ? " -active" : "")" title="@NavAbout">@NavAbout</a></li>
+                    <li class="hdr-nav-list__item"><a href="/cong-ty" class="hdr-nav-list__link@(IsActive("/cong-ty") ? " -active" : "")" title="@NavCompany">@NavCompany</a></li>
+                    <li class="hdr-nav-list__item"><a href="/dia-diem" class="hdr-nav-list__link@(IsActive("/dia-diem") ? " -active" : "")" title="@NavLocations">@NavLocations</a></li>
+                    <li class="hdr-nav-list__item"><a href="/tuyen-dung" class="hdr-nav-list__link@(IsActive("/tuyen-dung") ? " -active" : "")" title="@NavRecruit">@NavRecruit</a></li>
+                    <li class="hdr-nav-list__item"><a href="/lien-he" class="hdr-nav-list__link@(IsActive("/lien-he") ? " -active" : "")" title="@NavContact">@NavContact</a></li>
+                </ul>
+                <nav class="lang-switcher" aria-label="言語選択">
+                    <a href="/lang/vi?returnUrl=@Uri.EscapeDataString(currentUrl)" class="@(currentLang == "vi" ? "active" : "")" title="Tiếng Việt"><img src="/images/flags/vi.svg" alt="VI"> VI</a>
+                    <a href="/lang/ja?returnUrl=@Uri.EscapeDataString(currentUrl)" class="@(currentLang == "ja" ? "active" : "")" title="日本語"><img src="/images/flags/ja.svg" alt="JA"> JA</a>
+                    <a href="/lang/en?returnUrl=@Uri.EscapeDataString(currentUrl)" class="@(currentLang == "en" ? "active" : "")" title="English"><img src="/images/flags/en.svg" alt="EN"> EN</a>
+                </nav>
+            </nav>
+        </header>
+
+        @RenderBody()
+
+        @await Html.PartialAsync("_Footer")
+
+        <button type="button" id="js--pagetop-button" class="pagetop" aria-label="ページの先頭へ戻る">
+            <img src="/images/pagetop.png" alt="">
+        </button>
+    </div>
+
+    <script src="/js/bundle.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

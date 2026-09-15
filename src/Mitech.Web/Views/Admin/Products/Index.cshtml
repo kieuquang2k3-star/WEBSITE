@@ -1,0 +1,58 @@
+@model List<Product>
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+    Layout = "_AdminLayout";
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>Quản lý sản phẩm</h1>
+    <a href="/admin/products/create" class="btn btn-primary">+ Thêm sản phẩm</a>
+</div>
+
+<div class="admin-card">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:60px">Thứ tự</th>
+                <th style="width:80px">Ảnh</th>
+                <th>Tên sản phẩm (Tiếng Nhật)</th>
+                <th>Thông số</th>
+                <th style="width:100px">Trạng thái</th>
+                <th style="width:120px">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.SortOrder</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(p.ImagePath))
+                        {
+                            <img src="@p.ImagePath" style="width:60px;height:40px;object-fit:cover;border-radius:3px;" alt="">
+                        }
+                    </td>
+                    <td>@p.TitleJa</td>
+                    <td class="text-muted">@p.SpecName / @p.SpecMaterial / @p.SpecDimension</td>
+                    <td>
+                        @if (p.IsActive)
+                        {
+                            <span style="color:green;">● Hiển thị</span>
+                        }
+                        else
+                        {
+                            <span style="color:#999;">○ Ẩn</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="/admin/products/edit/@p.Id" class="btn btn-secondary btn-sm">Sửa</a>
+                        <form asp-controller="ProductsAdmin" asp-action="Delete" asp-route-id="@p.Id" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

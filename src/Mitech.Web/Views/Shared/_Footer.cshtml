@@ -1,0 +1,118 @@
+@inject Mitech.Web.Services.IPageContentService _fSvc
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var fc   = await _fSvc.GetPageAsync("footer", lang);
+
+    string F(string key, string fallback = "") =>
+        fc.TryGetValue(key, out var v) && v.Length > 0 ? v : fallback;
+
+    // Global fields
+    var companyTel   = await _fSvc.GetAsync("footer.company.tel",   "global");
+    var hqAddress    = await _fSvc.GetAsync("footer.hq.address",    "global");
+    var hqTel        = await _fSvc.GetAsync("footer.hq.tel",        "global");
+    var hqFax        = await _fSvc.GetAsync("footer.hq.fax",        "global");
+    var instagramUrl = await _fSvc.GetAsync("footer.instagram.url", "global");
+
+    if (string.IsNullOrEmpty(companyTel))   companyTel   = "022-1397-4544";
+    if (string.IsNullOrEmpty(hqAddress))    hqAddress    = "〒739-2124 広島県東広島市高屋町郷676番地";
+    if (string.IsNullOrEmpty(hqTel))        hqTel        = "082-434-1155";
+    if (string.IsNullOrEmpty(hqFax))        hqFax        = "082-434-1164";
+    if (string.IsNullOrEmpty(instagramUrl)) instagramUrl = "https://www.instagram.com/mitec_recruit";
+
+    // Per-lang nav labels (UI navigation – kept hardcoded, not user content)
+    string products, about, company, locations, news, purchase, quality, env, privacy, security;
+    string overseas, hqLabel, businessLabel, copyright;
+
+    if (lang == "vi")
+    {
+        products = "Thông tin sản phẩm"; about = "Về chúng tôi"; company = "Giới thiệu"; locations = "Địa điểm"; news = "Tin tức";
+        purchase = "Chính sách mua hàng"; quality = "Chính sách chất lượng"; env = "Chính sách môi trường";
+        privacy = "Chính sách bảo mật"; security = "Chính sách an ninh";
+        overseas = ""; hqLabel = F("footer.hq.name", "CÔNG TY CỔ PHẦN MICROTECHNO"); businessLabel = "Lĩnh vực kinh doanh";
+    }
+    else if (lang == "en")
+    {
+        products = "Products"; about = "About Us"; company = "Company"; locations = "Locations"; news = "News";
+        purchase = "Purchase Policy"; quality = "Quality Policy"; env = "Environmental Policy";
+        privacy = "Privacy Policy"; security = "Security Policy";
+        overseas = ""; hqLabel = F("footer.hq.name", "Microtechno Co., Ltd"); businessLabel = "Business";
+    }
+    else
+    {
+        products = "製品情報"; about = "マイクロテクノベトナムについて"; company = "会社概要"; locations = "拠点情報"; news = "新着情報";
+        purchase = "購買方針"; quality = "品質方針"; env = "環境方針";
+        privacy = "プライバシーポリシー"; security = "セキュリティポリシー";
+        overseas = ""; hqLabel = F("footer.hq.name", "マイクロテクノ株式会社"); businessLabel = "事業内容";
+    }
+
+    copyright = F("footer.copyright", lang switch {
+        "en" => "Precision machining of automotive parts — Contact MICROTECHNO Vietnam",
+        "ja" => "自動車部品の精密切削・研削技術ならマイクロテクノベトナムへお問い合わせください",
+        _    => "Gia công cơ khí chính xác linh kiện ô tô — Liên hệ MICROTECHNO Việt Nam"
+    });
+
+    var companyName    = F("footer.company.name", lang switch {
+        "en" => "MICROTECHNO VIETNAM CO.,LTD",
+        "ja" => "マイクロテクノベトナム有限会社",
+        _    => "CÔNG TY TNHH MICROTECHNO VIỆT NAM"
+    });
+    var companyAddress = F("footer.company.address", lang switch {
+        "en" => "Plot J3,4 (RF-12), Thang Long Industrial Park II,\nDuong Hao Ward, Hung Yen Province, Vietnam",
+        "ja" => "Plot J3,4 (RF-12), Thang Long Industrial Park II,\nDuong Hao Ward, Hung Yen Province, Vietnam",
+        _    => "Lô đất số J3,4 (RF-12), Khu công nghiệp Thăng Long II,\nPhường Đường Hào, Tỉnh Hưng Yên, Việt Nam"
+    });
+    var biz1 = F("footer.business.1");
+    var biz2 = F("footer.business.2");
+    var biz3 = F("footer.business.3");
+    var biz4 = F("footer.business.4");
+}
+<div class="widthBase">
+    <footer class="ftr" role="contentinfo">
+        <div class="ftr__inner">
+            <div class="ftr__nav">
+                <ul class="ftr-nav-list">
+                    <li class="ftr-nav-list__item"><a href="/san-pham" class="ftr-nav-list__link">@products</a></li>
+                    <li class="ftr-nav-list__item"><a href="/ve-chung-toi" class="ftr-nav-list__link">@about</a></li>
+                    <li class="ftr-nav-list__item"><a href="/cong-ty" class="ftr-nav-list__link">@company</a></li>
+                    <li class="ftr-nav-list__item"><a href="/dia-diem" class="ftr-nav-list__link">@locations</a></li>
+                    <li class="ftr-nav-list__item"><a href="/tin-tuc" class="ftr-nav-list__link">@news</a></li>
+                    <li class="ftr-nav-list__item"><a href="/chinh-sach-mua-hang" class="ftr-nav-list__link">@purchase</a></li>
+                    <li class="ftr-nav-list__item"><a href="/ve-chung-toi#quality-policy" class="ftr-nav-list__link">@quality</a></li>
+                    <li class="ftr-nav-list__item"><a href="/ve-chung-toi#environment" class="ftr-nav-list__link">@env</a></li>
+                    <li class="ftr-nav-list__item"><a href="/chinh-sach-bao-mat" class="ftr-nav-list__link">@privacy</a></li>
+                    <li class="ftr-nav-list__item"><a href="/bao-mat-thong-tin" class="ftr-nav-list__link">@security</a></li>
+                </ul>
+            </div>
+            <div class="ftr__info">
+                <a href="/" class="ftr-logo">
+                    <img src="@(ViewData["Logo.Footer.Path"])" width="@(ViewData["Logo.Footer.Width"])" style="height:auto" alt="MICROTECHNO">
+                </a>
+                <style>.ftr .title-mini::before { content: none; }</style>
+                <p class="title-mini">@companyName</p>
+                <address>
+                    <p>@Html.Raw(companyAddress.Replace("\n", "<br>"))<br>
+                        TEL <a href="tel:@companyTel.Replace("-", string.Empty)">@companyTel</a></p>
+                </address>
+                <p class="title-mini">@hqLabel</p>
+                <address>
+                    <p>@hqAddress<br>
+                        TEL <a href="tel:@hqTel.Replace("-", string.Empty)">@hqTel</a><br>
+                        FAX @hqFax</p>
+                </address>
+                <p><a href="https://www.mitec.co.jp/about-us/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">www.mitec.co.jp</a></p>
+                <p class="title-mini">@businessLabel</p>
+                <ul class="list-dot">
+                    @if (!string.IsNullOrEmpty(biz1)) { <li class="list-dot__item">@biz1</li> }
+                    @if (!string.IsNullOrEmpty(biz2)) { <li class="list-dot__item">@biz2</li> }
+                    @if (!string.IsNullOrEmpty(biz3)) { <li class="list-dot__item">@biz3</li> }
+                    @if (!string.IsNullOrEmpty(biz4)) { <li class="list-dot__item">@biz4</li> }
+                </ul>
+            </div>
+        </div>
+        <div class="ftr-copy-wrap">
+            <p class="copy">
+                <small><a href="/" class="lnk_color_inherit">@copyright</a></small>
+            </p>
+        </div>
+    </footer>
+</div>

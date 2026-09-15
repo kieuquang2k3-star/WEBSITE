@@ -1,0 +1,96 @@
+@{
+    var lang = Context.Request.Cookies["lang"] ?? "vi";
+
+    string pageTitle, headerMain, breadcrumbLabel;
+    string intro, h1collect, pCollect, h2purpose, pPurpose, h2security, pSecurity, h2contact, pContact;
+    string companyName, tel, telHref;
+
+    companyName = lang switch {
+        "en" => "MICROTECHNO VIETNAM CO., LTD",
+        "ja" => "マイクロテクノベトナム有限会社",
+        _    => "CÔNG TY TNHH MICROTECHNO VIỆT NAM"
+    };
+
+    tel     = "022-139-74544";
+    telHref = "tel:02213974544";
+
+    if (lang == "en")
+    {
+        pageTitle     = "Privacy Policy";
+        headerMain    = "Privacy Policy";
+        breadcrumbLabel = "Privacy Policy";
+        intro       = $"{companyName} (hereinafter \"the Company\") establishes the following Privacy Policy regarding the protection of personal information of our customers.";
+        h1collect   = "Collection of Personal Information";
+        pCollect    = "The Company collects personal information to the extent necessary to provide its services. Collected personal information is managed appropriately and will not be disclosed to third parties except as required by law.";
+        h2purpose   = "Purpose of Use of Personal Information";
+        pPurpose    = "Collected personal information is used to respond to inquiries, provide services, and send information from the Company.";
+        h2security  = "Security Management of Personal Information";
+        pSecurity   = "The Company implements appropriate security measures to prevent leakage, loss, or damage of personal information.";
+        h2contact   = "Contact";
+        pContact    = $"For requests regarding disclosure, correction, or deletion of personal information, please contact us below.<br>{companyName}<br>Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province, Vietnam<br>TEL: <a href=\"{telHref}\">{tel}</a>";
+    }
+    else if (lang == "ja")
+    {
+        pageTitle     = "プライバシーポリシー";
+        headerMain    = "プライバシーポリシー";
+        breadcrumbLabel = "プライバシーポリシー";
+        intro       = $"{companyName}（以下「当社」）は、お客様の個人情報の保護に関して以下のとおりプライバシーポリシーを定めます。";
+        h1collect   = "個人情報の収集について";
+        pCollect    = "当社は、サービスの提供に必要な範囲で個人情報を収集します。収集した個人情報は適切に管理し、第三者への提供は法令に基づく場合を除き行いません。";
+        h2purpose   = "個人情報の利用目的";
+        pPurpose    = "収集した個人情報は、お問い合わせへの対応、サービスの提供、および当社からのご案内に使用します。";
+        h2security  = "個人情報の安全管理";
+        pSecurity   = "当社は、個人情報の漏洩、滅失、毀損を防止するため、適切なセキュリティ措置を講じます。";
+        h2contact   = "お問い合わせ";
+        pContact    = $"個人情報の開示・訂正・削除等については、下記までお問い合わせください。<br>{companyName}<br>タンロンII工業団地 J3,4区画 (RF-12)、フンイェン省、ベトナム<br>TEL: <a href=\"{telHref}\">{tel}</a>";
+    }
+    else
+    {
+        pageTitle     = "Chính sách bảo mật";
+        headerMain    = "Chính sách bảo mật";
+        breadcrumbLabel = "Chính sách bảo mật";
+        intro       = $"{companyName} (sau đây gọi là \"Công ty\") ban hành Chính sách bảo mật sau đây liên quan đến việc bảo vệ thông tin cá nhân của khách hàng.";
+        h1collect   = "Thu thập thông tin cá nhân";
+        pCollect    = "Công ty thu thập thông tin cá nhân trong phạm vi cần thiết để cung cấp dịch vụ. Thông tin cá nhân được thu thập sẽ được quản lý đúng cách và không được cung cấp cho bên thứ ba trừ trường hợp pháp luật yêu cầu.";
+        h2purpose   = "Mục đích sử dụng thông tin cá nhân";
+        pPurpose    = "Thông tin cá nhân được thu thập dùng để phản hồi các yêu cầu, cung cấp dịch vụ và gửi thông tin từ Công ty.";
+        h2security  = "Quản lý an toàn thông tin cá nhân";
+        pSecurity   = "Công ty thực hiện các biện pháp bảo mật phù hợp để ngăn ngừa rò rỉ, mất mát hoặc hư hỏng thông tin cá nhân.";
+        h2contact   = "Liên hệ";
+        pContact    = $"Để yêu cầu tiết lộ, chỉnh sửa hoặc xóa thông tin cá nhân, vui lòng liên hệ theo thông tin bên dưới.<br>{companyName}<br>Lô J3,4 (RF-12), KCN Thăng Long II, Phường Dương Hào, Tỉnh Hưng Yên, Việt Nam<br>TEL: <a href=\"{telHref}\">{tel}</a>";
+    }
+
+    ViewData["Title"] = pageTitle;
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">privacy policy</div>
+    <h1 class="page-header__main">@headerMain</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">HOME（@companyName）</a> &gt;
+        <span class="post post-page current-item">@breadcrumbLabel</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <p>@intro</p>
+        <h2>@h1collect</h2>
+        <p>@pCollect</p>
+        <h2>@h2purpose</h2>
+        <p>@pPurpose</p>
+        <h2>@h2security</h2>
+        <p>@pSecurity</p>
+        <h2>@h2contact</h2>
+        <p>@Html.Raw(pContact)</p>
+    </div>
+</div>
+
+<div class="mt-lg"></div>

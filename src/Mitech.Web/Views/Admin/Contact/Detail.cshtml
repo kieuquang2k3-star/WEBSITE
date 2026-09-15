@@ -1,0 +1,25 @@
+@model ContactMessage
+@{
+    ViewData["Title"] = "Chi tiết liên hệ";
+    Layout = "_AdminLayout";
+}
+
+<h1>Chi tiết liên hệ</h1>
+<a href="/admin/contact" class="btn btn-secondary btn-sm" style="margin-bottom:16px;">← Quay lại danh sách</a>
+
+<div class="admin-card">
+    <table>
+        <tr><th style="width:160px">Ngày nhận</th><td>@Model.ReceivedAt.ToLocalTime().ToString("yyyy/M/d HH:mm")</td></tr>
+        <tr><th>Công ty</th><td>@Model.CompanyName</td></tr>
+        <tr><th>Họ tên</th><td>@Model.ContactName</td></tr>
+        <tr><th>Furigana</th><td>@Model.Furigana</td></tr>
+        <tr><th>Email</th><td><a href="mailto:@Model.Email">@Model.Email</a></td></tr>
+        <tr><th>Điện thoại</th><td><a href="tel:@Model.Phone">@Model.Phone</a></td></tr>
+        <tr><th>Mã bưu chính</th><td>@Model.ZipCode</td></tr>
+        <tr><th>Địa chỉ</th><td>@Model.Address</td></tr>
+        <tr>
+            <th>Nội dung</th>
+            <td style="white-space:pre-wrap;">@Model.Message</td>
+        </tr>
+    </table>
+</div>

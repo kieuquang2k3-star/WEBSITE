@@ -1,0 +1,86 @@
+@model Product
+@{
+    ViewData["Title"] = "Chỉnh sửa sản phẩm";
+    Layout = "_AdminLayout";
+}
+
+<h1>Chỉnh sửa sản phẩm</h1>
+<a href="/admin/products" class="btn btn-secondary btn-sm" style="margin-bottom:16px;">← Quay lại danh sách</a>
+
+<div class="admin-card">
+    <form asp-controller="ProductsAdmin" asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="form-group">
+                <label>Tên sản phẩm (Tiếng Nhật)</label>
+                <input asp-for="TitleJa" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Tên sản phẩm (Tiếng Anh)</label>
+                <input asp-for="TitleEn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Tên sản phẩm (Tiếng Việt)</label>
+                <input asp-for="TitleVi" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Tên thông số (Tiếng Nhật)</label>
+                <input asp-for="SpecName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Tên thông số (Tiếng Anh)</label>
+                <input asp-for="SpecNameEn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Tên thông số (Tiếng Việt)</label>
+                <input asp-for="SpecNameVi" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Vật liệu (Tiếng Nhật)</label>
+                <input asp-for="SpecMaterial" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Vật liệu (Tiếng Anh)</label>
+                <input asp-for="SpecMaterialEn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Vật liệu (Tiếng Việt)</label>
+                <input asp-for="SpecMaterialVi" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Kích thước (Tiếng Nhật)</label>
+                <input asp-for="SpecDimension" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Kích thước (Tiếng Anh)</label>
+                <input asp-for="SpecDimensionEn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Kích thước (Tiếng Việt)</label>
+                <input asp-for="SpecDimensionVi" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Thứ tự hiển thị</label>
+                <input asp-for="SortOrder" type="number" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Hiển thị</label>
+                <input asp-for="IsActive" type="checkbox"> Hiển thị công khai
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <div class="form-group">
+                <label>Ảnh hiện tại</label><br>
+                <img src="@Model.ImagePath" style="max-width:200px;max-height:120px;border-radius:4px;" alt="">
+                <input asp-for="ImagePath" type="hidden">
+            </div>
+        }
+        <div class="form-group">
+            <label>Ảnh mới (chỉ khi muốn thay đổi)</label>
+            <input type="file" name="imageFile" class="form-control" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+    </form>
+</div>

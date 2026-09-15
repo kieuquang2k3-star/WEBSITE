@@ -1,0 +1,48 @@
+@model List<Mitech.Web.Models.JobPosition>
+@{
+    ViewData["Title"] = "Vị trí tuyển dụng";
+    Layout = "_AdminLayout";
+}
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+    <h1>Vị trí tuyển dụng</h1>
+    <a href="/admin/jobs/create" class="btn btn-primary">+ Thêm vị trí</a>
+</div>
+
+<div class="admin-card">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:60px">Thứ tự</th>
+                <th>Tên vị trí (Tiếng Việt)</th>
+                <th>Slug</th>
+                <th style="width:100px">Trạng thái</th>
+                <th style="width:140px">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var j in Model)
+            {
+                <tr>
+                    <td>@j.SortOrder</td>
+                    <td>@j.TitleVi</td>
+                    <td><code>/tuyen-dung/@j.Slug</code></td>
+                    <td>
+                        @if (j.IsActive)
+                        { <span style="color:green;">● Hiển thị</span> }
+                        else
+                        { <span style="color:#999;">○ Ẩn</span> }
+                    </td>
+                    <td>
+                        <a href="/admin/jobs/edit/@j.Id" class="btn btn-secondary btn-sm">Sửa</a>
+                        <form asp-controller="JobsAdmin" asp-action="Delete" asp-route-id="@j.Id" method="post"
+                              style="display:inline;" onsubmit="return confirm('Xóa vị trí này?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

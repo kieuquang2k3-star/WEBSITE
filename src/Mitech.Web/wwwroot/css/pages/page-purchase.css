@@ -1,0 +1,6 @@
+@keyframes bg-metal{0%{opacity:0;transform:translateX(30em)}40%{transform:translateX(-2em)}100%{opacity:1;transform:translateX(0)}}.border-txt{align-items:center}
+.policy-card-list{max-width:640px;margin-inline:auto}
+.policy-card-list>p:first-child{text-align:center}
+.policy-card__desc{align-items:center;text-align:center;font-size:1em;font-weight:400}
+.policy-card__desc .row{border-bottom:1px solid}
+/*# sourceMappingURL=page-purchase.css.map */

@@ -1,0 +1,2 @@
+@keyframes bg-metal{0%{opacity:0;transform:translateX(30em)}40%{transform:translateX(-2em)}100%{opacity:1;transform:translateX(0)}}.address-pic{display:flex;align-items:flex-start;gap:2.5em}@media screen and (max-width: 480px){.address-pic{flex-direction:column;gap:1em}}.address-pic__txt{padding-left:1em;flex:1;border-left:5px solid}.address-pic__img{width:37.5em}@media screen and (max-width: 840px){.address-pic__img{width:28em}}@media screen and (max-width: 480px){.address-pic__img{width:100%}}
+/*# sourceMappingURL=page-locations.css.map */

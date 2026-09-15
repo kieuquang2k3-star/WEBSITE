@@ -1,0 +1,133 @@
+﻿@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+
+    string pageTitle, headOffice, takayaFactory, tamariFactory, overseasTitle;
+    string breadcrumbHome, headAddress, takayaAddress, tamariAddress, overseasAddress, headImgAlt;
+
+    if (lang == "vi")
+    {
+        pageTitle      = "Địa điểm";
+        breadcrumbHome = "HOME（MICROTECHNO VIETNAM CO., LTD）";
+        headOffice     = "Trụ sở chính";
+        takayaFactory  = "Nhà máy Takaya-dai";
+        tamariFactory  = "Nhà máy Tamari";
+        overseasTitle  = "Nhà máy tại Việt Nam";
+        headAddress    = "〒739-2124<br>676 Gō, Takaya-chō, Higashihiroshima-shi, Hiroshima<br>TEL <a href=\"tel:0824341155\">082-434-1155</a>　FAX 082-434-1164";
+        takayaAddress  = "〒739-2117<br>2-2-4 Takaya-dai, Higashihiroshima-shi, Hiroshima";
+        tamariAddress  = "〒725-0001<br>1957-1 Tamari-chō, Takehara-shi, Hiroshima";
+        overseasAddress = "MICROTECHNO VIETNAM CO., LTD<br>Lô J3,4 (RF-12), Khu công nghiệp Thăng Long II,<br>Phường Dương Hào, Tỉnh Hưng Yên, Việt Nam";
+        headImgAlt     = "Trụ sở chính";
+    }
+    else if (lang == "en")
+    {
+        pageTitle      = "Locations";
+        breadcrumbHome = "HOME（MICROTECHNO VIETNAM CO., LTD）";
+        headOffice     = "Head Office";
+        takayaFactory  = "Takaya-dai Factory";
+        tamariFactory  = "Tamari Factory";
+        overseasTitle  = "Factory in Vietnam";
+        headAddress    = "〒739-2124<br>676 Gō, Takaya-chō, Higashihiroshima-shi, Hiroshima, Japan<br>TEL <a href=\"tel:0824341155\">082-434-1155</a>　FAX 082-434-1164";
+        takayaAddress  = "〒739-2117<br>2-2-4 Takaya-dai, Higashihiroshima-shi, Hiroshima, Japan";
+        tamariAddress  = "〒725-0001<br>1957-1 Tamari-chō, Takehara-shi, Hiroshima, Japan";
+        overseasAddress = "MICROTECHNO VIETNAM CO., LTD<br>Plot J3,4 (RF-12), Thang Long Industrial Park II,<br>Duong Hao Ward, Hung Yen Province, Vietnam";
+        headImgAlt     = "Head Office exterior";
+    }
+    else
+    {
+        pageTitle      = "拠点情報";
+        breadcrumbHome = "HOME（マイクロテクノベトナム有限会社）";
+        headOffice     = "本社";
+        takayaFactory  = "高屋台工場";
+        tamariFactory  = "田万里工場";
+        overseasTitle  = "ベトナム工場";
+        headAddress    = "〒739-2124<br>広島県東広島市高屋町郷676番地<br>TEL <a href=\"tel:0824341155\">082-434-1155</a>　FAX 082-434-1164";
+        takayaAddress  = "〒739-2117<br>広島県東広島市高屋台2丁目2番4号";
+        tamariAddress  = "〒725-0001<br>広島県竹原市田万里町1957-1";
+        overseasAddress = "MICROTECHNO VIETNAM CO., LTD<br>Plot J3,4 (RF-12), Thang Long Industrial Park II,<br>Duong Hao Ward, Hung Yen Province, Vietnam";
+        headImgAlt     = "本社外観";
+    }
+
+    ViewData["Title"] = pageTitle;
+    ViewData["BodyClass"] = "page-locations";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-locations.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">locations</div>
+    <h1 class="page-header__main">@pageTitle</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <span class="post post-page current-item">@pageTitle</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <figure style="margin:0 0 2em;">
+        <img src="/images/anh-ban-do.jpg" alt="@overseasTitle" style="width:100%;height:auto;display:block;">
+    </figure>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <h2>@overseasTitle</h2>
+        <div class="section_base">
+            <div class="address-pic">
+                <div class="address-pic__txt">
+                    <p class="mb00">@Html.Raw(overseasAddress)</p>
+                </div>
+            </div>
+            <div class="google-map mt-mini">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3727.1350229056616!2d106.08090469999999!3d20.906886699999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a3002ebcd73d%3A0x58a8a511c77a5035!2sC%C3%94NG%20TY%20TNHH%20MICROTECHNO%20VI%E1%BB%86T%20NAM!5e0!3m2!1svi!2s!4v1780633781883!5m2!1svi!2s" width="100%" height="450" style="border:0;display:block;width:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <h2>@headOffice</h2>
+        <div class="section_base">
+            <div class="address-pic">
+                <div class="address-pic__txt">
+                    <p class="mb00">@Html.Raw(headAddress)</p>
+                </div>
+                <figure class="address-pic__img">
+                    <img src="/uploads/2026/04/img_honsya.jpg" width="600" height="360" alt="@headImgAlt" loading="lazy">
+                </figure>
+            </div>
+            <div class="google-map mt-mini">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.1949679344507!2d132.7951010763479!3d34.44719839677171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35506690568938a7%3A0x519f6f2abe9e68f5!2z44Oe44Kk44Kv44Ot44OG44Kv44OO77yI5qCq77yJ!5e0!3m2!1sja!2sjp!4v1776305645869!5m2!1sja!2sjp" width="100%" height="450" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <h2>@takayaFactory</h2>
+        <div class="section_base">
+            <div class="address-pic">
+                <div class="address-pic__txt">
+                    <p class="mb00">@Html.Raw(takayaAddress)</p>
+                </div>
+            </div>
+            <div class="google-map mt-mini">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3289.4209251358825!2d132.8379908!3d34.466844699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x355060c445b34a17%3A0xb1086ceeece5920f!2z44CSNzM5LTIxMTcg5bqD5bO255yM5p2x5bqD5bO25biC6auY5bGL5Y-w77yS5LiB55uu77yS4oiS77yU!5e0!3m2!1sja!2sjp!4v1775635578397!5m2!1sja!2sjp" width="100%" height="450" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <h2>@tamariFactory</h2>
+        <div class="section_base">
+            <div class="address-pic">
+                <div class="address-pic__txt">
+                    <p class="mb00">@Html.Raw(tamariAddress)</p>
+                </div>
+            </div>
+            <div class="google-map mt-mini">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3291.7841495523717!2d132.8437258!3d34.4068319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x355067bd54ba50f7%3A0x94a4280d5c81fa66!2z44CSNzI1LTAwMDEg5bqD5bO255yM56u55Y6f5biC55Sw5LiH6YeM55S677yR77yZ77yX4oiS77yR!5e0!3m2!1sja!2sjp!4v1775635595391!5m2!1sja!2sjp" width="100%" height="450" style="border:0;display:block;width:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

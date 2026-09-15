@@ -1,0 +1,46 @@
+@model List<ContactMessage>
+@{
+    ViewData["Title"] = "Quản lý liên hệ";
+    Layout = "_AdminLayout";
+}
+
+<h1>Quản lý liên hệ</h1>
+
+<div class="admin-card">
+    @if (!Model.Any())
+    {
+        <p class="text-muted">Chưa có tin nhắn liên hệ nào.</p>
+    }
+    else
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:140px">Ngày nhận</th>
+                    <th>Công ty / Họ tên</th>
+                    <th>Email</th>
+                    <th style="width:80px">Trạng thái</th>
+                    <th style="width:120px">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr style="@(m.IsRead ? "" : "background:#fffbf0;font-weight:bold;")">
+                        <td>@m.ReceivedAt.ToLocalTime().ToString("yyyy.MM.dd HH:mm")</td>
+                        <td>@m.CompanyName / @m.ContactName</td>
+                        <td>@m.Email</td>
+                        <td>@(m.IsRead ? "Đã đọc" : "★ Chưa đọc")</td>
+                        <td>
+                            <a href="/admin/contact/detail/@m.Id" class="btn btn-secondary btn-sm">Chi tiết</a>
+                            <form asp-controller="ContactAdmin" asp-action="Delete" asp-route-id="@m.Id" method="post" style="display:inline;" onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

@@ -1,0 +1,369 @@
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+    ViewData["BodyClass"] = "page-about-us";
+
+    string pageTitle, philoTitle, philoCatch, msgTitle, vietnamHistTitle, qualTitle, qualBody, envTitle, envBody, sigName, sigTitle;
+    string presMsg1, presMsg2, presMsg3, presMsg4;
+    string custTitle, productsTitle, spoolDesc;
+    string qualMottoTitle, qualMotto1, qualMotto2;
+    string qualBasicPhiloTitle, qualBasicPhiloBody;
+    string qualActionTitle, qualAction1, qualAction2, qualAction3, qualAction4, qualAction5;
+    string qualMottoDate;
+    string envMottoTitle, envMottoIntro;
+    string envBasicPhiloTitle, envBasicPhiloBody;
+    string envActionTitle, envAction1, envAction2, envAction3, envAction4, envAction5;
+    string envMottoDate;
+
+    if (lang == "vi")
+    {
+        pageTitle = "Về MICROTECHNO";
+        philoTitle = "Triết lý doanh nghiệp";
+        philoCatch = "Lấy sự tôn trọng con người làm nền tảng,<br>toàn thể cùng tham gia và sáng tạo<br>để đóng góp cho xã hội bằng chất lượng cao";
+        msgTitle = "Thông điệp của Người đại diện";
+        vietnamHistTitle = "Lịch sử phát triển Microtechno Việt Nam";
+        qualTitle = "Chính sách chất lượng";
+        qualBody = "Hướng đến sự hài lòng của khách hàng và đóng góp cho xã hội, chúng tôi đặt an toàn, chất lượng và hiệu quả lên hàng đầu trong hoạt động sản xuất. Đồng thời, chúng tôi liên tục đào tạo và cải tiến chất lượng với sự tham gia của toàn bộ nhân viên.";
+        envTitle = "Chính sách môi trường";
+        envBody = "MICROTECHNO cam kết cải tiến liên tục nhằm giảm thiểu tác động môi trường trong quá trình sản xuất linh kiện ô tô. Chúng tôi tuân thủ pháp luật, phòng ngừa ô nhiễm và hướng tới sự cộng sinh với cộng đồng địa phương.";
+        custTitle = "Khách hàng chính";
+        productsTitle = "Sản phẩm";
+        spoolDesc = "Bộ chuyển số tự động (AT) & Động cơ";
+        qualMottoTitle = "Phương châm chất lượng";
+        qualMotto1 = "Cung cấp những sản phẩm làm hài lòng khách hàng.";
+        qualMotto2 = "Thực hiện cải tiến liên tục các quy trình làm việc với sự tham gia của tất cả mọi người.";
+        qualBasicPhiloTitle = "Triết lý cơ bản";
+        qualBasicPhiloBody = "Cải tiến liên tục tính hiệu quả của hệ thống quản lý chất lượng với sự nỗ lực của mọi người nhằm nâng cao sự hài lòng của khách hàng.";
+        qualActionTitle = "Nguyên tắc hành động";
+        qualAction1 = "Nỗ lực nâng cao chất lượng bằng việc xây dựng hệ thống quản lý chất lượng, mục tiêu chất lượng dựa trên phương châm chất lượng, xem xét, thực hiện kế hoạch về chất lượng.";
+        qualAction2 = "Nỗ lực nâng cao sự hài lòng của khách hàng, đối ứng chính xác kịp thời nhu cầu của khách hàng.";
+        qualAction3 = "Thực hiện chu trình PDCA đối với quy trình chuẩn bị sản xuất hàng loạt, thực hiện khởi động linh kiện mới.";
+        qualAction4 = "Cải tiến chất lượng sản xuất hàng loạt, giảm thiểu hàng lỗi trong nhà xưởng.";
+        qualAction5 = "Thông qua các hoạt động đào tạo, huấn luyện, nâng cao nhận thức của từng nhân viên về việc tuân thủ quy định, ổn định sản xuất.";
+        qualMottoDate = "Hưng Yên, ngày 01 tháng 03 năm 2026";
+        envMottoTitle = "Phương châm môi trường";
+        envMottoIntro = "SDGs (Mục tiêu phát triển bền vững) được thông qua tại Hội nghị thượng đỉnh Liên hợp quốc năm 2015 đặt mục tiêu “Trân trọng nguồn tài nguyên hạn chế của trái đất và chuyển chúng cho thế hệ tiếp theo trong tương lai”. MVC đã thiết lập các chính sách cơ bản và hướng dẫn hành vi sau đây cho các hoạt động của công ty. Chúng tôi yêu cầu tất cả nhân viên hiểu và áp dụng điều này vào thực tế.";
+        envBasicPhiloTitle = "Triết lý cơ bản";
+        envBasicPhiloBody = "Thông qua các hoạt động kinh doanh của mình, MVC góp phần tạo dựng một xã hội thịnh vượng bằng cách sử dụng hiệu quả các nguồn lực hạn chế và hài hòa với môi trường tự nhiên và xã hội.";
+        envActionTitle = "Phương châm hành động";
+        envAction1 = "Để ngăn chặn sự nóng lên toàn cầu, chúng tôi sẽ nỗ lực khử cacbon và giảm mức sử dụng năng lượng trong sản xuất và vận chuyển.";
+        envAction2 = "Để sử dụng hiệu quả các nguồn tài nguyên hạn chế và giảm tác động đến môi trường, chúng tôi thúc đẩy 3R (Giảm thiểu, Tái sử dụng, Tái chế) trong các hoạt động của công ty, từ thu mua nguyên liệu thô đến xử lý và tái chế.";
+        envAction3 = "Nhằm mục đích bảo tồn và duy trì môi trường tự nhiên và xã hội, chúng tôi tham gia vào các hoạt động bảo tồn môi trường của các đối tác kinh doanh và của chính chúng tôi. Chúng tôi sẽ thực hiện các nỗ lực bảo vệ môi trường trong các hoạt động của công ty.";
+        envAction4 = "Chúng tôi nỗ lực tạo ra những sản phẩm thân thiện với môi trường, cải tiến quy trình sản xuất và sử dụng nguyên vật liệu, phụ liệu.";
+        envAction5 = "Bằng cách yêu cầu mỗi nhân viên chủ động và liên tục làm việc để giảm tác động đến môi trường, chúng tôi sẽ tối đa hóa tác động của việc giảm tác động đến môi trường của toàn công ty.";
+        envMottoDate = "Hưng Yên, ngày 01 tháng 03 năm 2026";
+        sigName = "Công ty TNHH Microtechno Việt Nam";
+        sigTitle = "Tổng giám đốc　Ông Nakata Hiroshi";
+        presMsg1 = "Công ty TNHH Microtechno Việt Nam (sau đây gọi tắt là MVC) là cơ sở sản xuất ở nước ngoài của Công ty Microtechno Nhật Bản (MTC), đồng thời là một thành viên của Tập đoàn Toyo Advanced Technologies. Chúng tôi đảm nhận vai trò sản xuất linh kiện ô tô tại Việt Nam. MVC kế thừa vững chắc công nghệ gia công chính xác cùng tinh thần chú trọng chất lượng mà công ty mẹ MTC đã dày công xây dựng trong suốt nhiều năm qua. Với phương châm ưu tiên hàng đầu là \"An toàn – Chất lượng – Tiến độ giao hàng\", chúng tôi luôn nỗ lực thực hiện hoạt động sản xuất nhằm mang đến sự tin cậy cho khách hàng.";
+        presMsg2 = "Trong bối cảnh ngành công nghiệp ô tô đang có nhiều thay đổi mạnh mẽ, chúng tôi tin rằng việc duy trì và cung cấp chất lượng ổn định chính là sứ mệnh quan trọng nhất của mình. Bên cạnh đó, MVC không chỉ đơn thuần là một cơ sở sản xuất, mà còn là doanh nghiệp gắn bó và phát triển cùng Việt Nam. Chúng tôi đặc biệt chú trọng đến việc đào tạo nguồn nhân lực và cải thiện môi trường làm việc.";
+        presMsg3 = "Chúng tôi tin rằng việc tạo dựng một môi trường nơi mỗi nhân viên địa phương có thể nâng cao kỹ năng, cảm nhận được sự trưởng thành của bản thân trong công việc sẽ góp phần nâng cao sức mạnh tập thể của tổ chức và hướng đến sự phát triển bền vững của doanh nghiệp.";
+        presMsg4 = "MVC luôn chia sẻ và thực hiện những giá trị cốt lõi mà Tập đoàn Toyo Advanced Technologies đã gìn giữ, bao gồm: \"Chân thành – Thử thách – Cải tiến liên tục\". Đồng thời, chúng tôi cũng không ngừng thúc đẩy các hoạt động cải tiến dựa trên tinh thần coi trọng thực tế tại hiện trường, nhằm đáp ứng kỳ vọng của khách hàng trên toàn cầu. Trong thời gian tới, thông qua hoạt động sản xuất lấy chất lượng và sự tin cậy làm nền tảng, chúng tôi sẽ tiếp tục phấn đấu để trở thành doanh nghiệp được khách hàng, đối tác và cộng đồng địa phương tin tưởng và cần đến. Toàn thể cán bộ nhân viên MVC sẽ đồng lòng tiếp tục chinh phục những thử thách mới.";
+    }
+    else if (lang == "en")
+    {
+        pageTitle = "About MICROTECHNO";
+        philoTitle = "Corporate Philosophy";
+        philoCatch = "Respect for People as the Foundation,<br>Contributing to Society with High Quality<br>through Full Participation and Creative Ingenuity";
+        msgTitle = "Message from the General Director";
+        vietnamHistTitle = "MICROTECHNO VIETNAM History";
+        qualTitle = "Quality Policy";
+        qualBody = "Aiming for customer satisfaction and social contribution, we prioritize safety, quality, and efficiency in manufacturing. We continuously improve quality through education, training, and full employee participation.";
+        envTitle = "Environmental Policy";
+        envBody = "MICROTECHNO is committed to continuous improvement to reduce the environmental impact of automotive parts manufacturing. We comply with laws and regulations, prevent pollution, and aim to coexist with the local community.";
+        custTitle = "Key Customers";
+        productsTitle = "Products";
+        spoolDesc = "Automatic Transmission (AT) & Engine";
+        qualMottoTitle = "Quality Policy";
+        qualMotto1 = "Provide products that satisfy our customers.";
+        qualMotto2 = "Continuously improve work processes through the participation of all members.";
+        qualBasicPhiloTitle = "Basic Philosophy";
+        qualBasicPhiloBody = "Continuously improve the effectiveness of the quality management system through the efforts of all members, aiming to enhance customer satisfaction.";
+        qualActionTitle = "Action Principles";
+        qualAction1 = "Strive to improve quality by establishing a quality management system, setting quality objectives based on the quality policy, and implementing quality plans.";
+        qualAction2 = "Strive to enhance customer satisfaction by responding accurately and promptly to customer requirements.";
+        qualAction3 = "Apply the PDCA cycle to the mass production preparation process and carry out new part launches.";
+        qualAction4 = "Improve mass production quality and minimize defective products in the factory.";
+        qualAction5 = "Through education and training activities, raise each employee's awareness of compliance with regulations and stabilization of production.";
+        qualMottoDate = "Hung Yen, March 1, 2026";
+        envMottoTitle = "Environmental Policy";
+        envMottoIntro = "The SDGs (Sustainable Development Goals), adopted at the United Nations Summit in 2015, set the objective of \"Valuing the earth's limited resources and passing them on to future generations.\" MVC has established the following basic policies and behavioral guidelines for all company activities. We require all employees to understand and apply these in practice.";
+        envBasicPhiloTitle = "Basic Philosophy";
+        envBasicPhiloBody = "Through its business activities, MVC contributes to the creation of a prosperous society by making efficient use of limited resources and operating in harmony with the natural and social environment.";
+        envActionTitle = "Action Policy";
+        envAction1 = "To prevent global warming, we will strive to decarbonize and reduce energy consumption in our manufacturing and logistics operations.";
+        envAction2 = "To make efficient use of limited resources and reduce environmental impact, we promote the 3Rs (Reduce, Reuse, Recycle) throughout our business activities, from raw material procurement to disposal and recycling.";
+        envAction3 = "With the aim of conserving and maintaining the natural and social environment, we participate in environmental conservation activities of our business partners and our own company. We will make efforts to protect the environment in all company activities.";
+        envAction4 = "We strive to develop environmentally friendly products and to improve our manufacturing processes and the use of materials and supplies.";
+        envAction5 = "By requiring each employee to proactively and continuously work to reduce environmental impact, we will maximize the overall environmental impact reduction of the entire company.";
+        envMottoDate = "Hung Yen, March 1, 2026";
+        sigName = "MICROTECHNO VIETNAM CO., LTD";
+        sigTitle = "General Director　Mr. Nakata Hiroshi";
+        presMsg1 = "MICROTECHNO VIETNAM CO., LTD (hereinafter referred to as MVC) is an overseas manufacturing subsidiary of MICROTECHNO Co., Ltd. (MTC) of Japan, and a member of the Toyo Advanced Technologies Group. We are responsible for the production of automotive parts in Vietnam. MVC firmly inherits the precision machining technology and quality-oriented spirit that our parent company MTC has cultivated over many years. With our top priorities of \"Safety – Quality – Delivery\", we strive to conduct our manufacturing operations in a way that earns the trust of our customers.";
+        presMsg2 = "Amid the profound changes taking place in the automotive industry, we believe that maintaining and delivering consistent quality is our most important mission. Beyond being a manufacturing base, MVC is committed to growing together with Vietnam. We place particular emphasis on developing our human resources and continuously improving the working environment.";
+        presMsg3 = "We believe that building an environment where every local employee can develop their skills and experience genuine personal growth through their work will strengthen the organization as a whole and contribute to the sustainable development of our company.";
+        presMsg4 = "MVC consistently shares and upholds the core values cherished by the Toyo Advanced Technologies Group: \"Sincerity – Challenge – Continuous Improvement\". At the same time, we continuously drive improvement activities grounded in respect for on-site realities, in order to meet the expectations of customers worldwide. Going forward, through manufacturing built on a foundation of quality and reliability, we will continue to strive to become a company trusted and relied upon by our customers, partners, and local community. All members of MVC will work together with unity to keep taking on new challenges.";
+    }
+    else
+    {
+        pageTitle = "マイクロテクノベトナムについて";
+        philoTitle = "企業理念";
+        philoCatch = "人間尊重を基本とし<br>全員参加と創意工夫により<br>高品質で広く社会に貢献する";
+        msgTitle = "社長メッセージ";
+        vietnamHistTitle = "MICROTECHNO VIETNAM の沿革";
+        qualTitle = "品質方針";
+        qualBody = "顧客満足・社会貢献を目指し、安全・品質・効率を優先した「ものづくり」に取り組みます。また、それを支えるために、教育・訓練を積み重ね、全員参加で品質改善に努めます。";
+        envTitle = "環境方針";
+        envBody = "マイクロテクノ株式会社は、自動車部品の製造に関わる環境負荷低減に向け、継続的改善に取り組みます。法令・規制を遵守し、環境汚染の予防及び地域社会との共生を目指します。";
+        custTitle = "主要取引先";
+        productsTitle = "製品";
+        spoolDesc = "AT（自動変速機）・エンジン";
+        qualMottoTitle = "品質方針";
+        qualMotto1 = "お客様が満足する製品を提供する。";
+        qualMotto2 = "全員参加で業務プロセスの継続的改善を実施する。";
+        qualBasicPhiloTitle = "基本理念";
+        qualBasicPhiloBody = "全員の努力によって品質マネジメントシステムの有効性を継続的に改善し、顧客満足の向上を図る。";
+        qualActionTitle = "行動指針";
+        qualAction1 = "品質方針に基づく品質目標の設定・レビュー、品質計画の実施など、品質マネジメントシステムの構築により品質向上に努める。";
+        qualAction2 = "顧客の要求に正確かつタイムリーに対応し、顧客満足の向上に努める。";
+        qualAction3 = "量産立ち上げプロセスにPDCAサイクルを適用し、新規部品の立ち上げを実施する。";
+        qualAction4 = "量産品質を改善し、工場内の不良品を最小化する。";
+        qualAction5 = "教育・訓練活動を通じて、規則遵守と生産安定化に向けた従業員一人ひとりの意識向上を図る。";
+        qualMottoDate = "フンイェン、2026年3月1日";
+        envMottoTitle = "環境方針";
+        envMottoIntro = "2015年の国連サミットで採択されたSDGs（持続可能な開発目標）は、「地球の限りある資源を大切にし、将来の世代へ引き継いでいく」ことを目標に掲げています。MVCは、会社の活動において以下の基本方針と行動指針を定め、全社員が理解・実践することを求めています。";
+        envBasicPhiloTitle = "基本理念";
+        envBasicPhiloBody = "MVCは、事業活動を通じて、限られた資源を有効活用し、自然環境・社会環境と調和しながら、豊かな社会の実現に貢献します。";
+        envActionTitle = "行動指針";
+        envAction1 = "地球温暖化防止のため、製造・輸送におけるカーボンニュートラル化とエネルギー使用量削減に努めます。";
+        envAction2 = "限られた資源の有効活用と環境負荷低減のため、原材料の調達から廃棄・リサイクルに至るまで、会社活動全体で3R（リデュース・リユース・リサイクル）を推進します。";
+        envAction3 = "自然環境・社会環境の保全・維持を目的として、取引先および自社の環境保全活動に参加し、会社活動における環境保護の取り組みを推進します。";
+        envAction4 = "環境に配慮した製品の開発、製造プロセスの改善、並びに材料・副資材の使用改善に努めます。";
+        envAction5 = "各社員が主体的かつ継続的に環境負荷低減に取り組むことで、全社の環境負荷低減効果を最大化します。";
+        envMottoDate = "フンイェン、2026年3月1日";
+        sigName = "マイクロテクノベトナム有限会社";
+        sigTitle = "社長　中田博史";
+        presMsg1 = "マイクロテクノベトナム（以下、MVC）は、日本のマイクロテクノ株式会社（MTC）の海外生産拠点として、またトーヨーエイテックグループの一員として、ベトナムにおいて自動車部品の製造を担っています。私たちMVCは、親会社であるMTCが長年にわたり培ってきた精密加工技術と品質へのこだわりを確実に受け継ぎ、「安全・品質・納期」を最優先に、お客様から信頼されるものづくりを実践しています。自動車産業を取り巻く環境が大きく変化する中においても、安定した品質を提供し続けることこそが、私たちの最大の使命であると考えています。";
+        presMsg2 = "また、MVCは単なる生産拠点ではなく、ベトナムという地に根ざした企業として、人材の育成と職場環境の向上にも力を入れています。現地社員一人ひとりが技術を磨き、成長を実感しながら働ける環境づくりを通じて、組織全体の力を高めることが、持続的な企業成長につながると信じています。";
+        presMsg3 = "トーヨーエイテックグループが大切にしてきた「誠実」「挑戦」「継続的改善」という価値観を共有し、MVCとしても現地・現物を重視した改善活動を積み重ねることで、グローバルなお客様の期待に応えてまいります。";
+        presMsg4 = "これからも、品質と信頼を軸としたものづくりを通じて、お客様、取引先、そして地域社会から必要とされる企業であり続けることを目指し、社員一丸となって挑戦を続けてまいります。";
+    }
+
+    ViewData["Title"] = pageTitle;
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-about-us.css">
+    <style>
+        .history__item--award .history__year { color:inherit; }
+        .award-card { display:flex; gap:28px; align-items:flex-start; flex:1; }
+        .award-card__body { flex:1; }
+        .award-card__title { font-weight:700; color:#1a2a5e; font-size:1.05em; margin:0 0 3px; }
+        .award-card__sub { font-size:.88em; color:#777; font-style:italic; margin:0 0 10px; }
+        .award-card__desc { font-size:.875em; color:#444; line-height:1.75; margin:0 0 8px; }
+        .award-card__img { flex:0 0 140px; text-align:center; }
+        .award-card__img img { width:100%; max-width:140px; height:auto; display:block; margin:0 auto; }
+        @@media(max-width:600px){
+            .award-card { flex-direction:column-reverse; gap:16px; }
+            .award-card__img { width:120px; }
+        }
+        .iso-badge { margin:30px 0 0; text-align:center; }
+        .iso-badge img { width:128px; height:auto; display:block; margin:0 auto; border:1px solid #eee; border-radius:4px; }
+    </style>
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">about us</div>
+    <h1 class="page-header__main">@pageTitle</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <span class="post post-page current-item">@pageTitle</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <ul class="page-link mt-md">
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="philosophy">@philoTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="message">@msgTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="history-vietnam">@vietnamHistTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="key-customers">@custTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="mvc-products">@productsTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="quality-motto">@qualMottoTitle</a></li>
+            <li class="page-link__item"><a href="#" class="page-link__link" data-anchor="env-motto">@envMottoTitle</a></li>
+        </ul>
+
+        <div class="about-banner" style="margin-top:20px;">
+            <img src="/images/banner-doi-ngu.jpg" alt="" loading="lazy" style="width:100%;height:auto;display:block;border-radius:4px;">
+        </div>
+
+        <section id="philosophy">
+            <h2>@philoTitle</h2>
+            <p class="catch-phrase">@Html.Raw(philoCatch)</p>
+        </section>
+
+        <section id="message">
+            <h2>@msgTitle</h2>
+            <div class="message-txt">
+                <div class="half">
+                    <div class="half__item">
+                        <p>@presMsg1</p>
+                        <p>@presMsg2</p>
+                    </div>
+                    <div class="half__item">
+                        <p>@presMsg3</p>
+                        <p>@presMsg4</p>
+                        <p class="signature">@sigName<br>@Html.Raw(sigTitle)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="history-vietnam">
+            <h2>@vietnamHistTitle</h2>
+            <dl class="history">
+                @if (lang == "ja")
+                {
+                    <div class="history__item"><dt class="history__year">2014</dt><dd><p class="history__month">7月</p><p class="history__txt">工場設立</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2016</dt><dd><p class="history__month">12月</p><p class="history__txt">ISO 9001:2015 取得</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2018</dt><dd><p class="history__month">3月</p><p class="history__txt">ISO 14001:2015 取得</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2018</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Effort for New Project Award 2018 受賞</p><p class="award-card__sub">新規プロジェクト立ち上げ貢献賞</p><p class="award-card__desc">MICROTECHNO VIETNAMは、新規プロジェクトの立ち上げおよび量産化への貢献が評価され、DENSOよりEffort for New Project Award 2018を授与されました。</p><p class="award-card__desc">このアワードは、迅速な対応力、顧客との緊密な連携、そして戦略的プロジェクトにおける品質・納期・安定性の確保に向けた高い責任感を示すものです。</p></div><figure class="award-card__img"><img src="/images/4.png" alt="DENSO Effort for New Project Award 2018" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2019</dt><dd><p class="history__month">8月</p><p class="history__txt">工場拡張：3,200 → 7,890 m²</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">5月</p><p class="history__txt">日本向け輸出開始</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">6月</p><p class="history__txt">メキシコ向け輸出開始</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">10月</p><p class="history__txt">中国向け輸出開始</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2021</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Collaboration Award 2021 受賞</p><p class="award-card__sub">協力・連携貢献賞</p><p class="award-card__desc">2021年、DENSOより生産活動・改善・サプライチェーン発展における効果的な協力体制と積極的な貢献を評価され、Collaboration Award 2021を授与されました。</p><p class="award-card__desc">このアワードはMICROTECHNO VIETNAMとDENSOとの持続的なパートナーシップの証であり、顧客と歩みを共にし長期的な価値を創出する協調力の高さを示すものです。</p></div><figure class="award-card__img"><img src="/images/5.png" alt="DENSO Collaboration Award 2021" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2022</dt><dd><p class="history__month"></p><p class="history__txt">日本向け新規部品輸出開始</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2024</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Quality Contribution Award 2024 受賞</p><p class="award-card__sub">品質貢献賞 2024</p><p class="award-card__desc">2025年のDENSOサプライヤーカンファレンスにて、製品品質の向上とサプライチェーン信頼性への顕著な貢献が評価され、Quality Contribution Award 2024を授与されました。</p><p class="award-card__desc">このアワードは、品質マネジメントシステム、リスク管理能力、そして自動車産業の厳格な要件への対応力に対するお客様からの高い評価を示すものです。</p></div><figure class="award-card__img"><img src="/images/3.png" alt="DENSO Quality Contribution Award 2024" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">佐久間グループより Preferred Supplier 認定（2021年より継続）</p><p class="award-card__sub">優先サプライヤー認定</p><p class="award-card__desc">2025年、MICROTECHNO VIETNAMは引き続き佐久間グループ（日本）よりPreferred Supplier（優先サプライヤー）として認定されました。これは安定した品質維持能力と日本の製造・管理基準への厳格な対応力の証です。</p><p class="award-card__desc">この認定は2021年の初回認定以来継続しており、生産能力・品質管理システム・継続的改善へのコミットメントに対するパートナーからの長期的な信頼を示しています。</p></div><figure class="award-card__img"><img src="/images/1.png" alt="Sasaki Preferred Supplier 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Excellent Cost Award 2025 受賞</p><p class="award-card__sub">コスト最適化優秀賞 2025</p><p class="award-card__desc">MICROTECHNO VIETNAMは、世界有数の自動車部品メーカーであるDENSOより、Excellent Cost Award 2025を受賞しました。</p><p class="award-card__desc">このアワードは、製造プロセスの最適化、業務効率の向上、グローバル品質基準を維持しながらのコスト削減における卓越した取り組みを評価するものです。カイゼン精神と全部門の緊密な連携による成果です。</p></div><figure class="award-card__img"><img src="/images/2.png" alt="DENSO Excellent Cost Award 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">MAZDA MPMT Continuous Quality Supplier Award（3年連続）</p><p class="award-card__sub">「不良ゼロ」品質への貢献 ― 佐久間（タイランド）</p><p class="award-card__desc">2026年6月、佐久間（タイランド）は、Mazda Powertrain Manufacturing Thailand向け購入部品の2024年度品質において「不良ゼロ」を達成し、MAZDA MPMT Continuous Quality Supplier Award（3年連続）を授与されました。</p><p class="award-card__desc">佐久間（タイランド）は、この受賞に重要な役割を果たしたMICROTECHNO VIETNAMの支援と貢献に対し、深い感謝の意を表しました。これは当社の品質管理能力とパートナーとの協働の証です。</p></div><figure class="award-card__img"><img src="/images/7.png" alt="MAZDA MPMT Continuous Quality Supplier Award — Sakuma (Thailand) / MICROTECHNO VIETNAM" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">6月</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Overall Outstanding Award 2026 受賞</p><p class="award-card__sub">総合優秀賞 2026</p><p class="award-card__desc">2026年6月26日、MICROTECHNO VIETNAMはDENSOよりOverall Outstanding Award 2026（総合優秀賞）を授与されました。これは全評価項目において卓越した成果を収めたサプライヤーに贈られる、最高位の総合表彰です。</p><p class="award-card__desc">品質・コスト・納期・協力体制のすべてにおける総合力が高く評価された結果であり、これまで積み重ねてきた継続的改善と、お客様と共に歩む姿勢が実を結んだものです。</p></div><figure class="award-card__img"><img src="/images/8.png" alt="DENSO Overall Outstanding Award 2026" loading="lazy"></figure></div></dd></div>
+                }
+                else if (lang == "vi")
+                {
+                    <div class="history__item"><dt class="history__year">2014</dt><dd><p class="history__month">Tháng 7</p><p class="history__txt">Thành lập nhà máy</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2016</dt><dd><p class="history__month">Tháng 12</p><p class="history__txt">Đạt chứng nhận ISO 9001:2015</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2018</dt><dd><p class="history__month">Tháng 3</p><p class="history__txt">Đạt chứng nhận ISO 14001:2015</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2018</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Effort for New Project Award 2018</p><p class="award-card__sub">Giải thưởng Nỗ lực Triển khai Dự án Mới năm 2018</p><p class="award-card__desc">MICROTECHNO VIETNAM đã được DENSO trao tặng giải thưởng Effort for New Project Award 2018 nhằm ghi nhận những đóng góp tích cực trong quá trình triển khai và đưa các dự án mới vào sản xuất.</p><p class="award-card__desc">Giải thưởng phản ánh khả năng đáp ứng nhanh, phối hợp hiệu quả với khách hàng và tinh thần trách nhiệm cao trong việc đảm bảo tiến độ, chất lượng cũng như tính ổn định của các dự án chiến lược.</p></div><figure class="award-card__img"><img src="/images/4.png" alt="DENSO Effort for New Project Award 2018" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2019</dt><dd><p class="history__month">Tháng 8</p><p class="history__txt">Mở rộng nhà máy: 3,200 → 7,890 m²</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">Tháng 5</p><p class="history__txt">Bắt đầu xuất khẩu sang Nhật Bản</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">Tháng 6</p><p class="history__txt">Bắt đầu xuất khẩu sang Mexico</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">Tháng 10</p><p class="history__txt">Bắt đầu xuất khẩu sang Trung Quốc</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2021</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Collaboration Award 2021</p><p class="award-card__sub">Giải thưởng Hợp tác Xuất sắc năm 2021</p><p class="award-card__desc">Năm 2021, MICROTECHNO VIETNAM vinh dự nhận Collaboration Award từ DENSO nhằm ghi nhận sự hợp tác hiệu quả và những đóng góp tích cực trong hoạt động sản xuất, cải tiến và phát triển chuỗi cung ứng.</p><p class="award-card__desc">Giải thưởng là minh chứng cho mối quan hệ đối tác bền vững giữa MICROTECHNO VIETNAM và DENSO, đồng thời khẳng định năng lực phối hợp, tinh thần đồng hành cùng khách hàng để tạo ra những giá trị lâu dài và bền vững.</p></div><figure class="award-card__img"><img src="/images/5.png" alt="DENSO Collaboration Award 2021" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2022</dt><dd><p class="history__month"></p><p class="history__txt">Bắt đầu triển khai sản xuất G4</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2024</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Quality Contribution Award 2024</p><p class="award-card__sub">Giải thưởng Đóng góp Chất lượng năm 2024</p><p class="award-card__desc">Tại Hội nghị Nhà cung cấp DENSO năm 2025, MICROTECHNO VIETNAM được trao Quality Contribution Award 2024 nhằm ghi nhận những đóng góp nổi bật trong việc nâng cao chất lượng sản phẩm và độ tin cậy của chuỗi cung ứng.</p><p class="award-card__desc">Giải thưởng thể hiện sự đánh giá cao từ khách hàng đối với hệ thống quản lý chất lượng, khả năng kiểm soát rủi ro và cam kết đáp ứng các yêu cầu khắt khe của ngành công nghiệp ô tô.</p></div><figure class="award-card__img"><img src="/images/3.png" alt="DENSO Quality Contribution Award 2024" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">Chứng nhận Nhà cung cấp Ưu tiên năm 2025</p><p class="award-card__sub">Chứng nhận Nhà cung cấp Ưu tiên từ Tập đoàn Sasaki</p><p class="award-card__desc">Năm 2025, MICROTECHNO VIETNAM tiếp tục được Tập đoàn Sasaki (Nhật Bản) công nhận là Nhà cung cấp Ưu tiên (Preferred Supplier). Đây là minh chứng cho năng lực duy trì chất lượng ổn định, đáp ứng nghiêm ngặt các tiêu chuẩn sản xuất và quản lý của khách hàng Nhật Bản.</p><p class="award-card__desc">Danh hiệu này được duy trì từ lần chứng nhận đầu tiên năm 2021, thể hiện sự tin tưởng lâu dài của đối tác đối với năng lực sản xuất, hệ thống kiểm soát chất lượng và cam kết cải tiến liên tục của MICROTECHNO VIETNAM.</p></div><figure class="award-card__img"><img src="/images/1.png" alt="Sasaki Preferred Supplier 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Excellent Cost Award 2025</p><p class="award-card__sub">Giải thưởng Xuất sắc về Tối ưu Chi phí năm 2025</p><p class="award-card__desc">MICROTECHNO VIETNAM vinh dự nhận Excellent Cost Award 2025 từ DENSO – một trong những tập đoàn sản xuất linh kiện ô tô hàng đầu thế giới.</p><p class="award-card__desc">Giải thưởng ghi nhận những nỗ lực vượt trội trong việc tối ưu hóa quy trình sản xuất, nâng cao hiệu quả vận hành và giảm chi phí mà vẫn đảm bảo chất lượng sản phẩm theo tiêu chuẩn toàn cầu. Đây là thành quả của tinh thần cải tiến liên tục (Kaizen) và sự phối hợp chặt chẽ giữa các bộ phận trong toàn công ty.</p></div><figure class="award-card__img"><img src="/images/2.png" alt="DENSO Excellent Cost Award 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">MAZDA MPMT Continuous Quality Supplier Award (3 năm liên tiếp)</p><p class="award-card__sub">Ghi nhận đóng góp cho chất lượng "0 lỗi" — Sakuma (Thailand)</p><p class="award-card__desc">Tháng 6/2026, Sakuma (Thailand) Co., Ltd được trao giải thưởng MAZDA MPMT Continuous Quality Supplier Award (3 năm liên tiếp) nhờ thành tích "0 lỗi" đối với chất lượng linh kiện năm 2024 cung cấp cho Mazda Powertrain Manufacturing Thailand.</p><p class="award-card__desc">Sakuma (Thailand) đã gửi lời tri ân tới MICROTECHNO VIETNAM vì những hỗ trợ và đóng góp quan trọng, góp phần làm nên thành tựu này — minh chứng cho năng lực kiểm soát chất lượng và tinh thần đồng hành cùng đối tác.</p></div><figure class="award-card__img"><img src="/images/7.png" alt="MAZDA MPMT Continuous Quality Supplier Award — Sakuma (Thailand) / MICROTECHNO VIETNAM" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">Tháng 6</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Overall Outstanding Award 2026</p><p class="award-card__sub">Giải thưởng Xuất sắc Toàn diện năm 2026</p><p class="award-card__desc">Ngày 26/06/2026, MICROTECHNO VIETNAM vinh dự nhận giải thưởng Overall Outstanding Award 2026 từ DENSO — danh hiệu cao nhất dành cho nhà cung cấp đạt thành tích xuất sắc trên toàn bộ các tiêu chí đánh giá.</p><p class="award-card__desc">Giải thưởng ghi nhận năng lực toàn diện của công ty về chất lượng, chi phí, tiến độ giao hàng và tinh thần hợp tác. Đây là thành quả của quá trình cải tiến liên tục và sự đồng hành bền bỉ cùng khách hàng trong nhiều năm qua.</p></div><figure class="award-card__img"><img src="/images/8.png" alt="DENSO Overall Outstanding Award 2026" loading="lazy"></figure></div></dd></div>
+                }
+                else
+                {
+                    <div class="history__item"><dt class="history__year">2014</dt><dd><p class="history__month">Jul</p><p class="history__txt">Factory established</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2016</dt><dd><p class="history__month">Dec</p><p class="history__txt">Obtained ISO 9001:2015 certification</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2018</dt><dd><p class="history__month">Mar</p><p class="history__txt">Obtained ISO 14001:2015 certification</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2018</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Effort for New Project Award 2018</p><p class="award-card__sub">Excellence in New Project Launch</p><p class="award-card__desc">MICROTECHNO VIETNAM received the DENSO Effort for New Project Award 2018 in recognition of its active contribution to launching new projects into mass production.</p><p class="award-card__desc">The award reflects our ability to respond quickly, collaborate effectively with customers, and demonstrate a high sense of responsibility in ensuring the schedule, quality, and stability of strategic projects.</p></div><figure class="award-card__img"><img src="/images/4.png" alt="DENSO Effort for New Project Award 2018" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2019</dt><dd><p class="history__month">Aug</p><p class="history__txt">Factory expansion: 3,200 → 7,890 m²</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">May</p><p class="history__txt">Started exports to Japan</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">Jun</p><p class="history__txt">Started exports to Mexico</p></dd></div>
+                    <div class="history__item"><dt class="history__year">2020</dt><dd><p class="history__month">Oct</p><p class="history__txt">Started exports to China</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2021</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Collaboration Award 2021</p><p class="award-card__sub">Excellence in Partnership & Supply Chain</p><p class="award-card__desc">In 2021, MICROTECHNO VIETNAM was honored with the DENSO Collaboration Award, recognizing our effective partnership and positive contributions to manufacturing operations and supply chain development.</p><p class="award-card__desc">The award stands as a testament to the strong partnership between MICROTECHNO VIETNAM and DENSO, affirming our collaborative spirit and commitment to delivering lasting value together.</p></div><figure class="award-card__img"><img src="/images/5.png" alt="DENSO Collaboration Award 2021" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item"><dt class="history__year">2022</dt><dd><p class="history__month"></p><p class="history__txt">Started G4 production implementation</p></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2024</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Quality Contribution Award 2024</p><p class="award-card__sub">Outstanding Quality & Supply Chain Reliability</p><p class="award-card__desc">At the DENSO Supplier Conference 2025, MICROTECHNO VIETNAM received the Quality Contribution Award 2024 for outstanding contributions to product quality improvement and supply chain reliability.</p><p class="award-card__desc">The award reflects our customer's recognition of our quality management system, risk control capabilities, and commitment to meeting the stringent requirements of the automotive industry.</p></div><figure class="award-card__img"><img src="/images/3.png" alt="DENSO Quality Contribution Award 2024" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">Preferred Supplier Certification 2025</p><p class="award-card__sub">Preferred Supplier — Sasaki Group, Japan</p><p class="award-card__desc">In 2025, MICROTECHNO VIETNAM was once again recognized as a Preferred Supplier by Sasaki Group (Japan), demonstrating our sustained capability to maintain consistent quality and meet the rigorous production and management standards of our Japanese customer.</p><p class="award-card__desc">This certification, maintained since our first recognition in 2021, reflects the long-term trust our partner has placed in our manufacturing competency, quality control systems, and commitment to continuous improvement.</p></div><figure class="award-card__img"><img src="/images/1.png" alt="Sasaki Preferred Supplier 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2025</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Excellent Cost Award 2025</p><p class="award-card__sub">Excellence in Operational Efficiency & Cost Optimization</p><p class="award-card__desc">MICROTECHNO VIETNAM is proud to receive the Excellent Cost Award 2025 from DENSO — one of the world's leading automotive parts manufacturers.</p><p class="award-card__desc">The award recognizes our outstanding efforts in optimizing manufacturing processes, improving operational efficiency, and reducing costs while maintaining world-class product quality standards. It is a result of our continuous improvement mindset (Kaizen) and close collaboration across all departments.</p></div><figure class="award-card__img"><img src="/images/2.png" alt="DENSO Excellent Cost Award 2025" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">MAZDA MPMT Continuous Quality Supplier Award (3 Years)</p><p class="award-card__sub">Contribution to Zero-Defect Quality — Sakuma (Thailand)</p><p class="award-card__desc">In June 2026, Sakuma (Thailand) Co., Ltd received the MAZDA MPMT Continuous Quality Supplier Award (3 consecutive years) for achieving "0" defect on the 2024 purchased part quality for Mazda Powertrain Manufacturing Thailand.</p><p class="award-card__desc">Sakuma (Thailand) expressed sincere appreciation to MICROTECHNO VIETNAM for its valuable support and contribution, which played an important role in this achievement — a testament to our quality control capabilities and partnership.</p></div><figure class="award-card__img"><img src="/images/7.png" alt="MAZDA MPMT Continuous Quality Supplier Award — Sakuma (Thailand) / MICROTECHNO VIETNAM" loading="lazy"></figure></div></dd></div>
+                    <div class="history__item history__item--award"><dt class="history__year">2026</dt><dd><p class="history__month">Jun</p><div class="award-card"><div class="award-card__body"><p class="award-card__title">DENSO Overall Outstanding Award 2026</p><p class="award-card__sub">Overall Excellence Across All Evaluation Criteria</p><p class="award-card__desc">On 26 June 2026, MICROTECHNO VIETNAM was honored with the Overall Outstanding Award 2026 from DENSO — the highest overall recognition granted to suppliers achieving excellence across every evaluation criterion.</p><p class="award-card__desc">The award recognizes our comprehensive performance in quality, cost, delivery, and collaboration. It is the culmination of years of continuous improvement and steadfast partnership with our customers.</p></div><figure class="award-card__img"><img src="/images/8.png" alt="DENSO Overall Outstanding Award 2026" loading="lazy"></figure></div></dd></div>
+                }
+            </dl>
+        </section>
+
+        <section id="key-customers">
+            <h2>@custTitle</h2>
+            <ul class="client-list mt-md">
+                <li class="client-list__item">DENSO Manufacturing Vietnam Co., Ltd</li>
+                <li class="client-list__item">Sakuma Special Steel Co., Ltd — Tokai Branch</li>
+                <li class="client-list__item">DENSO Mexico, S.A. de C.V.</li>
+                <li class="client-list__item">DENSO (Guangzhou Nansha) Co., Ltd</li>
+                <li class="client-list__item">Sakuma (Thailand) Co., Ltd.</li>
+            </ul>
+        </section>
+
+        <section id="mvc-products">
+            <h2>@productsTitle</h2>
+            <dl class="product-category mt-md">
+                <div class="product-category__item">
+                    <dt class="product-category__name">Spool &amp; Sleeve</dt>
+                    <dd class="product-category__desc">@spoolDesc</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section id="quality-motto">
+            <h2>@qualMottoTitle</h2>
+            <div class="qm-wrap mt-md">
+                <ol class="qm-main-list">
+                    <li class="qm-main-list__item">@qualMotto1</li>
+                    <li class="qm-main-list__item">@qualMotto2</li>
+                </ol>
+
+                <div class="qm-block mt-md">
+                    <h3 class="qm-block__title">[@qualBasicPhiloTitle]</h3>
+                    <p class="qm-block__body">@qualBasicPhiloBody</p>
+                </div>
+
+                <div class="qm-block mt-md">
+                    <h3 class="qm-block__title">[@qualActionTitle]</h3>
+                    <ol class="qm-action-list">
+                        <li class="qm-action-list__item">@qualAction1</li>
+                        <li class="qm-action-list__item">@qualAction2</li>
+                        <li class="qm-action-list__item">@qualAction3</li>
+                        <li class="qm-action-list__item">@qualAction4</li>
+                        <li class="qm-action-list__item">@qualAction5</li>
+                    </ol>
+                </div>
+
+            </div>
+
+            <figure class="iso-badge">
+                <img src="/images/iso-9001.jpg" alt="ISO 9001 — JQA Certified Management System" loading="lazy">
+            </figure>
+        </section>
+
+        <section id="env-motto">
+            <h2>@envMottoTitle</h2>
+            <div class="qm-wrap mt-md">
+                <p class="qm-intro">@envMottoIntro</p>
+
+                <div class="qm-block mt-md">
+                    <h3 class="qm-block__title">【@envBasicPhiloTitle】</h3>
+                    <p class="qm-block__body">@envBasicPhiloBody</p>
+                </div>
+
+                <div class="qm-block mt-md">
+                    <h3 class="qm-block__title">【@envActionTitle】</h3>
+                    <ul class="qm-bullet-list">
+                        <li class="qm-bullet-list__item">@envAction1</li>
+                        <li class="qm-bullet-list__item">@envAction2</li>
+                        <li class="qm-bullet-list__item">@envAction3</li>
+                        <li class="qm-bullet-list__item">@envAction4</li>
+                        <li class="qm-bullet-list__item">@envAction5</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <figure class="iso-badge">
+                <img src="/images/iso-14001.jpg" alt="ISO 14001 — JQA Certified Management System" loading="lazy">
+            </figure>
+        </section>
+
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

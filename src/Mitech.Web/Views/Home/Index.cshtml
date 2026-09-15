@@ -1,0 +1,193 @@
+@model HomeViewModel
+@{
+    ViewData["BodyClass"] = "home blog wp-custom-logo";
+    Layout = "_Layout";
+    var lang = ViewData["Lang"] as string ?? "vi";
+
+    string C(string key, string fallback) => Model.Get(key, fallback);
+
+    var videoDesktop = C("home.video.desktop", "/images/main-visual.mp4");
+    var videoMobile  = C("home.video.mobile",  "/images/main-visual_sp.mp4");
+
+    string StrImg(string key, string def) {
+        var v = ViewData[key] as string;
+        return string.IsNullOrEmpty(v) ? def : v;
+    }
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/top.css">
+    <style>
+        @@media screen and (min-width: 481px) {
+            .bnr-area__img { aspect-ratio: 450 / 400; height: auto; }
+            .bnr-area__item.-wide .bnr-area__img { aspect-ratio: 2660 / 800; }
+            .bnr-area__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
+        }
+        .section-title__sub { white-space: nowrap; }
+    </style>
+}
+
+<div class="hdr-main">
+    <video class="hdr-main__img" autoplay muted loop playsinline disablePictureInPicture>
+        <source src="@videoDesktop" type="video/mp4" media="(min-width: 481px)">
+        <source src="@videoMobile"  type="video/mp4" media="(max-width: 480px)">
+    </video>
+</div>
+
+<main class="main">
+    <div class="bg-metal inview">
+        <div class="widthBase">
+            <div class="intro-message">
+                <figure class="intro-message__logo">
+                    <img src="@(ViewData["Logo.Mark.Path"])" width="@(ViewData["Logo.Mark.Width"])" style="height:auto" alt="MICROTECHNO" loading="lazy">
+                </figure>
+                <div class="intro-message__txt">
+                    <h1 class="intro-message__main">
+                        <span class="row">@C("home.intro.main1", lang switch { "en" => "Relentless Challenge", "vi" => "Không ngừng", _ => "「精密」への" })</span>
+                        <span class="row">@C("home.intro.main2", lang switch { "en" => "for \"Precision\"", "vi" => "thách thức sự chính xác", _ => "あくなき挑戦" })</span>
+                    </h1>
+                    @{
+                        var sub1 = C("home.intro.sub1", lang switch { "en" => "Pursuing high quality through people and technology.", "vi" => "Theo đuổi chất lượng cao nhờ con người và công nghệ.", _ => "人と技術によるハイクオリティーの追求。" });
+                        var sub2 = C("home.intro.sub2", "");
+                        var sub3 = C("home.intro.sub3", "");
+                    }
+                    <p class="intro-message__sub">
+                        @sub1
+                        @if (!string.IsNullOrEmpty(sub2) || !string.IsNullOrEmpty(sub3))
+                        {
+                            <br>@sub2<br class="tab_und">@sub3
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="widthBase -wide">
+            <div class="strength mt-lg">
+                <div class="strength__title">
+                    <div class="section-title">
+                        <p class="section-title__sub">strength</p>
+                        <h2 class="section-title__main">@C("home.strength.title", lang switch { "en" => "Our Strengths", "vi" => "Thế mạnh của chúng tôi", _ => "私たちの強み" })</h2>
+                    </div>
+                </div>
+                <div class="strength__body">
+                    <ul class="strength-list">
+                        <li class="strength-list__item">
+                            <figure class="strength-list__img">
+                                <img src="@StrImg("StrengthImg1", "/images/img_strength_01.png")" width="330" height="400" alt="" loading="lazy">
+                            </figure>
+                            <p class="strength-list__comment border-txt">
+                                <span class="row">@C("home.strength1.line1", lang switch { "en" => "Trusted manufacturing, highly valued by our customers", "vi" => "Năng lực sản xuất đáng tin cậy được khách hàng đánh giá cao", _ => "お客様から高く評価される「信頼のモノづくり」" })</span>
+                                <span class="row">@C("home.strength1.line2", lang switch { "en" => "Our overall strength in Quality, Cost and Delivery (QCD) is highly regarded, earning numerous customer awards and commendations.", "vi" => "Năng lực tổng thể về Chất lượng – Chi phí – Giao hàng (QCD) được khách hàng đánh giá cao và đã nhận được nhiều giải thưởng, bằng khen từ khách hàng.", _ => "品質・コスト・納期（QCD）の総合力が高く評価され、数々の顧客表彰を受賞。" })</span>
+                                <span class="row">@C("home.strength1.line3", lang switch { "en" => "As a supplier our customers can entrust with confidence, we build and sustain strong, lasting partnerships.", "vi" => "Với vai trò là nhà cung cấp đáng tin cậy, chúng tôi xây dựng và duy trì mối quan hệ hợp tác bền vững, vững chắc với khách hàng.", _ => "「安心して任せられるサプライヤー」として、お客様との強固な信頼関係を築いています。" })</span>
+                            </p>
+                        </li>
+                        <li class="strength-list__item">
+                            <figure class="strength-list__img">
+                                <img src="@StrImg("StrengthImg2", "/images/img_strength_02.png")" width="330" height="400" alt="" loading="lazy">
+                            </figure>
+                            <p class="strength-list__comment border-txt">
+                                <span class="row">@C("home.strength2.line1", lang switch { "en" => "Outstanding machining technology for small-diameter precision parts", "vi" => "Công nghệ gia công vượt trội đối với các chi tiết chính xác đường kính nhỏ", _ => "小径精密部品における圧倒的な加工技術" })</span>
+                                <span class="row">@C("home.strength2.line2", lang switch { "en" => "We hold advanced machining technology capable of handling difficult-to-cut materials, complex geometries, and work demanding high precision and high difficulty.", "vi" => "Sở hữu công nghệ gia công tiên tiến, có khả năng đáp ứng các yêu cầu gia công vật liệu khó cắt, hình dạng phức tạp cũng như các chi tiết có độ chính xác và độ khó cao.", _ => "難削材や複雑形状、高精度・高難度加工にも対応できる高度な加工技術を保有。" })</span>
+                                <span class="row">@C("home.strength2.line3", lang switch { "en" => "Backed by extensive experience and accumulated know-how, we flexibly meet the stringent tolerance and quality requirements of small-diameter precision parts.", "vi" => "Với kinh nghiệm thực tiễn phong phú cùng bí quyết kỹ thuật tích lũy, chúng tôi đáp ứng linh hoạt các yêu cầu khắt khe về dung sai và chất lượng của các chi tiết chính xác đường kính nhỏ.", _ => "小径精密部品に求められる厳しい公差や品質要求にも、豊富な実績とノウハウで柔軟に対応します。" })</span>
+                            </p>
+                        </li>
+                        <li class="strength-list__item">
+                            <figure class="strength-list__img">
+                                <img src="@StrImg("StrengthImg3", "/images/img_strength_03.png")" width="330" height="400" alt="" loading="lazy">
+                            </figure>
+                            <p class="strength-list__comment border-txt">
+                                <span class="row">@C("home.strength3.line1", lang switch { "en" => "Integrated production delivering high quality, short lead times and optimized cost", "vi" => "Hệ thống sản xuất khép kín mang lại chất lượng cao – giao hàng nhanh – chi phí tối ưu", _ => "一貫生産体制が実現する高品質・短納期・低コスト" })</span>
+                                <span class="row">@C("home.strength3.line2", lang switch { "en" => "Our fully integrated production — from material procurement through cutting, surface treatment, assembly and inspection — minimizes variation in quality.", "vi" => "Nhờ hệ thống sản xuất đồng bộ từ khâu mua nguyên vật liệu, gia công cắt gọt, xử lý bề mặt đến lắp ráp và kiểm tra, chúng tôi giảm thiểu tối đa sự biến động về chất lượng.", _ => "材料調達から切削加工、表面処理、組立・検査までの一貫生産体制により、品質のばらつきを最小化。" })</span>
+                                <span class="row">@C("home.strength3.line3", lang switch { "en" => "It also reduces inter-process losses and the risk of delivery delays and cost increases, enabling a stable supply of high value-added products.", "vi" => "Đồng thời, giảm thiểu tổn thất giữa các công đoạn, hạn chế rủi ro chậm tiến độ và gia tăng chi phí, qua đó cung cấp ổn định các sản phẩm có giá trị gia tăng cao.", _ => "工程間ロスや納期遅延、コスト増加のリスクを低減し、高付加価値製品を安定して供給します。" })</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+                     <div class="bnr-area mt-lg">
+                <!-- Hàng 3 mục: Về chúng tôi, Giới thiệu công ty, Địa điểm -->
+                <div class="bnr-area__row">
+                    <div class="bnr-area__item">
+                        <a href="/ve-chung-toi" class="bnr-area__link">
+                            <figure class="bnr-area__img"><img src="@(ViewData["BnrAbout"] is string s2 && s2.Length > 0 ? s2 : "/images/img_bnr_02.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
+                            <div class="bnr-area__txt">
+                                <p class="bnr-area__en">about us</p>
+                                <p class="bnr-area__ja">@C("home.banner.about", lang switch { "en" => "About Us", "vi" => "Về MICROTECHNO", _ => "マイクロテクノベトナムについて" })</p>
+                            </div>
+                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                        </a>
+                    </div>
+                    <div class="bnr-area__item">
+                        <a href="/cong-ty" class="bnr-area__link">
+                            <figure class="bnr-area__img"><img src="@(ViewData["BnrCompany"] is string s3 && s3.Length > 0 ? s3 : "/images/img_bnr_03.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
+                            <div class="bnr-area__txt">
+                                <p class="bnr-area__en">company</p>
+                                <p class="bnr-area__ja">@C("home.banner.company", lang switch { "en" => "Company", "vi" => "Giới thiệu công ty", _ => "会社概要" })</p>
+                            </div>
+                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                        </a>
+                    </div>
+                    <div class="bnr-area__item">
+                        <a href="/dia-diem" class="bnr-area__link">
+                            <figure class="bnr-area__img"><img src="@(ViewData["BnrLocations"] is string s4 && s4.Length > 0 ? s4 : "/images/img_bnr_04.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
+                            <div class="bnr-area__txt">
+                                <p class="bnr-area__en">locations</p>
+                                <p class="bnr-area__ja">@C("home.banner.locations", lang switch { "en" => "Locations", "vi" => "Thông tin địa điểm", _ => "拠点情報" })</p>
+                            </div>
+                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hàng Sản phẩm (ảnh ngang lớn) chuyển xuống dưới -->
+                <div class="bnr-area__row">
+                    <div class="bnr-area__item -wide">
+                        <a href="/san-pham" class="bnr-area__link">
+                            <figure class="bnr-area__img"><img src="@(ViewData["BnrProducts"] is string s1 && s1.Length > 0 ? s1 : "/images/img_bnr_01-2.jpg")" width="2660" height="800" alt="" loading="lazy"></figure>
+                            <div class="bnr-area__txt">
+                                <p class="bnr-area__en">products</p>
+                                <p class="bnr-area__ja">@C("home.banner.products", lang switch { "en" => "Products", "vi" => "Sản phẩm", _ => "製品情報" })</p>
+                            </div>
+                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="widthBase">
+        <div class="news mt-lg">
+            <div class="news__head">
+                <div class="news__title">
+                    <p class="news__en">news</p>
+                    <h2 class="news__ja"><a href="/tin-tuc" class="hidden-link">@C("home.news.heading", lang switch { "en" => "News", "vi" => "Tin tức", _ => "新着情報" })</a></h2>
+                </div>
+                <a href="/tin-tuc" class="btn-mini mt-sm">@C("home.news.more", lang switch { "en" => "View all news", "vi" => "Xem tất cả tin tức", _ => "新着情報の一覧を見る" })</a>
+            </div>
+            <div class="news__body news-list">
+                @foreach (var article in Model.LatestNews)
+                {
+                    <article class="news-list__item">
+                        <div class="news-list__info">
+                            <time class="news-list__date" datetime="@article.PublishedAt.ToString("yyyy-MM-dd")">
+                                @article.PublishedAt.ToString("dd/MM/yyyy")
+                            </time>
+                            <a href="/tin-tuc/danh-muc/@article.Category.Slug" class="news-list__category">@article.Category.GetName(lang)</a>
+                        </div>
+                        <h3 class="news-list__title">
+                            <a href="/tin-tuc/@article.Id">@article.GetTitle(lang)
+                                <span class="arrow-svg -blue"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                            </a>
+                        </h3>
+                    </article>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-lg"></div>
+    @await Html.PartialAsync("_ConversionSection")
+</main>

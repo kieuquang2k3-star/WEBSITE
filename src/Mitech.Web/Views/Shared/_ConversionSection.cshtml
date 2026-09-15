@@ -1,0 +1,74 @@
+@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    string contactHeading, contactSubtitle, telLabel, hoursLabel, hoursVal, closedLabel, closedVal, formLabel, formBtn;
+
+    if (lang == "vi")
+    {
+        contactHeading = "Liên hệ với chúng tôi";
+        contactSubtitle = "Vui lòng liên hệ với chúng tôi về các yêu cầu<br>tư vấn sản phẩm hoặc kỹ thuật.";
+        telLabel = "Liên hệ qua điện thoại";
+        hoursLabel = "Giờ làm việc";
+        hoursVal = "8:15〜17:00";
+        closedLabel = "Ngày nghỉ";
+        closedVal = "Thứ 7 & Chủ nhật";
+        formLabel = "Liên hệ qua email";
+        formBtn = "Trang liên hệ";
+    }
+    else if (lang == "en")
+    {
+        contactHeading = "Contact Us";
+        contactSubtitle = "Please feel free to contact us regarding product<br>or technical consultations and requests.";
+        telLabel = "Phone inquiry";
+        hoursLabel = "Hours";
+        hoursVal = "8:15〜17:00";
+        closedLabel = "Closed";
+        closedVal = "Sat &amp; Sun";
+        formLabel = "Email inquiry";
+        formBtn = "Contact page";
+    }
+    else
+    {
+        contactHeading = "お問い合わせ";
+        contactSubtitle = "製品や技術に関するご相談・ご依頼など、<br>お気軽にお問い合わせください。";
+        telLabel = "お電話でのお問い合わせ";
+        hoursLabel = "受付時間";
+        hoursVal = "8:15〜17:00";
+        closedLabel = "定休日";
+        closedVal = "土・日";
+        formLabel = "メールフォームでのお問い合わせ";
+        formBtn = "お問い合わせページ";
+    }
+}
+<div class="conversion inview">
+    <div class="widthBase">
+        <div class="conversion__title">
+            <div class="section-title">
+                <p class="section-title__sub">contact</p>
+                <h2 class="section-title__main"><a href="/lien-he" class="hidden-link">@contactHeading</a></h2>
+            </div>
+        </div>
+        <div class="conversion__body mt-md">
+            <div class="conversion__comment">
+                <p>@Html.Raw(contactSubtitle)</p>
+            </div>
+            <div class="conversion__cnt">
+                <div class="conversion__item">
+                    <p class="title-mini">@telLabel</p>
+                    <div class="tel mt-mini">
+                                        <a href="tel:02213974544" class="tel__num" style="white-space:nowrap;">tel.<span class="fz-lg">022-1397-4544</span></a>
+                        <dl class="tel__info">
+                            <dt>@hoursLabel</dt><dd>@hoursVal</dd>
+                        </dl>
+                        <dl class="tel__info">
+                            <dt>@closedLabel</dt><dd>@Html.Raw(closedVal)</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="conversion__item">
+                    <p class="title-mini">@formLabel</p>
+                    <a href="/lien-he" class="conversion-btn mt-mini">@formBtn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

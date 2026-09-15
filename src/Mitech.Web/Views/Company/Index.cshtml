@@ -1,0 +1,143 @@
+﻿@{
+    var lang = ViewData["Lang"] as string ?? "vi";
+    var breadcrumbHome = lang == "ja" ? "HOME（マイクロテクノベトナム有限会社）" : "HOME（MICROTECHNO VIETNAM CO., LTD）";
+
+    string title, sub, heading, sectionTitle, accessTitle;
+    string fName, fEstablished, fCapital, fRepresentative, fEmployees, fBusiness, fLocation, fArea, fParent;
+    string vName, vEstablished, vCapital, vRepresentative, vEmployees, vBusiness, vLocation, vArea, vParent;
+    string mapAddress, mapAccess;
+
+    if (lang == "en")
+    {
+        ViewData["Title"] = "Company Profile";
+        title = "Company Profile"; sub = "company";
+        sectionTitle = "Company Profile";
+        accessTitle  = "Access";
+        fName           = "Company Name";
+        fEstablished    = "Established";
+        fCapital        = "Capital";
+        fRepresentative = "Representative";
+        fEmployees      = "Employees";
+        fBusiness       = "Business";
+        fLocation       = "Location";
+        fArea           = "Factory Area";
+        fParent         = "Parent Company";
+        vName           = "Microtechno Vietnam Co., Ltd. (MVC)";
+        vEstablished    = "July 2014";
+        vCapital        = "USD 4.4 million";
+        vRepresentative = "Mr. Nakata Hiroshi – General Director";
+        vEmployees      = "240 (including 3 Japanese managers)";
+        vBusiness       = "Automotive parts manufacturing (Spool &amp; Sleeve for AT automatic transmissions &amp; engines)";
+        vLocation       = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province, Vietnam";
+        vArea           = "7,890 m²";
+        vParent         = "Microtechno Japan Co., Ltd. (MTC) – Member of Toyo Advanced Technologies Group";
+        mapAddress      = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province, Vietnam";
+        mapAccess       = "TEL <a href=\"tel:02213974544\">022-1397-4544</a>";
+    }
+    else if (lang == "ja")
+    {
+        ViewData["Title"] = "会社概要";
+        title = "会社概要"; sub = "company";
+        sectionTitle = "会社概要";
+        accessTitle  = "アクセス";
+        fName           = "会社名";
+        fEstablished    = "設立";
+        fCapital        = "資本金";
+        fRepresentative = "代表者";
+        fEmployees      = "従業員数";
+        fBusiness       = "事業内容";
+        fLocation       = "所在地";
+        fArea           = "工場面積";
+        fParent         = "親会社";
+        vName           = "マイクロテクノベトナム有限会社 (MVC)";
+        vEstablished    = "2014年7月";
+        vCapital        = "440万米ドル";
+        vRepresentative = "中田博史";
+        vEmployees      = "240名（日本人管理者3名）";
+        vBusiness       = "自動車部品製造（AT自動変速機・エンジン用スプール＆スリーブ）";
+        vLocation       = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province, Vietnam";
+        vArea           = "7,890 m²";
+        vParent         = "マイクロテクノ株式会社 (MTC) – 東洋先端技術グループ";
+        mapAddress      = "Plot J3,4 (RF-12), Thang Long Industrial Park II, Duong Hao Ward, Hung Yen Province, Vietnam";
+        mapAccess       = "TEL <a href=\"tel:02213974544\">022-1397-4544</a>";
+    }
+    else
+    {
+        ViewData["Title"] = "Giới thiệu công ty";
+        title = "Giới thiệu công ty"; sub = "company";
+        sectionTitle = "Hồ sơ công ty";
+        accessTitle  = "Vị trí";
+        fName           = "Tên công ty";
+        fEstablished    = "Ngày thành lập";
+        fCapital        = "Vốn điều lệ";
+        fRepresentative = "Người đại diện";
+        fEmployees      = "Số lượng nhân viên";
+        fBusiness       = "Nội dung kinh doanh";
+        fLocation       = "Vị trí";
+        fArea           = "Diện tích nhà máy";
+        fParent         = "Công ty mẹ";
+        vName           = "Công ty TNHH Microtechno Việt Nam (MVC)";
+        vEstablished    = "Tháng 7 năm 2014";
+        vCapital        = "4,4 triệu USD";
+        vRepresentative = "Ông Nakata Hiroshi – Tổng Giám đốc";
+        vEmployees      = "240 người (3 quản lý người Nhật)";
+        vBusiness       = "Sản xuất linh kiện ô tô (Spool &amp; Sleeve cho hộp số tự động AT &amp; động cơ)";
+        vLocation       = "Lô J3,4 (RF-12), Khu công nghiệp Thăng Long II, Phường Dương Hào, Tỉnh Hưng Yên, Việt Nam";
+        vArea           = "7.890 m²";
+        vParent         = "Công ty Microtechno Nhật Bản (MTC) – Thành viên Tập đoàn Toyo Advanced Technologies";
+        mapAddress      = "Lô J3,4 (RF-12), Khu công nghiệp Thăng Long II, Phường Dương Hào, Tỉnh Hưng Yên, Việt Nam";
+        mapAccess       = "TEL <a href=\"tel:02213974544\">022-1397-4544</a>";
+    }
+
+    ViewData["BodyClass"] = "page-company";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-company.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">@sub</div>
+    <h1 class="page-header__main">@title</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">@breadcrumbHome</a> &gt;
+        <span class="post post-page current-item">@title</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section">
+        <h2>@sectionTitle</h2>
+        <table class="sp_set">
+            <tr><th>@fName</th><td>@vName</td></tr>
+            <tr><th>@fEstablished</th><td>@vEstablished</td></tr>
+            <tr><th>@fCapital</th><td>@vCapital</td></tr>
+            <tr><th>@fRepresentative</th><td>@vRepresentative</td></tr>
+            <tr><th>@fEmployees</th><td>@vEmployees</td></tr>
+            <tr><th>@fBusiness</th><td>@Html.Raw(vBusiness)</td></tr>
+            <tr><th>@fLocation</th><td><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;vertical-align:middle;flex-shrink:0;"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg>@vLocation</td></tr>
+            <tr><th>@fArea</th><td>@vArea</td></tr>
+            <tr><th>@fParent</th><td>@vParent</td></tr>
+        </table>
+
+        <h2>@accessTitle</h2>
+        <div class="access-map" style="display:flex;gap:24px;align-items:flex-start;">
+            <div class="access-map__img" style="flex:0 0 50%;max-width:50%;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3727.1350229056616!2d106.08090469999999!3d20.906886699999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a3002ebcd73d%3A0x58a8a511c77a5035!2sC%C3%94NG%20TY%20TNHH%20MICROTECHNO%20VI%E1%BB%86T%20NAM!5e0!3m2!1svi!2s!4v1780633781883!5m2!1svi!2s"
+                        width="100%" height="450" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="access-map__info" style="flex:0 0 50%;max-width:50%;">
+                <img src="/images/logo.png" alt="MICROTECHNO VIETNAM" style="max-width:220px;height:auto;display:block;margin-bottom:12px;">
+                <img src="/images/mitech-banner.jpg" alt="MICROTECHNO VIETNAM CO.,LTD" style="max-width:70%;height:auto;display:block;margin-bottom:12px;">
+                <p>@mapAddress<br>@Html.Raw(mapAccess)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

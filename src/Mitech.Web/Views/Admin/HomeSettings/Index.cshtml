@@ -1,0 +1,522 @@
+@{
+    ViewData["Title"] = "Cài đặt trang web";
+    Layout = "_AdminLayout";
+
+    var videoDesktop  = ViewData["VideoDesktop"] as string ?? string.Empty;
+    var videoMobile   = ViewData["VideoMobile"]  as string ?? string.Empty;
+    var recruitVideo  = ViewData["RecruitVideo"] as string ?? string.Empty;
+    var tripVideo       = ViewData["TripVideo"]       as string ?? string.Empty;
+    var insuranceVideo  = ViewData["InsuranceVideo"]  as string ?? string.Empty;
+
+    var bnrProducts  = ViewData["BnrProducts"]  as string ?? string.Empty;
+    var bnrAbout     = ViewData["BnrAbout"]     as string ?? string.Empty;
+    var bnrCompany   = ViewData["BnrCompany"]   as string ?? string.Empty;
+    var bnrLocations = ViewData["BnrLocations"] as string ?? string.Empty;
+
+    var headerPath  = ViewData["HeaderLogoPath"]  as string ?? string.Empty;
+    var headerWidth = ViewData["HeaderLogoWidth"] as string ?? "321";
+    var footerPath  = ViewData["FooterLogoPath"]  as string ?? string.Empty;
+    var footerWidth = ViewData["FooterLogoWidth"] as string ?? "321";
+    var markPath    = ViewData["MarkLogoPath"]    as string ?? string.Empty;
+    var markWidth   = ViewData["MarkLogoWidth"]   as string ?? "259";
+    var faviconPath = ViewData["FaviconPath"] as string ?? "/favicon.png";
+
+    var strengthImg1 = ViewData["StrengthImg1"] as string ?? string.Empty;
+    var strengthImg2 = ViewData["StrengthImg2"] as string ?? string.Empty;
+    var strengthImg3 = ViewData["StrengthImg3"] as string ?? string.Empty;
+
+    var textContent = ViewData["TextContent"] as Dictionary<string, Dictionary<string, string>>
+                      ?? new Dictionary<string, Dictionary<string, string>>();
+
+    string T(string lang, string key, string fallback = "") =>
+        textContent.TryGetValue(lang, out var d) && d.TryGetValue(key, out var v) ? v : fallback;
+}
+
+<h1>Cài đặt trang web</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@* ====== LOGO ====== *@
+<div class="admin-card">
+    <h2>Logo</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveLogo" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+
+            @* Header logo *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px;">Logo header &amp; menu</h3>
+                @if (!string.IsNullOrEmpty(headerPath))
+                {
+                    <div class="form-group">
+                        <label>Hiện tại</label><br>
+                        <img src="@headerPath" style="max-width:180px;height:auto;border:1px solid #eee;padding:4px;border-radius:4px;" alt="">
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Mặc định: <code>/images/logo.png</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="headerLogoFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="headerLogoUrl" class="form-control" value="@headerPath" placeholder="/images/logo.png">
+                </div>
+                <div class="form-group">
+                    <label>Chiều rộng hiển thị (px)</label>
+                    <input type="number" name="headerLogoWidth" class="form-control" value="@headerWidth" min="50" max="800">
+                </div>
+            </div>
+
+            @* Footer logo *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px;">Logo footer</h3>
+                @if (!string.IsNullOrEmpty(footerPath))
+                {
+                    <div class="form-group">
+                        <label>Hiện tại</label><br>
+                        <img src="@footerPath" style="max-width:180px;height:auto;border:1px solid #eee;padding:4px;border-radius:4px;background:#333;" alt="">
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Mặc định: <code>/images/logo_sub.png</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="footerLogoFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="footerLogoUrl" class="form-control" value="@footerPath" placeholder="/images/logo_sub.png">
+                </div>
+                <div class="form-group">
+                    <label>Chiều rộng hiển thị (px)</label>
+                    <input type="number" name="footerLogoWidth" class="form-control" value="@footerWidth" min="50" max="800">
+                </div>
+            </div>
+
+            @* Mark logo *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px;">Logo mark (trang chủ)</h3>
+                @if (!string.IsNullOrEmpty(markPath))
+                {
+                    <div class="form-group">
+                        <label>Hiện tại</label><br>
+                        <img src="@markPath" style="max-width:100px;height:auto;border:1px solid #eee;padding:4px;border-radius:4px;" alt="">
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Mặc định: <code>/images/logo-mark.png</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="markLogoFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="markLogoUrl" class="form-control" value="@markPath" placeholder="/images/logo-mark.png">
+                </div>
+                <div class="form-group">
+                    <label>Chiều rộng hiển thị (px)</label>
+                    <input type="number" name="markLogoWidth" class="form-control" value="@markWidth" min="50" max="600">
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Lưu logo</button>
+    </form>
+</div>
+
+@* ====== FAVICON ====== *@
+<div class="admin-card" style="margin-top:24px;">
+    <h2>Favicon</h2>
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveFavicon" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div style="display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;">
+            <div>
+                <label>Favicon hiện tại</label><br>
+                <img src="@faviconPath" style="width:32px;height:32px;border:1px solid #eee;padding:4px;border-radius:4px;" alt="favicon">
+                <p style="margin:4px 0 0;font-size:0.8rem;color:#666;">@faviconPath</p>
+            </div>
+            <div style="flex:1;min-width:260px;">
+                <div class="form-group">
+                    <label>Upload file mới (.ico, .png, .svg, .jpg, .jpeg, .webp)</label>
+                    <input type="file" name="faviconFile" class="form-control" accept=".ico,.png,.svg,.jpg,.jpeg,.webp">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="faviconUrl" class="form-control" value="@faviconPath" placeholder="/favicon.png">
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu favicon</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@* ====== BANNER IMAGES ====== *@
+<div class="admin-card" style="margin-top:24px;">
+    <h2>Ảnh banner trang chủ</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveBannerImages" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+            @* Products *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 10px;border-bottom:1px solid #eee;padding-bottom:6px;">Sản phẩm (ảnh ngang lớn)</h3>
+                @if (!string.IsNullOrEmpty(bnrProducts))
+                {
+                    <img src="@bnrProducts" style="width:100%;max-height:120px;object-fit:cover;border-radius:4px;margin-bottom:8px;" alt="">
+                    <p style="font-size:0.8rem;color:#666;margin-bottom:8px;">@bnrProducts</p>
+                }
+                else
+                {
+                    <p class="text-muted" style="font-size:0.85rem;">Mặc định: <code>/images/img_bnr_01-2.jpg</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="productsFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="productsUrl" class="form-control" value="@bnrProducts" placeholder="/images/img_bnr_01-2.jpg">
+                </div>
+            </div>
+
+            @* About *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 10px;border-bottom:1px solid #eee;padding-bottom:6px;">Về chúng tôi</h3>
+                @if (!string.IsNullOrEmpty(bnrAbout))
+                {
+                    <img src="@bnrAbout" style="width:100%;max-height:120px;object-fit:cover;border-radius:4px;margin-bottom:8px;" alt="">
+                    <p style="font-size:0.8rem;color:#666;margin-bottom:8px;">@bnrAbout</p>
+                }
+                else
+                {
+                    <p class="text-muted" style="font-size:0.85rem;">Mặc định: <code>/images/img_bnr_02.jpg</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="aboutFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="aboutUrl" class="form-control" value="@bnrAbout" placeholder="/images/img_bnr_02.jpg">
+                </div>
+            </div>
+
+            @* Company *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 10px;border-bottom:1px solid #eee;padding-bottom:6px;">Giới thiệu công ty</h3>
+                @if (!string.IsNullOrEmpty(bnrCompany))
+                {
+                    <img src="@bnrCompany" style="width:100%;max-height:120px;object-fit:cover;border-radius:4px;margin-bottom:8px;" alt="">
+                    <p style="font-size:0.8rem;color:#666;margin-bottom:8px;">@bnrCompany</p>
+                }
+                else
+                {
+                    <p class="text-muted" style="font-size:0.85rem;">Mặc định: <code>/images/img_bnr_03.jpg</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="companyFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="companyUrl" class="form-control" value="@bnrCompany" placeholder="/images/img_bnr_03.jpg">
+                </div>
+            </div>
+
+            @* Locations *@
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 10px;border-bottom:1px solid #eee;padding-bottom:6px;">Địa điểm</h3>
+                @if (!string.IsNullOrEmpty(bnrLocations))
+                {
+                    <img src="@bnrLocations" style="width:100%;max-height:120px;object-fit:cover;border-radius:4px;margin-bottom:8px;" alt="">
+                    <p style="font-size:0.8rem;color:#666;margin-bottom:8px;">@bnrLocations</p>
+                }
+                else
+                {
+                    <p class="text-muted" style="font-size:0.85rem;">Mặc định: <code>/images/img_bnr_04.jpg</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload ảnh mới</label>
+                    <input type="file" name="locationsFile" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="locationsUrl" class="form-control" value="@bnrLocations" placeholder="/images/img_bnr_04.jpg">
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:16px;">Lưu ảnh banner</button>
+    </form>
+</div>
+
+@* ====== STRENGTH IMAGES ====== *@
+<div class="admin-card" style="margin-top:24px;">
+    <h2>Ảnh phần Thế mạnh</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveStrengthImages" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+
+            @foreach (var item in new[] {
+                (num: 1, label: "Thế mạnh 01", img: strengthImg1, name: "img1", def: "/images/img_strength_01.png"),
+                (num: 2, label: "Thế mạnh 02", img: strengthImg2, name: "img2", def: "/images/img_strength_02.png"),
+                (num: 3, label: "Thế mạnh 03", img: strengthImg3, name: "img3", def: "/images/img_strength_03.png"),
+            })
+            {
+                <div>
+                    <h3 style="font-size:1rem;margin:0 0 10px;border-bottom:1px solid #eee;padding-bottom:6px;">@item.label</h3>
+                    @{
+                        var displayImg = !string.IsNullOrEmpty(item.img) ? item.img : item.def;
+                    }
+                    <img src="@displayImg" style="width:100%;max-height:150px;object-fit:cover;border-radius:4px;margin-bottom:8px;" alt="">
+                    <p style="font-size:0.8rem;color:#666;margin-bottom:8px;">@(string.IsNullOrEmpty(item.img) ? $"Mặc định: {item.def}" : item.img)</p>
+                    <div class="form-group">
+                        <label>Upload ảnh mới</label>
+                        <input type="file" name="@(item.name)File" class="form-control" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>Hoặc nhập URL</label>
+                        <input type="text" name="@(item.name)Url" class="form-control" value="@item.img" placeholder="@item.def">
+                    </div>
+                </div>
+            }
+
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:16px;">Lưu ảnh Thế mạnh</button>
+    </form>
+</div>
+
+@* ====== VIDEO ====== *@
+<div class="admin-card">
+    <h2>Video nền trang chủ</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveVideo" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px;">Máy tính (≥ 481px)</h3>
+                @if (!string.IsNullOrEmpty(videoDesktop))
+                {
+                    <div class="form-group">
+                        <video src="@videoDesktop" style="width:100%;max-height:160px;background:#000;border-radius:4px;" controls muted></video>
+                        <p class="text-muted" style="margin-top:4px;font-size:0.8rem;">@videoDesktop</p>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Mặc định: <code>/images/main-visual.mp4</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload file .mp4</label>
+                    <input type="file" name="desktopFile" class="form-control" accept="video/mp4,video/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="desktopUrl" class="form-control" value="@videoDesktop" placeholder="/images/main-visual.mp4">
+                </div>
+            </div>
+
+            <div>
+                <h3 style="font-size:1rem;margin:0 0 12px;border-bottom:1px solid #eee;padding-bottom:6px;">Di động (≤ 480px)</h3>
+                @if (!string.IsNullOrEmpty(videoMobile))
+                {
+                    <div class="form-group">
+                        <video src="@videoMobile" style="width:100%;max-height:160px;background:#000;border-radius:4px;" controls muted></video>
+                        <p class="text-muted" style="margin-top:4px;font-size:0.8rem;">@videoMobile</p>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Mặc định: <code>/images/main-visual_sp.mp4</code></p>
+                }
+                <div class="form-group">
+                    <label>Upload file .mp4</label>
+                    <input type="file" name="mobileFile" class="form-control" accept="video/mp4,video/*">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc nhập URL</label>
+                    <input type="text" name="mobileUrl" class="form-control" value="@videoMobile" placeholder="/images/main-visual_sp.mp4">
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Lưu video</button>
+    </form>
+</div>
+
+@* ====== VIDEO TUYỂN DỤNG ====== *@
+<div class="admin-card">
+    <h2>Video quyền lợi tuyển dụng</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveRecruitVideo" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @if (!string.IsNullOrEmpty(recruitVideo))
+        {
+            <div class="form-group">
+                <video src="@recruitVideo" style="width:100%;max-height:160px;background:#000;border-radius:4px;" controls muted></video>
+                <p class="text-muted" style="margin-top:4px;font-size:0.8rem;">@recruitVideo</p>
+            </div>
+        }
+        <div class="form-group">
+            <label>Upload file .mp4</label>
+            <input type="file" name="videoFile" class="form-control" accept="video/mp4,video/*">
+        </div>
+        <div class="form-group">
+            <label>Hoặc nhập URL</label>
+            <input type="text" name="videoUrl" class="form-control" value="@recruitVideo" placeholder="/uploads/videos/quyen-loi.mp4">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Lưu video</button>
+    </form>
+</div>
+
+@* ====== VIDEO BẢO HIỂM TAI NẠN ====== *@
+<div class="admin-card">
+    <h2>Video bảo hiểm tai nạn lao động 24h</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveInsuranceVideo" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @if (!string.IsNullOrEmpty(insuranceVideo))
+        {
+            <div class="form-group">
+                <video src="@insuranceVideo" style="width:100%;max-height:160px;background:#000;border-radius:4px;" controls muted></video>
+                <p class="text-muted" style="margin-top:4px;font-size:0.8rem;">@insuranceVideo</p>
+            </div>
+        }
+        <div class="form-group">
+            <label>Upload file .mp4</label>
+            <input type="file" name="videoFile" class="form-control" accept="video/mp4,video/*">
+        </div>
+        <div class="form-group">
+            <label>Hoặc nhập URL</label>
+            <input type="text" name="videoUrl" class="form-control" value="@insuranceVideo" placeholder="/uploads/videos/bao-hiem.mp4">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Lưu video</button>
+    </form>
+</div>
+
+@* ====== VIDEO DU LỊCH CÔNG TY ====== *@
+<div class="admin-card">
+    <h2>Video du lịch công ty</h2>
+    <form asp-controller="HomeSettingsAdmin" asp-action="SaveTripVideo" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @if (!string.IsNullOrEmpty(tripVideo))
+        {
+            <div class="form-group">
+                <video src="@tripVideo" style="width:100%;max-height:160px;background:#000;border-radius:4px;" controls muted></video>
+                <p class="text-muted" style="margin-top:4px;font-size:0.8rem;">@tripVideo</p>
+            </div>
+        }
+        <div class="form-group">
+            <label>Upload file .mp4</label>
+            <input type="file" name="videoFile" class="form-control" accept="video/mp4,video/*">
+        </div>
+        <div class="form-group">
+            <label>Hoặc nhập URL</label>
+            <input type="text" name="videoUrl" class="form-control" value="@tripVideo" placeholder="/uploads/videos/du-lich.mp4">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top:8px;">Lưu video</button>
+    </form>
+</div>
+
+@* ====== NỘI DUNG VĂN BẢN ====== *@
+<div class="admin-card">
+    <h2>Nội dung văn bản trang chủ</h2>
+
+    <ul class="nav nav-tabs mb-3" id="langTabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-vi">Tiếng Việt</button></li>
+        <li class="nav-item"><button class="nav-link"        data-bs-toggle="tab" data-bs-target="#tab-ja">日本語</button></li>
+        <li class="nav-item"><button class="nav-link"        data-bs-toggle="tab" data-bs-target="#tab-en">English</button></li>
+    </ul>
+
+    <div class="tab-content">
+        @foreach (var (lang, labelLang) in new[] { ("vi", "VI"), ("ja", "JA"), ("en", "EN") })
+        {
+            <div class="tab-pane fade @(lang == "vi" ? "show active" : "")" id="tab-@lang">
+                <form asp-controller="HomeSettingsAdmin" asp-action="SaveText" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="lang" value="@lang">
+
+                    <h3 style="font-size:1rem;margin:16px 0 8px;color:#555;">Lời giới thiệu</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="form-group">
+                            <label>Tiêu đề dòng 1</label>
+                            <input type="text" name="home.intro.main1" class="form-control" value="@T(lang, "home.intro.main1")">
+                        </div>
+                        <div class="form-group">
+                            <label>Tiêu đề dòng 2</label>
+                            <input type="text" name="home.intro.main2" class="form-control" value="@T(lang, "home.intro.main2")">
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Đoạn văn 1</label>
+                        <input type="text" name="home.intro.sub1" class="form-control" value="@T(lang, "home.intro.sub1")">
+                    </div>
+                    <div class="form-group">
+                        <label>Đoạn văn 2</label>
+                        <input type="text" name="home.intro.sub2" class="form-control" value="@T(lang, "home.intro.sub2")">
+                    </div>
+                    <div class="form-group">
+                        <label>Đoạn văn 3</label>
+                        <input type="text" name="home.intro.sub3" class="form-control" value="@T(lang, "home.intro.sub3")">
+                    </div>
+
+                    <h3 style="font-size:1rem;margin:16px 0 8px;color:#555;">Thế mạnh</h3>
+                    <div class="form-group">
+                        <label>Tiêu đề mục</label>
+                        <input type="text" name="home.strength.title" class="form-control" value="@T(lang, "home.strength.title")">
+                    </div>
+                    @for (int i = 1; i <= 3; i++)
+                    {
+                        <div style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;">
+                            <div class="form-group">
+                                <label>Thế mạnh @i — tiêu đề</label>
+                                <input type="text" name="home.strength@(i).line1" class="form-control" value="@T(lang, $"home.strength{i}.line1")">
+                            </div>
+                            <div class="form-group">
+                                <label>Thế mạnh @i — mô tả (đoạn 1)</label>
+                                <textarea name="home.strength@(i).line2" class="form-control" rows="2">@T(lang, $"home.strength{i}.line2")</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Thế mạnh @i — mô tả (đoạn 2)</label>
+                                <textarea name="home.strength@(i).line3" class="form-control" rows="2">@T(lang, $"home.strength{i}.line3")</textarea>
+                            </div>
+                        </div>
+                    }
+
+                    <h3 style="font-size:1rem;margin:16px 0 8px;color:#555;">Banner</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="form-group"><label>Sản phẩm</label><input type="text" name="home.banner.products"  class="form-control" value="@T(lang, "home.banner.products")"></div>
+                        <div class="form-group"><label>Về chúng tôi</label><input type="text" name="home.banner.about"  class="form-control" value="@T(lang, "home.banner.about")"></div>
+                        <div class="form-group"><label>Công ty</label><input type="text" name="home.banner.company"  class="form-control" value="@T(lang, "home.banner.company")"></div>
+                        <div class="form-group"><label>Địa điểm</label><input type="text" name="home.banner.locations" class="form-control" value="@T(lang, "home.banner.locations")"></div>
+                    </div>
+
+                    <h3 style="font-size:1rem;margin:16px 0 8px;color:#555;">Tin tức</h3>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div class="form-group"><label>Tiêu đề mục</label><input type="text" name="home.news.heading" class="form-control" value="@T(lang, "home.news.heading")"></div>
+                        <div class="form-group"><label>Nút "Xem tất cả"</label><input type="text" name="home.news.more" class="form-control" value="@T(lang, "home.news.more")"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Lưu nội dung @labelLang</button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

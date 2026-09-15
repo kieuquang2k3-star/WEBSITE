@@ -1,0 +1,124 @@
+@{
+    var lang = Context.Request.Cookies["lang"] ?? "vi";
+
+    string pageTitle, headerMain, breadcrumbLabel, intro;
+
+    var companyName = lang switch {
+        "en" => "MICROTECHNO VIETNAM CO., LTD",
+        "ja" => "マイクロテクノベトナム有限会社",
+        _    => "CÔNG TY TNHH MICROTECHNO VIỆT NAM"
+    };
+
+    var items = new List<(string Title, string Line1, string Line2)>();
+
+    if (lang == "en")
+    {
+        pageTitle      = "Purchase Policy";
+        headerMain     = "Purchase Policy";
+        breadcrumbLabel = "Purchase Policy";
+        intro = $"{companyName} conducts its procurement activities based on the following purchase policy in cooperation with our suppliers to reliably deliver trusted components to our customers.";
+
+        items.Add(("Prioritizing Stable Supply",
+            "We give top priority to stable supply for our key customers,",
+            "building a supply system resilient to fluctuations."));
+        items.Add(("Thoroughly Strengthening QCD and Proposing Added Value",
+            "We thoroughly strengthen quality, cost, and delivery,",
+            "while promoting VE proposals and shorter lead times."));
+        items.Add(("Legal Compliance",
+            "We conduct transparent price negotiations,",
+            "and review payment terms as needed."));
+        items.Add(("Building Trusted Relationships",
+            "We turn our vision and ideals into concrete action,",
+            "to improve the quality of our collaboration."));
+        items.Add(("Promoting Green Procurement",
+            "We promote green procurement",
+            "to reduce our environmental impact."));
+    }
+    else if (lang == "ja")
+    {
+        pageTitle      = "購買方針";
+        headerMain     = "購買方針";
+        breadcrumbLabel = "購買方針";
+        intro = $"{companyName}は、お客様から信頼される部品を安定してお届けするため、下記の購買方針に基づき仕入先様と協力しながら購買活動を行います。";
+
+        items.Add(("安定供給の最優先",
+            "主要顧客への安定供給を最優先にし、",
+            "変動に強い供給体制の構築"));
+        items.Add(("QCD徹底強化と付加価値提案",
+            "品質・コスト・納期を徹底強化し、",
+            "VE提案やリードタイム短縮を推進"));
+        items.Add(("法令の遵守",
+            "明示的な価格協議の実施、",
+            "支払い条件見直しの検討"));
+        items.Add(("信頼関係の構築",
+            "理想像を実行レベルに落とし込み、",
+            "協業の質を向上"));
+        items.Add(("グリーン調達の推進",
+            "環境負荷を軽減させるため、",
+            "グリーン調達を推進"));
+    }
+    else
+    {
+        pageTitle      = "Chính sách mua hàng";
+        headerMain     = "Chính sách mua hàng";
+        breadcrumbLabel = "Chính sách mua hàng";
+        intro = $"{companyName} thực hiện hoạt động mua hàng dựa trên các chính sách dưới đây, phối hợp cùng các nhà cung cấp để cung cấp linh kiện đáng tin cậy cho khách hàng một cách ổn định.";
+
+        items.Add(("Ưu tiên hàng đầu là đảm bảo nguồn cung ổn định",
+            "Ưu tiên cao nhất việc cung cấp ổn định cho các khách hàng chủ lực,",
+            "Xây dựng hệ thống cung ứng có khả năng ứng phó tốt với các biến động."));
+        items.Add(("Tăng cường triệt để QCD và đề xuất giá trị gia tăng",
+            "Tăng cường triệt để về chất lượng, chi phí và thời hạn giao hàng,",
+            "đồng thời thúc đẩy các đề xuất VE (Kỹ thuật gia tăng giá trị) và rút ngắn thời gian giao hàng."));
+        items.Add(("Tuân thủ pháp luật",
+            "Thực hiện các cuộc thương lượng giá một cách minh bạch,",
+            "đồng thời xem xét việc rà soát lại các điều kiện thanh toán."));
+        items.Add(("Xây dựng mối quan hệ tin cậy",
+            "Cụ thể hóa mục tiêu, lý tưởng thành các hành động thực tế,",
+            "nhằm nâng cao chất lượng hợp tác."));
+        items.Add(("Thúc đẩy mua sắm xanh",
+            "Thúc đẩy hoạt động mua sắm xanh nhằm giảm thiểu tác động đến môi trường.",
+            ""));
+    }
+
+    ViewData["Title"] = pageTitle;
+    ViewData["BodyClass"] = "page-purchase";
+}
+
+@section PageCss {
+    <link rel="stylesheet" href="/css/page.css">
+    <link rel="stylesheet" href="/css/pages/page-purchase.css">
+}
+
+<header class="page-header inview">
+    <div class="page-header__sub" lang="en">purchase policy</div>
+    <h1 class="page-header__main">@headerMain</h1>
+</header>
+
+<div class="widthBase">
+    <div class="breadcrumb" itemprop="breadcrumb">
+        <a href="/" class="home">HOME（@companyName）</a> &gt;
+        <span class="post post-page current-item">@breadcrumbLabel</span>
+    </div>
+</div>
+
+<div class="widthBase">
+    <div class="section policy-card-list">
+        <p>@intro</p>
+
+        @foreach (var item in items)
+        {
+            <h2>@item.Title</h2>
+            <p class="border-txt policy-card__desc">
+                <span class="row">@item.Line1</span>
+                @if (!string.IsNullOrEmpty(item.Line2))
+                {
+                    <span class="row">@item.Line2</span>
+                }
+            </p>
+        }
+    </div>
+</div>
+
+<div class="mt-lg"></div>
+@await Html.PartialAsync("_ConversionSection")

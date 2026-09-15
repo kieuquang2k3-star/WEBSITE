@@ -1,0 +1,22 @@
+bin/
+obj/
+*.user
+.vs/
+.vscode/
+*.suo
+*.userprefs
+appsettings.Development.json
+mockup/
+*.db
+*.db-shm
+*.db-wal
+
+# Admin-uploaded runtime media — lives on the server, not in source control
+# (GitHub also rejects individual files over 100MB without Git LFS)
+src/Mitech.Web/wwwroot/uploads/
+src/Mitech.Web/wwwroot/images/main-visual.mp4
+src/Mitech.Web/wwwroot/images/main-visual_sp.mp4
+
+# scratch/build junk
+*.log
+publish_out/

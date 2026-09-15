@@ -1,0 +1,157 @@
+@model Mitech.Web.Models.JobPosition
+@{
+    ViewData["Title"] = "Sửa vị trí tuyển dụng";
+    Layout = "_AdminLayout";
+}
+
+@section HeadExtra {
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.css">
+    <style>
+        .video-upload-wrap { border:1px solid #d0d7e6; border-radius:6px; padding:16px; background:#fafbfd; }
+        .video-preview { margin-top:12px; }
+        .video-preview video, .video-preview iframe { max-width:100%; border-radius:4px; }
+        .video-url-row { display:flex; gap:8px; align-items:center; }
+        .video-url-row input { flex:1; }
+        .btn-upload-vid { white-space:nowrap; }
+    </style>
+}
+
+<h1>Sửa vị trí tuyển dụng</h1>
+<a href="/admin/jobs" class="btn btn-secondary btn-sm" style="margin-bottom:16px;">← Quay lại</a>
+
+<div class="admin-card">
+    <form asp-controller="JobsAdmin" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden">
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom:12px;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div class="form-group">
+                <label>Tiêu đề (Tiếng Việt) *</label>
+                <input asp-for="TitleVi" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Tiêu đề (Tiếng Nhật)</label>
+                <input asp-for="TitleJa" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Tiêu đề (Tiếng Anh)</label>
+                <input asp-for="TitleEn" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Mô tả ngắn (VI)</label>
+                <textarea asp-for="ShortDescVi" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Mô tả ngắn (JA)</label>
+                <textarea asp-for="ShortDescJa" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Mô tả ngắn (EN)</label>
+                <textarea asp-for="ShortDescEn" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Nội dung chi tiết (VI) — HTML</label>
+                <textarea asp-for="DetailVi" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Nội dung chi tiết (JA) — HTML</label>
+                <textarea asp-for="DetailJa" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Nội dung chi tiết (EN) — HTML</label>
+                <textarea asp-for="DetailEn" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Mức lương / Đãi ngộ (VI)</label>
+                <input asp-for="SalaryVi" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Mức lương / Đãi ngộ (JA)</label>
+                <input asp-for="SalaryJa" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Mức lương / Đãi ngộ (EN)</label>
+                <input asp-for="SalaryEn" class="form-control">
+            </div>
+            <div class="form-group" style="grid-column:1/-1">
+                <label>Video nội dung chi tiết</label>
+                <div class="video-upload-wrap">
+                    <div class="video-url-row">
+                        <input asp-for="VideoUrl" id="VideoUrl" class="form-control" placeholder="Dán URL YouTube hoặc upload file MP4/WebM...">
+                        <label class="btn btn-secondary btn-upload-vid" style="cursor:pointer;margin:0;">
+                            📁 Upload video
+                            <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/mov,.mp4,.webm,.mov,.avi" style="display:none">
+                        </label>
+                    </div>
+                    <div id="uploadProgress" style="display:none;margin-top:8px;font-size:.85rem;color:#666;">Đang upload...</div>
+                    <div class="video-preview" id="videoPreview"></div>
+                </div>
+                <small class="text-muted">Hỗ trợ: upload file MP4/WebM hoặc dán URL YouTube (https://youtu.be/... hoặc https://www.youtube.com/...)</small>
+            </div>
+            <div class="form-group">
+                <label>Slug URL</label>
+                <input asp-for="Slug" class="form-control">
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Thứ tự hiển thị</label>
+                <input asp-for="SortOrder" type="number" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Trạng thái</label><br>
+                <input asp-for="IsActive" type="checkbox"> Hiển thị công khai
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+    </form>
+</div>
+
+@section Scripts {
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+['DetailVi', 'DetailJa', 'DetailEn'].forEach(function(id) {
+    ClassicEditor.create(document.getElementById(id), {
+        simpleUpload: { uploadUrl: '/admin/upload/image' }
+    }).catch(console.error);
+});
+
+// Video upload & preview
+function renderVideoPreview(url) {
+    var preview = document.getElementById('videoPreview');
+    if (!url) { preview.innerHTML = ''; return; }
+    var ytMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+    if (ytMatch) {
+        preview.innerHTML = '<iframe width="480" height="270" src="https://www.youtube.com/embed/' + ytMatch[1] + '" frameborder="0" allowfullscreen></iframe>';
+    } else {
+        preview.innerHTML = '<video controls style="max-width:480px;max-height:270px;"><source src="' + url + '">Trình duyệt không hỗ trợ video.</video>';
+    }
+}
+
+var urlInput = document.getElementById('VideoUrl');
+renderVideoPreview(urlInput.value);
+urlInput.addEventListener('input', function() { renderVideoPreview(this.value); });
+
+document.getElementById('videoFileInput').addEventListener('change', function() {
+    var file = this.files[0];
+    if (!file) return;
+    var progress = document.getElementById('uploadProgress');
+    progress.style.display = 'block';
+    progress.textContent = 'Đang upload ' + file.name + '...';
+    var fd = new FormData();
+    fd.append('upload', file);
+    fetch('/admin/upload/video', { method: 'POST', body: fd })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            progress.style.display = 'none';
+            if (data.url) {
+                urlInput.value = data.url;
+                renderVideoPreview(data.url);
+            } else {
+                alert(data.error || 'Upload thất bại.');
+            }
+        })
+        .catch(function() { progress.style.display = 'none'; alert('Lỗi kết nối.'); });
+});
+</script>
+}
