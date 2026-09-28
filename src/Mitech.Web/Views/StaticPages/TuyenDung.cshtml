@@ -27,30 +27,30 @@
         breadcrumb  = "採用情報";
 
         heroTag     = R("recruit.hero.tag", "日系100%出資企業　·　タンロンII工業団地 J3,4区画（フンイェン省）");
-        heroTitle   = R("recruit.hero.title", "男女作業員　100名　急募");
+        heroTitle   = R("recruit.hero.title", "男女作業員　急募");
         heroDesc    = R("recruit.hero.desc", "自動車部品製造　·　Mazda – Toyota – Honda");
         heroIncome  = R("recruit.hero.income.label", "月収");
         heroIncomeVal = R("recruit.hero.income.value", "800万〜1,500万 VND/月");
         stat1Label  = R("recruit.stat1.label", "基本給"); stat1Val = R("recruit.stat1.value", "6,070,000 VND");
-        stat2Label  = R("recruit.stat2.label", "固定手当"); stat2Val = R("recruit.stat2.value", "1,200,000 VND");
+        stat2Label  = R("recruit.stat2.label", "手当"); stat2Val = R("recruit.stat2.value", "1,200,000 VND~");
         stat3Label  = R("recruit.stat3.label", "旧正月ボーナス 2025〜2026"); stat3Val = R("recruit.stat3.value", "給与2.2か月分");
-        heroContact = R("recruit.hero.contact", "お問い合わせ：<strong>0221 397 4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00");
+        heroContact = R("recruit.hero.contact", "お問い合わせ：<strong>022-1397-4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00");
 
         secJobs    = "募集職種";
         secJobsCta = "詳細を見る →";
 
         secSchedule  = R("recruit.schedule.heading", "勤務時間");
         schedNote    = R("recruit.schedule.note", "平均 22.3日/月　·　8時間/日　·　休日：日曜4日＋土曜2日/月");
-        sAdminLabel  = R("recruit.schedule.admin.label", "行政（一般）："); sAdminVal = R("recruit.schedule.admin.value", "08:15〜17:00");
-        sDayLabel    = R("recruit.schedule.day.label", "日勤（行政）："); sDayVal   = R("recruit.schedule.day.value", "08:15〜17:00");
-        sNightLabel  = R("recruit.schedule.night.label", "夜勤（行政）："); sNightVal = R("recruit.schedule.night.value", "20:15〜05:00");
+        sAdminLabel  = R("recruit.schedule.admin.label", "常日勤（一般）："); sAdminVal = R("recruit.schedule.admin.value", "08:15〜17:00");
+        sDayLabel    = R("recruit.schedule.day.label", "日勤："); sDayVal   = R("recruit.schedule.day.value", "08:15〜17:00");
+        sNightLabel  = R("recruit.schedule.night.label", "夜勤："); sNightVal = R("recruit.schedule.night.value", "20:15〜05:00");
         sProdLabel   = R("recruit.schedule.prod.label", "生産シフト：");
         sShift1 = R("recruit.schedule.shift1", "シフト1：06:00〜14:00"); sShift2 = R("recruit.schedule.shift2", "シフト2：14:00〜22:00"); sShift3 = R("recruit.schedule.shift3", "シフト3：22:00〜06:00");
         sFixedLabel  = R("recruit.schedule.fixed.label", "固定シフト："); sFixedVal = R("recruit.schedule.fixed.value", "06:00〜14:40"); sFixedNote = R("recruit.schedule.fixed.note", "（希望によりシフト変更なし）");
 
         secBenefits = "待遇・福利厚生";
         b1 = "試用期間中も初月から100%給与支給";
-        b2 = "社員紹介ボーナス：紹介者・被紹介者ともに1,500,000 VND";
+        b2 = "社員紹介ボーナス：紹介者・被紹介者ともに就労期間に応じて最大1,500,000 VND";
         b3 = "夜勤手当：基本給＋30%";
         b4 = "祝祭日特別食事補助：100,000〜150,000 VND/回";
         b5 = "24時間労働災害保険";
@@ -212,8 +212,10 @@
         .schedule-block--admin { background:#e8f5e9; border-color:#43a047; grid-column:1/-1; }
         .schedule-block--day   { background:#eef4ff; border-color:#3b82f6; }
         .schedule-block--night { background:#f0eeff; border-color:#8b5cf6; }
-        .schedule-block--prod  { background:#ecfdf5; border-color:#10b981; grid-column:1/-1; }
+        .schedule-block--prod  { background:#ecfdf5; border-color:#10b981; }
         .schedule-block--fixed { background:#fff7ed; border-color:#f59e0b; grid-column:1/-1; }
+        .schedule-shift-row { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+        @@media(max-width:520px){ .schedule-shift-row { grid-template-columns:1fr; } }
         .schedule-block__label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#888; margin-bottom:6px; }
         .schedule-block__time  { font-size:1.2rem; font-weight:800; color:#1a2a5e; }
         .schedule-block__note  { font-size:.78rem; color:#888; font-style:italic; margin-top:4px; }
@@ -334,18 +336,29 @@
                 <div class="schedule-block__label">@sNightLabel</div>
                 <div class="schedule-block__time">@sNightVal</div>
             </div>
-            <div class="schedule-block schedule-block--prod">
-                <div class="schedule-block__label">@sProdLabel</div>
-                <div class="schedule-block__shifts">
-                    <span class="schedule-shift-badge">@sShift1</span>
-                    <span class="schedule-shift-badge">@sShift2</span>
-                    <span class="schedule-shift-badge">@sShift3</span>
+            @{
+                (string label, string val) SplitShift(string s)
+                {
+                    var idx = s.IndexOfAny(['：', ':']);
+                    return idx < 0 ? (s, "") : (s[..idx].Trim(), s[(idx + 1)..].Trim());
+                }
+                var shift1 = SplitShift(sShift1);
+                var shift2 = SplitShift(sShift2);
+                var shift3 = SplitShift(sShift3);
+            }
+            <div class="schedule-shift-row">
+                <div class="schedule-block schedule-block--prod">
+                    <div class="schedule-block__label">@shift1.label</div>
+                    <div class="schedule-block__time">@shift1.val</div>
                 </div>
-            </div>
-            <div class="schedule-block schedule-block--fixed">
-                <div class="schedule-block__label">@sFixedLabel</div>
-                <div class="schedule-block__time">@sFixedVal</div>
-                <div class="schedule-block__note">@sFixedNote</div>
+                <div class="schedule-block schedule-block--prod">
+                    <div class="schedule-block__label">@shift2.label</div>
+                    <div class="schedule-block__time">@shift2.val</div>
+                </div>
+                <div class="schedule-block schedule-block--prod">
+                    <div class="schedule-block__label">@shift3.label</div>
+                    <div class="schedule-block__time">@shift3.val</div>
+                </div>
             </div>
         </div>
     </div>

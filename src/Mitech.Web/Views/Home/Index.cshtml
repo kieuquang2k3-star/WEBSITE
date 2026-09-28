@@ -106,9 +106,18 @@
                 </div>
             </div>
 
-                     <div class="bnr-area mt-lg">
-                <!-- Hàng 3 mục: Về chúng tôi, Giới thiệu công ty, Địa điểm -->
+            <div class="bnr-area mt-lg">
                 <div class="bnr-area__row">
+                    <div class="bnr-area__item">
+                        <a href="/dia-diem" class="bnr-area__link">
+                            <figure class="bnr-area__img"><img src="@(ViewData["BnrLocations"] is string s4 && s4.Length > 0 ? s4 : "/images/img_bnr_04.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
+                            <div class="bnr-area__txt">
+                                <p class="bnr-area__en">locations</p>
+                                <p class="bnr-area__ja">@C("home.banner.locations", lang switch { "en" => "Locations", "vi" => "Thông tin địa điểm", _ => "拠点情報" })</p>
+                            </div>
+                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
+                        </a>
+                    </div>
                     <div class="bnr-area__item">
                         <a href="/ve-chung-toi" class="bnr-area__link">
                             <figure class="bnr-area__img"><img src="@(ViewData["BnrAbout"] is string s2 && s2.Length > 0 ? s2 : "/images/img_bnr_02.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
@@ -129,19 +138,7 @@
                             <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
                         </a>
                     </div>
-                    <div class="bnr-area__item">
-                        <a href="/dia-diem" class="bnr-area__link">
-                            <figure class="bnr-area__img"><img src="@(ViewData["BnrLocations"] is string s4 && s4.Length > 0 ? s4 : "/images/img_bnr_04.jpg")" width="450" height="400" alt="" loading="lazy"></figure>
-                            <div class="bnr-area__txt">
-                                <p class="bnr-area__en">locations</p>
-                                <p class="bnr-area__ja">@C("home.banner.locations", lang switch { "en" => "Locations", "vi" => "Thông tin địa điểm", _ => "拠点情報" })</p>
-                            </div>
-                            <span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span>
-                        </a>
-                    </div>
                 </div>
-
-                <!-- Hàng Sản phẩm (ảnh ngang lớn) chuyển xuống dưới -->
                 <div class="bnr-area__row">
                     <div class="bnr-area__item -wide">
                         <a href="/san-pham" class="bnr-area__link">

@@ -37,7 +37,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<IPageContentService, PageContentService>();
 builder.Services.AddSingleton<ILanguageService, Mitech.Web.Services.LanguageService>();
 
-builder.Services.AddControllersWithViews()
+builder.Services.AddControllersWithViews(o => o.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
     .AddRazorOptions(o => o.ViewLocationExpanders.Add(new Mitech.Web.Infrastructure.AdminViewLocationExpander()));
 
 var app = builder.Build();

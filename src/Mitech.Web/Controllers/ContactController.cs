@@ -30,11 +30,11 @@ public class ContactController : BasePublicController
         {
             CompanyName = vm.CompanyName,
             ContactName = vm.ContactName,
-            Furigana = vm.Furigana,
+            Furigana = vm.Furigana ?? string.Empty,
             Email = vm.Email,
             Phone = vm.Phone,
-            ZipCode = vm.ZipCode,
-            Address = vm.Address,
+            ZipCode = vm.ZipCode ?? string.Empty,
+            Address = vm.Address ?? string.Empty,
             Message = vm.Message,
             ReceivedAt = DateTime.UtcNow
         });

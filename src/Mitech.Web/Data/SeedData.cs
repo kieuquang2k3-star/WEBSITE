@@ -35,6 +35,8 @@ public static class SeedData
         await SeedJobPositionsAsync(db);
         await EnsureVisualInspectionJobAsync(db);
         await SeedRecruitContentAsync(db);
+        await EnsureRecruitHeroJaTextAsync(db);
+        await EnsureInsuranceVideoClearedAsync(db);
     }
 
     private static async Task SeedAdminAsync(IServiceProvider services, IConfiguration config)
@@ -527,7 +529,7 @@ public static class SeedData
             ("recruit.hero.tag",   "ja", "日系100%出資企業　·　タンロンII工業団地 J3,4区画（フンイェン省）"),
             ("recruit.hero.tag",   "en", "100% Japanese-owned company · Thang Long Industrial Park II, Hung Yen Province"),
             ("recruit.hero.title", "vi", "TUYỂN GẤP 100 NAM NỮ CÔNG NHÂN"),
-            ("recruit.hero.title", "ja", "男女作業員　100名　急募"),
+            ("recruit.hero.title", "ja", "男女作業員　急募"),
             ("recruit.hero.title", "en", "URGENTLY HIRING 100 WORKERS"),
             ("recruit.hero.desc",  "vi", "Sản xuất linh kiện ô tô &nbsp;·&nbsp; Mazda – Toyota – Honda"),
             ("recruit.hero.desc",  "ja", "自動車部品製造　·　Mazda – Toyota – Honda"),
@@ -539,7 +541,7 @@ public static class SeedData
             ("recruit.hero.income.value", "ja", "800万〜1,500万 VND/月"),
             ("recruit.hero.income.value", "en", "8 – 15 million VND/month"),
             ("recruit.hero.contact", "vi", "Liên hệ ngay: <strong>0221 397 4544</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Phỏng vấn: Thứ 2–Thứ 6 &amp; Thứ 7 cách tuần · 8:30–16:00"),
-            ("recruit.hero.contact", "ja", "お問い合わせ：<strong>0221 397 4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00"),
+            ("recruit.hero.contact", "ja", "お問い合わせ：<strong>022-1397-4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00"),
             ("recruit.hero.contact", "en", "Contact us: <strong>0221 397 4544</strong>&nbsp;&nbsp;|&nbsp;&nbsp;Interviews: Mon–Fri &amp; every other Sat · 8:30–16:00"),
 
             ("recruit.stat1.label", "vi", "Lương cơ bản"),
@@ -549,10 +551,10 @@ public static class SeedData
             ("recruit.stat1.value", "ja", "6,070,000 VND"),
             ("recruit.stat1.value", "en", "6,070,000 VND"),
             ("recruit.stat2.label", "vi", "Phụ cấp cố định"),
-            ("recruit.stat2.label", "ja", "固定手当"),
+            ("recruit.stat2.label", "ja", "手当"),
             ("recruit.stat2.label", "en", "Fixed allowances"),
             ("recruit.stat2.value", "vi", "1.200.000 đ"),
-            ("recruit.stat2.value", "ja", "1,200,000 VND"),
+            ("recruit.stat2.value", "ja", "1,200,000 VND~"),
             ("recruit.stat2.value", "en", "1,200,000 VND"),
             ("recruit.stat3.label", "vi", "Thưởng Tết 2025–2026"),
             ("recruit.stat3.label", "ja", "旧正月ボーナス 2025〜2026"),
@@ -568,19 +570,19 @@ public static class SeedData
             ("recruit.schedule.note", "ja", "平均 22.3日/月　·　8時間/日　·　休日：日曜4日＋土曜2日/月"),
             ("recruit.schedule.note", "en", "Average 22.3 days/month · 8 hours/day · Days off: 4 Sundays + 2 Saturdays/month"),
             ("recruit.schedule.admin.label", "vi", "Hành chính:"),
-            ("recruit.schedule.admin.label", "ja", "行政（一般）："),
+            ("recruit.schedule.admin.label", "ja", "常日勤（一般）："),
             ("recruit.schedule.admin.label", "en", "Office:"),
             ("recruit.schedule.admin.value", "vi", "08:15 – 17:00"),
             ("recruit.schedule.admin.value", "ja", "08:15〜17:00"),
             ("recruit.schedule.admin.value", "en", "08:15 – 17:00"),
             ("recruit.schedule.day.label", "vi", "Hành chính ngày:"),
-            ("recruit.schedule.day.label", "ja", "日勤（行政）："),
+            ("recruit.schedule.day.label", "ja", "日勤："),
             ("recruit.schedule.day.label", "en", "Day shift (office):"),
             ("recruit.schedule.day.value", "vi", "08:15 – 17:00"),
             ("recruit.schedule.day.value", "ja", "08:15〜17:00"),
             ("recruit.schedule.day.value", "en", "08:15 – 17:00"),
             ("recruit.schedule.night.label", "vi", "Hành chính đêm:"),
-            ("recruit.schedule.night.label", "ja", "夜勤（行政）："),
+            ("recruit.schedule.night.label", "ja", "夜勤："),
             ("recruit.schedule.night.label", "en", "Night shift (office):"),
             ("recruit.schedule.night.value", "vi", "20:15 – 05:00"),
             ("recruit.schedule.night.value", "ja", "20:15〜05:00"),
@@ -610,6 +612,63 @@ public static class SeedData
 
         db.PageContents.AddRange(entries.Select(e =>
             new PageContent { PageKey = e.key, Lang = e.lang, Value = e.value }));
+        await db.SaveChangesAsync();
+    }
+
+    // Banner + khối "Thời gian làm việc" (JA) trên trang Tuyển dụng: bỏ "100名", chuẩn hóa
+    // số điện thoại có dấu gạch, đổi nhãn ca. Dùng cờ phiên bản (không so khớp giá trị cũ)
+    // để đảm bảo chắc chắn áp dụng đúng — kể cả khi DB đang ở một giá trị trung gian nào đó.
+    private const string RecruitHeroJaTextVersion = "2";
+
+    private static readonly (string key, string lang, string value)[] RecruitHeroJaText =
+    [
+        ("recruit.hero.title",   "ja", "男女作業員　急募"),
+        ("recruit.hero.contact", "ja", "お問い合わせ：<strong>022-1397-4544</strong><br>面接：月〜金・隔週土曜　8:30〜16:00"),
+        ("recruit.stat2.label",  "ja", "手当"),
+        ("recruit.stat2.value",  "ja", "1,200,000 VND~"),
+        ("recruit.schedule.admin.label", "ja", "常日勤（一般）："),
+        ("recruit.schedule.day.label",   "ja", "日勤："),
+        ("recruit.schedule.night.label", "ja", "夜勤："),
+    ];
+
+    private static async Task EnsureRecruitHeroJaTextAsync(ApplicationDbContext db)
+    {
+        const string markerKey = "recruit.hero.jaTextVersion";
+
+        var marker = await db.PageContents.FirstOrDefaultAsync(p => p.PageKey == markerKey && p.Lang == "global");
+        if (marker?.Value == RecruitHeroJaTextVersion) return;
+
+        foreach (var (key, lang, value) in RecruitHeroJaText)
+        {
+            var existing = await db.PageContents.FirstOrDefaultAsync(p => p.PageKey == key && p.Lang == lang);
+            if (existing is null)
+                db.PageContents.Add(new PageContent { PageKey = key, Lang = lang, Value = value });
+            else
+                existing.Value = value;
+        }
+
+        if (marker is null)
+            db.PageContents.Add(new PageContent { PageKey = markerKey, Lang = "global", Value = RecruitHeroJaTextVersion });
+        else
+            marker.Value = RecruitHeroJaTextVersion;
+
+        await db.SaveChangesAsync();
+    }
+
+    // "Video bảo hiểm tai nạn" trên trang Tuyển dụng đang trỏ tới một file cũ dù thực tế
+    // không có video thật cho mục này — icon ▶ chỉ hiện khi trường này có giá trị, nên xóa
+    // giá trị để icon tự động biến mất. Chạy một lần (đánh dấu qua marker), không xóa lại
+    // nếu admin đã tự tải video khác lên sau đó.
+    private static async Task EnsureInsuranceVideoClearedAsync(ApplicationDbContext db)
+    {
+        const string markerKey = "recruitment.insurance.video.clearedOnce";
+
+        if (await db.PageContents.AnyAsync(p => p.PageKey == markerKey && p.Lang == "global")) return;
+
+        var existing = await db.PageContents.FirstOrDefaultAsync(p => p.PageKey == "recruitment.insurance.video" && p.Lang == "global");
+        if (existing is not null) existing.Value = string.Empty;
+
+        db.PageContents.Add(new PageContent { PageKey = markerKey, Lang = "global", Value = "1" });
         await db.SaveChangesAsync();
     }
 

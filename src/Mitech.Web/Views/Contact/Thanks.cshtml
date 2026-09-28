@@ -1,5 +1,39 @@
 @{
-    ViewData["Title"] = "お問い合わせありがとうございます";
+    var lang = ViewData["Lang"] as string ?? "vi";
+    string pageTitle, headerSub, headerMain, thanksTitle, thanksBody1, thanksBody2, thanksBody3, backBtn;
+
+    if (lang == "ja")
+    {
+        pageTitle = "お問い合わせありがとうございます";
+        headerSub = "contact"; headerMain = "お問い合わせ";
+        thanksTitle = "お問い合わせありがとうございます";
+        thanksBody1 = "この度はお問い合わせいただきありがとうございます。";
+        thanksBody2 = "担当者より折り返しご連絡いたします。";
+        thanksBody3 = "しばらくお待ちください。";
+        backBtn = "トップページへ戻る";
+    }
+    else if (lang == "en")
+    {
+        pageTitle = "Thank you for your inquiry";
+        headerSub = "contact"; headerMain = "Contact";
+        thanksTitle = "Thank you for your inquiry";
+        thanksBody1 = "Thank you for contacting us.";
+        thanksBody2 = "A member of our staff will get back to you shortly.";
+        thanksBody3 = "Please wait a moment.";
+        backBtn = "Back to top page";
+    }
+    else
+    {
+        pageTitle = "Cảm ơn bạn đã liên hệ";
+        headerSub = "contact"; headerMain = "Liên hệ";
+        thanksTitle = "Cảm ơn bạn đã liên hệ";
+        thanksBody1 = "Cảm ơn quý khách đã gửi liên hệ đến chúng tôi.";
+        thanksBody2 = "Bộ phận phụ trách sẽ liên hệ lại với quý khách trong thời gian sớm nhất.";
+        thanksBody3 = "Vui lòng chờ trong giây lát.";
+        backBtn = "Quay lại trang chủ";
+    }
+
+    ViewData["Title"] = pageTitle;
 }
 
 @section PageCss {
@@ -7,17 +41,17 @@
 }
 
 <header class="page-header inview">
-    <div class="page-header__sub" lang="en">contact</div>
-    <h1 class="page-header__main" lang="ja">お問い合わせ</h1>
+    <div class="page-header__sub" lang="en">@headerSub</div>
+    <h1 class="page-header__main">@headerMain</h1>
 </header>
 
 <div class="widthBase">
     <div class="section">
-        <h2>お問い合わせありがとうございます</h2>
-        <p>この度はお問い合わせいただきありがとうございます。<br>
-            担当者より折り返しご連絡いたします。<br>
-            しばらくお待ちください。</p>
-        <p><a href="/" class="btn-huge mt-sm"><span class="btn-huge__txt">トップページへ戻る</span><span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span></a></p>
+        <h2>@thanksTitle</h2>
+        <p>@thanksBody1<br>
+            @thanksBody2<br>
+            @thanksBody3</p>
+        <p><a href="/" class="btn-huge mt-sm"><span class="btn-huge__txt">@backBtn</span><span class="arrow-svg -white"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="7" viewBox="0 0 30 7"><path d="M17,4H0V3H17V0L30,3.5,17,7Z"/></svg></span></a></p>
     </div>
 </div>
 
